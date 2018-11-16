@@ -8,7 +8,7 @@ public class CalculateTest {
 	* Test.
 	*
 	* @author Petr Arsentev (parsentev@yandex.ru)
-	* @version $Id$
+	* @version $ID$
 	* @since 0.1
 	*/
 	@Test
