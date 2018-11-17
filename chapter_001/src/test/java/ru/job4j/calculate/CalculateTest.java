@@ -7,35 +7,68 @@ public class CalculateTest {
     /**
      * Test.
      *
-     * @author Kosolapov Ilya(d_dexter@mail.ru)
+     * @author Petr Arsentev (parsentev@yandex.ru)
      * @version $ID$
      * @since 0.1
      */
     @Test
-    public void when60RubleToDollarThen1() {
+    public void whenAddOnePlusOneThenTwo() {
+
         Calculate calc = new Calculate();
-        int result = calc.rubleToDollar(60);
-        assertThat(result, is(1));
+        calc.add(1D, 1D);
+        double result = calc.getResult();
+        double expect = 2D;
+        assertThat(result, is(expect));
     }
 
+    /**
+     * Test.
+     *
+     * @author Kosolapov Ilya (d_dexter@mail.ru)
+     * @version $ID$
+     * @since 0.1
+     */
     @Test
-    public void when70RubleToEuroThen1() {
+    public void whenSubTwoMinusOneThenOne() {
+
         Calculate calc = new Calculate();
-        int result = calc.rubleToEuro(70);
-        assertThat(result, is(1));
+        calc.sub(2D, 1D);
+        double result = calc.getResult();
+        double expect = 1D;
+        assertThat(result, is(expect));
     }
 
+    /**
+     * Test.
+     *
+     * @author Kosolapov Ilya (d_dexter@mail.ru)
+     * @version $ID$
+     * @since 0.1
+     */
     @Test
-    public void when1DollarToRubleThen60() {
+    public void whenMultTwoByThreeThenSix() {
+
         Calculate calc = new Calculate();
-        int result = calc.dollarToRuble(1);
-        assertThat(result, is(60));
+        calc.mult(2D, 3D);
+        double result = calc.getResult();
+        double expect = 6D;
+        assertThat(result, is(expect));
     }
 
+    /**
+     * Test.
+     *
+     * @author Kosolapov Ilya (d_dexter@mail.ru)
+     * @version $ID$
+     * @since 0.1
+     */
     @Test
-    public void when1EuroToRubleThen70() {
+    public void whenDivSixByTwoThenThree() {
+
         Calculate calc = new Calculate();
-        int result = calc.euroToRuble(1);
-        assertThat(result, is(70));
+        calc.div(6D, 2D);
+        double result = calc.getResult();
+        double expect = 3D;
+        assertThat(result, is(expect));
     }
 }

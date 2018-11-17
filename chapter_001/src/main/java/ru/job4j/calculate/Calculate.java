@@ -1,44 +1,31 @@
 package ru.job4j.calculate;
 /**
- * Конвертер валюты
+ * Calculate
+ *
+ * @author Kosolapov Ilya (d_dexter@mail.ru)
+ * @version $id$
+ * @since 0.1
  */
 public class Calculate {
-    private final int dollar = 60;
-    private final int euro = 70;
+    private double result;
 
-    /**
-     * Конвертируем рубли в евро.
-     * @param value рубли.
-     * @return Евро.
-     */
-    public int rubleToEuro(int value) {
-        return value / euro;
+    public double getResult() {
+        return this.result;
     }
 
-    /**
-     * Конвертируем рубли в доллары.
-     * @param value рубли.
-     * @return Доллары.
-     */
-    public int rubleToDollar(int value) {
-        return value / dollar;
+    public void add(double first, double second) {
+        this.result = first + second;
     }
 
-    /**
-     * Конвертируем доллары в рубли.
-     * @param value доллар.
-     * @return Рубли.
-     */
-    public int dollarToRuble(int value) {
-        return value * dollar;
+    public void sub(double first, double second) {
+        this.result = first - second;
     }
 
-    /**
-     * Конвертируем евро в рубли.
-     * @param value евро.
-     * @return Рубли.
-     */
-    public int euroToRuble(int value) {
-        return value * euro;
+    public void mult(double first, double second) {
+        this.result = first * second;
+    }
+
+    public void div(double first, double second) {
+        this.result = first / second;
     }
 }
