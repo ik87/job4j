@@ -1,9 +1,9 @@
-package ru.job4j.calculate;
+package ru.job4j.calculator;
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-public class CalculateTest {
+public class CalculatorTest {
     /**
      * Test.
      *
@@ -14,7 +14,7 @@ public class CalculateTest {
     @Test
     public void whenAddOnePlusOneThenTwo() {
 
-        Calculate calc = new Calculate();
+        Calculator calc = new Calculator();
         calc.add(1D, 1D);
         double result = calc.getResult();
         double expect = 2D;
@@ -31,7 +31,7 @@ public class CalculateTest {
     @Test
     public void whenSubTwoMinusOneThenOne() {
 
-        Calculate calc = new Calculate();
+        Calculator calc = new Calculator();
         calc.sub(2D, 1D);
         double result = calc.getResult();
         double expect = 1D;
@@ -48,7 +48,7 @@ public class CalculateTest {
     @Test
     public void whenMultTwoByThreeThenSix() {
 
-        Calculate calc = new Calculate();
+        Calculator calc = new Calculator();
         calc.mult(2D, 3D);
         double result = calc.getResult();
         double expect = 6D;
@@ -65,7 +65,7 @@ public class CalculateTest {
     @Test
     public void whenDivSixByTwoThenThree() {
 
-        Calculate calc = new Calculate();
+        Calculator calc = new Calculator();
         calc.div(6D, 2D);
         double result = calc.getResult();
         double expect = 3D;
