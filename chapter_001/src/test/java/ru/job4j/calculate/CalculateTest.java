@@ -7,68 +7,35 @@ public class CalculateTest {
     /**
      * Test.
      *
-     * @author Petr Arsentev (parsentev@yandex.ru)
+     * @author Kosolapov Ilya(d_dexter@mail.ru)
      * @version $ID$
      * @since 0.1
      */
     @Test
-    public void whenAddOnePlusOneThenTwo() {
-
+    public void when60RubleToDollarThen1() {
         Calculate calc = new Calculate();
-        calc.add(1D, 1D);
-        double result = calc.getResult();
-        double expect = 2D;
-        assertThat(result, is(expect));
+        int result = calc.rubleToDollar(60);
+        assertThat(result, is(1));
     }
 
-    /**
-     * Test.
-     *
-     * @author Kosolapov Ilya (d_dexter@mail.ru)
-     * @version $ID$
-     * @since 0.1
-     */
     @Test
-    public void whenSubTwoMinusOneThenOne() {
-
+    public void when70RubleToEuroThen1() {
         Calculate calc = new Calculate();
-        calc.sub(2D, 1D);
-        double result = calc.getResult();
-        double expect = 1D;
-        assertThat(result, is(expect));
+        int result = calc.rubleToEuro(70);
+        assertThat(result, is(1));
     }
 
-    /**
-     * Test.
-     *
-     * @author Kosolapov Ilya (d_dexter@mail.ru)
-     * @version $ID$
-     * @since 0.1
-     */
     @Test
-    public void whenMultTwoByThreeThenSix() {
-
+    public void when1DollarToRubleThen60() {
         Calculate calc = new Calculate();
-        calc.mult(2D, 3D);
-        double result = calc.getResult();
-        double expect = 6D;
-        assertThat(result, is(expect));
+        int result = calc.dollarToRuble(1);
+        assertThat(result, is(60));
     }
 
-    /**
-     * Test.
-     *
-     * @author Kosolapov Ilya (d_dexter@mail.ru)
-     * @version $ID$
-     * @since 0.1
-     */
     @Test
-    public void whenDivSixByTwoThenThree() {
-
+    public void when1EuroToRubleThen70() {
         Calculate calc = new Calculate();
-        calc.div(6D, 2D);
-        double result = calc.getResult();
-        double expect = 3D;
-        assertThat(result, is(expect));
+        int result = calc.euroToRuble(1);
+        assertThat(result, is(70));
     }
 }
