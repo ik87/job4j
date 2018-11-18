@@ -3,15 +3,14 @@ package ru.job4j.converter;
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-
+/**
+ * Test.
+ *
+ * @author Kosolapov Ilya(d_dexter@mail.ru)
+ * @version $ID$
+ * @since 0.1
+ */
 public class ConverterTest {
-    /**
-     * Test.
-     *
-     * @author Kosolapov Ilya(d_dexter@mail.ru)
-     * @version $ID$
-     * @since 0.1
-     */
     @Test
     public void when60RubleToDollarThen1() {
         Converter calc = new Converter();
