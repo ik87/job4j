@@ -2,15 +2,15 @@ package ru.job4j.calculator;
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-
+/**
+ * Test.
+ *
+ * @author Petr Arsentev (parsentev@yandex.ru)
+ * @version $ID$
+ * @since 0.1
+ */
 public class CalculatorTest {
-    /**
-     * Test.
-     *
-     * @author Petr Arsentev (parsentev@yandex.ru)
-     * @version $ID$
-     * @since 0.1
-     */
+
     @Test
     public void whenAddOnePlusOneThenTwo() {
 
