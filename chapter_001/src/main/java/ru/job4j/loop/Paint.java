@@ -12,20 +12,11 @@ public class Paint {
      * @return piramid.
      */
     public String piramid(int height) {
-        StringBuilder screen = new StringBuilder();
-        int weight = 2 * height - 1;
-        for (int row = 0; row != height; row++) {
-            for (int column = 0; column != weight; column++) {
-                if (row >= height - column - 1 && row >= column - height + 1) {
-                    screen.append("^");
-                } else {
-                    screen.append(" ");
-                }
-
-            }
-            screen.append(System.lineSeparator());
-        }
-        return screen.toString();
+        return this.loopBy(
+                height,
+                height * 2 - 1,
+                (row, column) -> (row >= height - column - 1) && (height + row >= column + 1)
+        );
     }
 
     /**
@@ -34,18 +25,11 @@ public class Paint {
      * @return right side.
      */
     public String rightTrl(int height) {
-        StringBuilder screen = new StringBuilder();
-        for (int row = 0; row != height; row++) {
-            for (int column = 0; column != height; column++) {
-                if (row >= column) {
-                    screen.append("^");
-                } else {
-                    screen.append(" ");
-                }
-            }
-            screen.append(System.lineSeparator());
-        }
-        return screen.toString();
+        return this.loopBy(
+                height,
+                height,
+                (row, column) -> row >= column
+        );
     }
 
     /**
@@ -54,10 +38,25 @@ public class Paint {
      * @return left side.
      */
     public String leftTrl(int height) {
+        return this.loopBy(
+                height,
+                height,
+                (row, column) -> row >= height - column - 1
+        );
+    }
+
+    /**
+     *  For refactoring leftTrl, rightTrl, piramid
+     * @param height height
+     * @param weight weigth
+     * @param predict predict
+     * @return loop
+     */
+    private String loopBy(int height, int weight, BiPredicate<Integer, Integer> predict) {
         StringBuilder screen = new StringBuilder();
-        for (int row = 0; row != height; row++) {
-            for (int column = 0; column != height; column++) {
-                if (row >= height - column - 1) {
+        for (int row = 0; row < height; row++) {
+            for (int column = 0; column < weight; column++) {
+                if (predict.test(row, column)) {
                     screen.append("^");
                 } else {
                     screen.append(" ");
