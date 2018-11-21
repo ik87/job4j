@@ -48,7 +48,7 @@ public class Paint {
     /**
      *  For refactoring leftTrl, rightTrl, piramid
      * @param height height
-     * @param weight weigth
+     * @param weight weight
      * @param predict predict
      * @return loop
      */
