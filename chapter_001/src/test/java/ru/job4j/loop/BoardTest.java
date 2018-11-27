@@ -15,9 +15,9 @@ public class BoardTest {
     @Test
     public void when3x3() {
         Board board = new Board();
-        String rsl = board.paint(3, 3);
+        String result = board.paint(3, 3);
         String ln = System.lineSeparator();
-        assertThat(rsl, is(
+        assertThat(result, is(
                 String.format("X X%s X %sX X%s", ln, ln, ln)
         ));
     }
@@ -25,9 +25,9 @@ public class BoardTest {
     @Test
     public void when5x4() {
         Board board = new Board();
-        String rsl = board.paint(5, 4);
+        String result = board.paint(5, 4);
         String ln = System.lineSeparator();
-        assertThat(rsl, is(
+        assertThat(result, is(
                 String.format("X X X%s X X %sX X X%s X X %s", ln, ln, ln, ln)
         ));
     }

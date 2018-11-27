@@ -12,8 +12,8 @@ import static org.junit.Assert.assertThat;
 public class FactorialTest {
     @Test
     public void when5Then120() {
-        Factorial fact = new Factorial();
-        int result = fact.calc(5);
+        Factorial factorial = new Factorial();
+        int result = factorial.calc(5);
         int expect = 120;
         assertThat(result, is(expect));
     }

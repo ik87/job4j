@@ -12,22 +12,22 @@ import java.util.Arrays;
 public class ArrayDuplicate {
 	/**
 	*Remove duplicate from string array.
-	*@param remove array with duplicate.
+	*@param data array with duplicate.
 	*@return array without duplicate.
 	*/
-	public String[] remove(String[] remove) {
-		int num = remove.length; 
-		for (int i = 0; i < num; i++) {
-			for (int j = i + 1; j < num; j++) {
-				if (remove[i].equals(remove[j])) {
-					String tmp = remove[j];
-					remove[j] = remove[num - 1];
-					remove[num - 1] = tmp;
-					num--;
+	public String[] remove(String[] data) {
+		int length = data.length;
+		for (int i = 0; i < length; i++) {
+			for (int j = i + 1; j < length; j++) {
+				if (data[i].equals(data[j])) {
+					String tmp = data[j];
+					data[j] = data[length - 1];
+					data[length - 1] = tmp;
+					length--;
 					i--;
 				}
 			}
 		}
-		return Arrays.copyOf(remove, num);
+		return Arrays.copyOf(data, length);
 	}
 }
