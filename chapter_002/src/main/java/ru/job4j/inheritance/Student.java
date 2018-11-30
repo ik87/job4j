@@ -5,5 +5,5 @@ package ru.job4j.inheritance;
  * @since 0.1
  */
 public class Student {
-    public String name;
+    private String name;
 }

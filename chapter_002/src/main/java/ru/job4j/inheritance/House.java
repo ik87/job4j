@@ -5,5 +5,5 @@ package ru.job4j.inheritance;
  * @since 0.1
  */
 public class House {
-    public String type;
+    private String type;
 }
