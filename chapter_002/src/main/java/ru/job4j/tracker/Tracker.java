@@ -39,8 +39,9 @@ public class Tracker {
      * @param item new item
      */
     public void replace(String id, Item item) {
-        for (int i = 0; i < items.length; i++) {
+        for (int i = 0; i < position; i++) {
             if (items[i].getId().equals(id)) {
+                item.setId(id);
                 items[i] = item;
                 break;
             }
@@ -49,17 +50,18 @@ public class Tracker {
 
     /**
      * Delete item
-     * @param id
+     * @param id id
      */
     public void delete(String id) {
-        for (int i = 0; i < items.length; i++) {
+        for (int i = 0; i < position; i++) {
             if (items[i].getId().equals(id)) {
-                items[i] = items[position - 1];
-                items[position - 1] = null;
+                System.arraycopy(items, i + 1, items, i, position - i);
                 position--;
                 break;
             }
         }
+
+
     }
 
     /**
@@ -69,9 +71,9 @@ public class Tracker {
      */
     public Item findById(String id) {
         Item result = null;
-        for (Item item : items) {
-            if (item != null && item.getId().equals(id)) {
-                result = item;
+        for (int i = 0; i < position; i++) {
+            if (items[i].getId().equals(id)) {
+                result = items[i];
                 break;
             }
         }
@@ -86,8 +88,8 @@ public class Tracker {
     public Item[] findByName(String name) {
         int count = 0;
         Item[] result = new Item[position];
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] != null && items[i].getName().equals(name)) {
+        for (int i = 0; i < position; i++) {
+            if (items[i].getName().equals(name)) {
                 result[count++] = items[i];
             }
         }

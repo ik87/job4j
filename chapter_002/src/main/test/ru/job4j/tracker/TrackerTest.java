@@ -43,10 +43,10 @@ public class TrackerTest {
         Item item4 = new Item("test4", "testDexcription4", 123L);
         tracker.add(item);
         tracker.add(item2);
-        tracker.delete(item.getId());
         tracker.add(item3);
         tracker.add(item4);
-        assertThat(tracker.findById(item.getId()), is(nullValue()));
+        tracker.delete(item2.getId());
+        assertThat(tracker.findById(item2.getId()), is(nullValue()));
     }
 
     @Test
