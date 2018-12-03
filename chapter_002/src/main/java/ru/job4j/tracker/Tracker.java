@@ -37,29 +37,38 @@ public class Tracker {
      * replace item
      * @param id id old item
      * @param item new item
+     * @return condition executed operation. If success then true otherwise false
      */
-    public void replace(String id, Item item) {
+    public boolean replace(String id, Item item) {
+        boolean result = false;
         for (int i = 0; i < position; i++) {
             if (items[i].getId().equals(id)) {
+                result = true;
                 item.setId(id);
                 items[i] = item;
                 break;
             }
         }
+
+        return result;
     }
 
     /**
      * Delete item
      * @param id id
+     * @return condition executed operation. If success then true otherwise false
      */
-    public void delete(String id) {
+    public boolean delete(String id) {
+        boolean result = false;
         for (int i = 0; i < position; i++) {
             if (items[i].getId().equals(id)) {
+                result = true;
                 System.arraycopy(items, i + 1, items, i, position - i);
                 position--;
                 break;
             }
         }
+        return result;
     }
 
     /**
