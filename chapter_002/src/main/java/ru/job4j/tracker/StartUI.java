@@ -66,7 +66,7 @@ public class StartUI {
         System.out.println("----------------- Add new request -----------------");
         String name = input.ask("Enter request name");
         String desc = input.ask("Enter request description");
-        Item item = new Item(name, desc, System.currentTimeMillis());
+        Item item = new Item(name, desc);
         this.tracker.add(item);
         System.out.println("-------------- Added new request with gitId: " + item.getId());
     }
@@ -78,11 +78,11 @@ public class StartUI {
      */
     private void show(String title, Item[] items) {
         System.out.println(title);
-        System.out.printf("%-20s%-11s%-25s%-11s%n", "Id", "Name", "Description", "Changed");
+        System.out.printf("%-20s%-11s%-25s%n", "Id", "Name", "Description");
         System.out.println("------------------------------------------------------------------------------");
         for (Item item : items) {
-            System.out.printf("%-20s%-11s%-25s%-11s%n",
-                    item.getId(), item.getName(), item.getDesc(), longToDate(item.getCreate()));
+            System.out.printf("%-20s%-11s%-25s%n",
+                    item.getId(), item.getName(), item.getDesc());
         }
         System.out.println("------------------------------------------------------------------------------");
     }
@@ -103,11 +103,11 @@ public class StartUI {
         String id = input.ask("Enter id request");
         String name = input.ask("Enter request name");
         String desc = input.ask("Enter request description");
-        Item item = new Item(name, desc, System.currentTimeMillis());
+        Item item = new Item(name, desc);
         if (tracker.replace(id, item)) {
-            System.out.printf("Request where id %s have changed%n", id);
+            System.out.printf("Request where id %s has changed%n", id);
         } else {
-            System.out.printf("Request where id %s haven't changed%n", id);
+            System.out.printf("Request where id %s hasn't changed%n", id);
         }
     }
     /**
@@ -118,9 +118,9 @@ public class StartUI {
          show(title, tracker.findAll());
          String id = input.ask("Enter id request");
          if (tracker.delete(id)) {
-             System.out.printf("Request where id %s have deleted%n", id);
+             System.out.printf("Request where id %s has deleted%n", id);
          } else {
-             System.out.printf("Request where id %s haven't found%n", id);
+             System.out.printf("Request where id %s hasn't found%n", id);
          }
      }
 
@@ -133,7 +133,7 @@ public class StartUI {
         String id = input.ask("Enter id request");
         Item[] item = {tracker.findById(id)};
         if (item[0] == null) {
-            System.out.printf("Request where id %s haven't found%n", id);
+            System.out.printf("Request where id %s hasn't found%n", id);
         } else {
             show(title, item);
         }
@@ -148,7 +148,7 @@ public class StartUI {
         String name = input.ask("Enter name request");
         Item[] item = tracker.findByName(name);
         if (item.length == 0) {
-            System.out.printf("Request where name %s haven't found", name);
+            System.out.printf("Request where name %s hasn't found", name);
         } else {
             show(title, item);
         }
