@@ -148,7 +148,7 @@ public class StartUI {
         String name = input.ask("Enter name request");
         Item[] item = tracker.findByName(name);
         if (item.length == 0) {
-            System.out.printf("Request where name %s hasn't found", name);
+            System.out.printf("Request where name %s hasn't found%n", name);
         } else {
             show(title, item);
         }
