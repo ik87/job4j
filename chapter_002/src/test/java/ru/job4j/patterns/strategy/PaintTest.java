@@ -1,7 +1,9 @@
 package ru.job4j.patterns.strategy;
 
 
+import org.junit.After;
 import org.junit.Test;
+import org.junit.Before;
 
 import java.util.StringJoiner;
 import java.io.ByteArrayOutputStream;
@@ -13,12 +15,23 @@ import static org.junit.Assert.assertThat;
  * Test
  * @author Kosolapov Ilya (d_dexter@mail.ru)
  */
-public class ShapeTest {
+public class PaintTest {
+
+    private final PrintStream stdout = System.out;
+    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+    @Before
+    public void loadOutput() {
+        System.out.println("method execute before");
+        System.setOut(new PrintStream(out));
+    }
+    @After
+    public void backOutput() {
+        System.setOut(stdout);
+        System.out.println("method execute after");
+    }
+
     @Test
     public void whenDrawSquare() {
-        PrintStream stdout = System.out;
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(out));
         String expected =
                 new StringJoiner(System.lineSeparator(), "", System.lineSeparator())
                 .add("++++")
@@ -28,14 +41,10 @@ public class ShapeTest {
                 .toString();
         new Paint().draw(new Square());
         assertThat(new String(out.toByteArray()), is(expected));
-        System.setOut(stdout);
     }
 
     @Test
     public void whenDrawTriangle() {
-        PrintStream stdout = System.out;
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(out));
         String expected =
                 new StringJoiner(System.lineSeparator(), "", System.lineSeparator())
                 .add("   +   ")
@@ -45,6 +54,5 @@ public class ShapeTest {
                 .toString();
         new Paint().draw(new Triangle());
         assertThat(new String(out.toByteArray()), is(expected));
-        System.setOut(stdout);
     }
 }
