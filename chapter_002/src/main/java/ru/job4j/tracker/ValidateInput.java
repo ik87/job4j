@@ -1,12 +1,24 @@
 package ru.job4j.tracker;
 
-public class ValidateInput extends ConsoleInput {
+public class ValidateInput implements Input {
+
+    private final Input input;
+
+    public ValidateInput(final Input input) {
+        this.input = input;
+    }
+
+    @Override
+    public String ask(String question) {
+        return this.input.ask(question);
+    }
+
     @Override
     public int ask(String question, int[] range) {
         int value;
         while (true) {
             try {
-                value = super.ask(question, range);
+                value = this.input.ask(question, range);
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("Please enter correct value");

@@ -12,11 +12,16 @@ public class StubInput implements Input {
     private final String[] value;
 
     /**
-     *Every invoke this.ask(...) incriminate position
+     * Every invoke this.ask(...) incriminate position
      */
     private int position;
 
-    public StubInput(final String[] value) {
+    /**
+     * Constructor
+     *
+     * @param value list command
+     */
+    public StubInput(final String... value) {
         this.value = value;
         position = 0;
     }
@@ -27,7 +32,19 @@ public class StubInput implements Input {
     }
 
     @Override
-    public int ask(String question, int[] range) {
-        return -1;
+    public int ask(String question, int[] range) throws MenuOutException {
+        int key = Integer.valueOf(this.ask(question));
+        boolean exist = false;
+        for (int value : range) {
+            if (value == key) {
+                exist = true;
+                break;
+            }
+        }
+        if (exist) {
+            return key;
+        } else {
+            throw new MenuOutException("Out of range");
+        }
     }
 }
