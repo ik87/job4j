@@ -26,10 +26,11 @@ public class StartUI {
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
         menu.fillActions();
         String key;
+        int[] range = {0, 1, 2, 3, 4, 5, 6};
         do {
             System.out.println("Menu:");
             menu.show();
-            key = input.ask("Enter the menu item: ");
+            key = String.valueOf(input.ask("Enter the menu item: ", range));
             menu.select(key);
         } while (!EXIT.equals(key));
 
@@ -41,6 +42,6 @@ public class StartUI {
      * @param args arguments list
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleInput(), new Tracker()).init();
+        new StartUI(new ValidateInput(), new Tracker()).init();
     }
 }
