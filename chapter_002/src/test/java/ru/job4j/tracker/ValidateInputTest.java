@@ -41,5 +41,27 @@ public class ValidateInputTest {
         ));
 
     }
+    @Test
+    public void whenOutOfRangeInput() {
+        ValidateInput input =
+                new ValidateInput(
+                        new StubInput("-1", "1")
+                );
+        input.ask("Enter", new int[]{1});
+        assertThat(this.mem.toString(), is(
+                String.format("Please select in the range 1 - 1%n")
+        ));
 
+    }
+
+    @Test
+    public void whenCorrectInput() {
+        ValidateInput input =
+                new ValidateInput(
+                        new StubInput("1", "1")
+                );
+        input.ask("Enter", new int[]{1});
+        assertThat(this.mem.toString(), is(""));
+
+    }
 }
