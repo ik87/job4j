@@ -34,13 +34,13 @@ public class MenuTracker {
      * Fill Items to ArrayList
      */
     public void fillActions() {
-        this.actions.add(new AddItem());
-        this.actions.add(new ShowAllItems());
-        this.actions.add(new EditItem());
-        this.actions.add(new DeleteItem());
-        this.actions.add(new FindById());
-        this.actions.add(new FindByName());
-        this.actions.add(new ExitProgram());
+        this.actions.add(new AddItem(StartUI.ADD, "Add new item"));
+        this.actions.add(new ShowAllItems(StartUI.SHOW, "Show all items"));
+        this.actions.add(new EditItem(StartUI.EDIT, "Edit item"));
+        this.actions.add(new DeleteItem(StartUI.DELETE, "Delete item"));
+        this.actions.add(new FindById(StartUI.FIND_BY_ID, "Find item by id"));
+        this.actions.add(new FindByName(StartUI.FIND_BY_NAME, "Find item by name"));
+        this.actions.add(new ExitProgram(StartUI.EXIT, "Exit program"));
     }
 
     /**
@@ -98,10 +98,9 @@ public class MenuTracker {
     /**
      * Create Item
      */
-    public class AddItem implements UserAction {
-        @Override
-        public String key() {
-            return StartUI.ADD;
+    public class AddItem extends BaseAction {
+        public AddItem(String key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -114,19 +113,14 @@ public class MenuTracker {
             System.out.println("-------------- Added new request with gitId: " + item.getId());
         }
 
-        @Override
-        public String info() {
-            return String.format("%s%s%n", key(), ".Add new item");
-        }
     }
 
     /**
      * Show All Items
      */
-    public class ShowAllItems implements UserAction {
-        @Override
-        public String key() {
-            return StartUI.SHOW;
+    public class ShowAllItems extends BaseAction {
+        public ShowAllItems(String key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -135,25 +129,20 @@ public class MenuTracker {
             print(title, tracker.findAll());
         }
 
-        @Override
-        public String info() {
-            return String.format("%s%s%n", key(), ".Show all items");
-        }
     }
 
     /**
      * Edit request
      */
-    public class EditItem implements UserAction {
-        @Override
-        public String key() {
-            return StartUI.EDIT;
+    public class EditItem extends BaseAction {
+        public EditItem(String key, String name) {
+            super(key, name);
         }
 
         @Override
         public void execute(Input input, Tracker tracker) {
             String title = "------------------------------ Edit some request ------------------------------";
-          //  print(title, tracker.findAll());
+            //  print(title, tracker.findAll());
             String id = input.ask("Enter id request");
             String name = input.ask("Enter request name");
             String desc = input.ask("Enter request description");
@@ -165,25 +154,20 @@ public class MenuTracker {
             }
         }
 
-        @Override
-        public String info() {
-            return String.format("%s%s%n", key(), ".Edit item");
-        }
     }
 
     /**
      * Delete request
      */
-    public class DeleteItem implements UserAction {
-        @Override
-        public String key() {
-            return StartUI.DELETE;
+    public class DeleteItem extends BaseAction {
+        public DeleteItem(String key, String name) {
+            super(key, name);
         }
 
         @Override
         public void execute(Input input, Tracker tracker) {
             String title = "----------------------------- Delete some request -----------------------------";
-           // print(title, tracker.findAll());
+            // print(title, tracker.findAll());
             String id = input.ask("Enter id request");
             if (tracker.delete(id)) {
                 System.out.printf("Request where id %s has deleted%n", id);
@@ -192,19 +176,15 @@ public class MenuTracker {
             }
         }
 
-        @Override
-        public String info() {
-            return String.format("%s%s%n", key(), ".Delete item");
-        }
     }
 
     /**
      * find request by id
      */
-    public class FindById implements UserAction {
-        @Override
-        public String key() {
-            return StartUI.FIND_BY_ID;
+    public class FindById extends BaseAction {
+
+        public FindById(String key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -220,19 +200,14 @@ public class MenuTracker {
             }
         }
 
-        @Override
-        public String info() {
-            return String.format("%s%s%n", key(), ".Find item by id");
-        }
     }
 
     /**
      * find request by name
      */
-    public class FindByName implements UserAction {
-        @Override
-        public String key() {
-            return StartUI.FIND_BY_NAME;
+    public class FindByName extends BaseAction {
+        public FindByName(String key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -248,19 +223,14 @@ public class MenuTracker {
             }
         }
 
-        @Override
-        public String info() {
-            return String.format("%s%s%n", key(), ".Find item by name");
-        }
     }
 
     /**
      * Exit the program
      */
-    public class ExitProgram implements UserAction {
-        @Override
-        public String key() {
-            return StartUI.EXIT;
+    public class ExitProgram extends BaseAction {
+        public ExitProgram(String key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -268,10 +238,6 @@ public class MenuTracker {
 
         }
 
-        @Override
-        public String info() {
-            return String.format("%s%s%n", key(), ".Exit program");
-        }
     }
 
 
