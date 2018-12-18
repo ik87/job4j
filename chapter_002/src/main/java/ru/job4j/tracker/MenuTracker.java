@@ -15,10 +15,21 @@ public class MenuTracker {
      * Storage tracker
      */
     private Tracker tracker;
+    /**
+     * StartUI
+     */
+    private StartUI startui;
+
+    public void setStartui(StartUI startui) {
+        this.startui = startui;
+    }
 
     /**
      * List actions
      */
+
+
+
     private List<UserAction> actions = new ArrayList<>();
 
     public MenuTracker(Input input, Tracker tracker) {
@@ -235,7 +246,7 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker tracker) {
-
+            startui.setExit(true);
         }
 
     }

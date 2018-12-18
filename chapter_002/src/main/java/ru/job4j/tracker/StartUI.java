@@ -16,6 +16,11 @@ public class StartUI {
     public static final String EXIT = "6";
     public final Input input;
     public final Tracker tracker;
+    private boolean exit = false;
+
+    public void setExit(boolean exit) {
+        this.exit = exit;
+    }
 
     public StartUI(Input input, Tracker tracker) {
         this.input = input;
@@ -24,15 +29,18 @@ public class StartUI {
 
     public void init() {
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
+        menu.setStartui(this);
         menu.fillActions();
+
         String key;
+
         int[] range = {0, 1, 2, 3, 4, 5, 6};
         do {
             System.out.println("Menu:");
             menu.show();
             key = String.valueOf(input.ask("Enter the menu item: ", range));
             menu.select(key);
-        } while (!EXIT.equals(key));
+        } while (!exit);
 
     }
 
