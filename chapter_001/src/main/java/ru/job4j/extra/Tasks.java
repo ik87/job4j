@@ -1,5 +1,8 @@
 package ru.job4j.extra;
 
+import java.time.format.TextStyle;
+import java.util.Arrays;
+
 /**
  * @author Kosolapov Ilya (d_dexter@mail.ru)
  * @version 1.0
@@ -44,14 +47,33 @@ public class Tasks {
      * @return result concat
      */
     public int[] concatArrays(int[] a, int[] b) {
-        if (a[0] > b[0]) {
-            int[] tmp = b;
-            b = a;
-            a = tmp;
-        }
+
         int[] c = new int[a.length + b.length];
-        System.arraycopy(a, 0, c, 0, a.length);
-        System.arraycopy(b, 0, c, a.length, b.length);
+        int j = 0, h = 0, i = 0;
+
+        /* Вариант 1, когда кол. элементов в a[] и b[] равное, додумался сам.
+        int j = 0, h = 0, i = 0;
+        for (; i < c.length - 1; i++) {
+            c[i] = a[j] < b[h] ? a[j++] : b[h++];
+        }
+        if(a.length != j) {
+            c[i] = a[j];
+        } else {
+            c[i] = b[h];
+        }
+        */
+
+        // Вариант 2. работает с любым кол. элементов
+        // подсмотрел на хабре
+        while (j < a.length && h < b.length) {
+            c[i++] = a[j] < b[h] ? a[j++] : b[h++];
+        }
+        if (j < a.length) {
+            System.arraycopy(a, j, c, i, a.length - j);
+        } else if (h < b.length) {
+            System.arraycopy(b, h, c, i, b.length - h);
+        }
+
         return c;
     }
 }

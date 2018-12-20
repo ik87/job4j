@@ -7,10 +7,9 @@ import static org.junit.Assert.assertThat;
 
 public class TasksTest {
 
-    private final int[] arr1 = {1, 2, 3, 4, 5};
-    private final int[] arr2 = {6, 7, 8, 9, 10};
+    private final int[] arr1 = {1, 7, 8, 12};
+    private final int[] arr2 = {4, 6, 9};
     private final Tasks tasks = new Tasks();
-
 
     @Test
     public void whenArraySortedThenTrue() {
@@ -20,7 +19,7 @@ public class TasksTest {
 
     @Test
     public void whenTwoArraysConcatThenThirdArray() {
-        int[] expected = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        int[] expected = {1, 4, 6, 7, 8, 9, 12};
         int[] result = tasks.concatArrays(arr1, arr2);
         assertThat(result, is(expected));
     }
