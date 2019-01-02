@@ -1,7 +1,8 @@
 package ru.job4j.chess.firuges;
 
 
-/**Wrap figure identity type and use specify method for calc steps
+/**
+ * Wrap figure identity type and use specify method for calc steps
  *
  * @author Kosolapob Ilya (d_dexter@mail.ru)
  * @version $ID$
@@ -19,6 +20,7 @@ public class FigureDecorate implements Figure {
 
     /**
      * General counter steps for "King", "Bishop", "Rook", "Queen"
+     *
      * @param source source
      * @param dest   dest
      * @return steps
@@ -26,27 +28,23 @@ public class FigureDecorate implements Figure {
     private Cell[] multiSteps(Cell source, Cell dest) {
 
         Cell[] steps = new Cell[0];
+        Cell[] tmp = new Cell[8];
 
-        int x = source.x;
-        int y = source.y;
-        int i = 0;
-        Cell[] tmp = new Cell[7];
-
-        while (x >= 0 && x <= 7 && y >= 0 && y <= 7) {
-            if (dest.x == x && dest.y == y) {
-                tmp[i++] = dest;
-                steps = new Cell[i - 1];
-                System.arraycopy(tmp, 1, steps, 0, i - 1);
+        int j = 0;
+        boolean correct = false;
+        for (int i = source.ordinal(); i >= 0 && i < Cell.values().length && j < tmp.length; j++) {
+            tmp[j] = Cell.values()[i];
+            //System.out.printf("[%d %d] -> [%d %d] steps:[%d %d] \n", source.x, source.y, dest.x, dest.y, Cell.values()[i].x, Cell.values()[i].y);
+            i = i + deltaY + (deltaX * 8);
+            if (tmp[j].equals(dest)) {
+                correct = true;
                 break;
             }
-            for (Cell cell : Cell.values()) {
-                if (cell.x == x && cell.y == y) {
-                    tmp[i++] = cell;
-                }
-            }
-            //System.out.printf("[%d %d] -> [%d %d] steps:[%d %d] \n", source.x, source.y, dest.x, dest.y, x, y);
-            x = x + deltaX;
-            y = y + deltaY;
+
+        }
+        if (correct) {
+            steps = new Cell[j];
+            System.arraycopy(tmp, 1, steps, 0, j);
         }
         return steps;
     }
@@ -80,8 +78,8 @@ public class FigureDecorate implements Figure {
     }
 
     private Cell[] bishopSteps(Cell source, Cell dest) {
-        deltaX = source.x > dest.x ? -1 : 1;
-        deltaY = source.y > dest.y ? -1 : 1;
+        deltaX = source.x < dest.x ? 1 : -1;
+        deltaY = source.y < dest.y ? 1 : -1;
         return multiSteps(source, dest);
     }
 
