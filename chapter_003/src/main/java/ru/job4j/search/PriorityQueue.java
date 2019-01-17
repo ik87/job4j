@@ -19,19 +19,25 @@ public class PriorityQueue {
      * @param task task
      */
     public void put(Task task) {
-        ListIterator<Task> iterator = tasks.listIterator();
+
         if (tasks.isEmpty()) {
             tasks.add(task);
         } else {
-            while (iterator.hasNext()) {
-                if (iterator.next().getPriority() > task.getPriority()) {
-                    iterator.previous();
-                    iterator.add(task);
-                } else {
-                    iterator.add(task);
+            ListIterator<Task> pnt = tasks.listIterator();
+            boolean less = false;
+            while (pnt.hasNext()) {
+                if (pnt.next().getPriority() > task.getPriority()) {
+                    less = true;
+                    break;
                 }
             }
+            if (less) {
+                tasks.add(pnt.previousIndex(), task);
+            } else {
+                tasks.add(pnt.nextIndex(), task);
+            }
         }
+
     }
 
     public Task take() {
