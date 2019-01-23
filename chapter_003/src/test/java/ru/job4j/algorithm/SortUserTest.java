@@ -30,7 +30,7 @@ public class SortUserTest {
         Set<User> set = sortUser.sort(users);
         List<String> result = new ArrayList<>();
         set.forEach(x-> result.add(x.getName()));
-        String[] expected = {"Ann", "Ann", "Ban", "Dan", "Fry", "Greg"};
+        String[] expected = {"Ann", "Ban", "Ann",  "Greg", "Dan", "Fry"};
 
         assertThat(result.toArray(), is(expected));
     }
