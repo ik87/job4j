@@ -29,9 +29,9 @@ public class User implements Comparable<User> {
     public void setAge(int age) {
         this.age = age;
     }
+
     /**
      * compare by ages
-     *
      */
     @Override
     public int compareTo(User o) {
