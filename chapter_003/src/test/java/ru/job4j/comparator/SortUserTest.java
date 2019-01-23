@@ -1,4 +1,4 @@
-package ru.job4j.algorithm;
+package ru.job4j.comparator;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -7,7 +7,6 @@ import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 

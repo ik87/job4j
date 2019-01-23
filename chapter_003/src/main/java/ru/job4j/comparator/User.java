@@ -1,4 +1,4 @@
-package ru.job4j.algorithm;
+package ru.job4j.comparator;
 
 /**
  * @author Kosolapov Ilya (d_dexter@mail.ru)
