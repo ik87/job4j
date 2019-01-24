@@ -1,4 +1,4 @@
-package ru.job4j.patterns.factory_method;
+package ru.job4j.patterns.factorymethod;
 
 public class ShapeFactrory {
 

@@ -1,4 +1,4 @@
-package ru.job4j.patterns.abstract_factory;
+package ru.job4j.patterns.abstractfactory;
 
 public class ShapeAndColorFactory {
     public static void main(String[] args) {
@@ -17,7 +17,7 @@ public class ShapeAndColorFactory {
 
 class FactoryProducer {
     public static AbstractFactory getFactory(String choice) {
-        if(choice.equalsIgnoreCase("shape")) {
+        if (choice.equalsIgnoreCase("shape")) {
             return new ShapeFactory();
         } else if (choice.equalsIgnoreCase("color")) {
             return new ColorFactory();

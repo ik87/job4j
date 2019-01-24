@@ -4,8 +4,6 @@ import ru.job4j.puzzle.firuges.Cell;
 import ru.job4j.puzzle.firuges.Figure;
 
 /**
- * //TODO add comments.
- *
  * @author Petr Arsentev (parsentev@yandex.ru)
  * @version $Id$
  * @since 0.1
@@ -70,7 +68,7 @@ public class Logic {
         int[][] table = this.convert();
         boolean result = false;
 
-        for (int i = 0; i < table.length; i++)
+        for (int i = 0; i < table.length; i++) {
             if (table[i][i] == 1) {
                 boolean flag = table[i][0] == 1;
                 for (int j = 1; j < table.length; j++) {
@@ -89,6 +87,7 @@ public class Logic {
                 }
 
             }
+        }
 
         return result;
     }
