@@ -22,6 +22,18 @@ public class Bank {
         return result;
     }
 
+    private Account getAccount(String passport, String requisites) {
+        List<Account> accounts = getUserAccounts(passport);
+        Account account = null;
+        for (Account a : accounts) {
+            if (a.getRequisites().equals(requisites)) {
+                account = a;
+                break;
+            }
+        }
+        return account;
+    }
+
     /**
      * Add new user
      *
@@ -47,7 +59,10 @@ public class Bank {
      * @param account  new account data
      */
     public void addAccountToUser(String passport, Account account) {
-        clients.get(getUser(passport)).add(account);
+        User user = getUser(passport);
+        if (!Objects.isNull(user)) {
+            clients.get(user).add(account);
+        }
     }
 
     /**
@@ -57,13 +72,14 @@ public class Bank {
      * @param account  new account data
      */
     public void deleteAccountFromUser(String passport, Account account) {
-
-        List<Account> accounts = clients.get(getUser(passport));
-
-        for (int i = 0; i < accounts.size(); i++) {
-            if (accounts.get(i).getRequisites().equals(account.getRequisites())) {
-                accounts.remove(i);
-                break;
+        User user = getUser(passport);
+        if (!Objects.isNull(user)) {
+            List<Account> accounts = clients.get(user);
+            for (int i = 0; i < accounts.size(); i++) {
+                if (accounts.get(i).getRequisites().equals(account.getRequisites())) {
+                    accounts.remove(i);
+                    break;
+                }
             }
         }
     }
@@ -75,7 +91,12 @@ public class Bank {
      * @return list accounts
      */
     public List<Account> getUserAccounts(String passport) {
-        return clients.get(getUser(passport));
+        User user = getUser(passport);
+        List<Account> accounts = null;
+        if (!Objects.isNull(user)) {
+            accounts = clients.get(user);
+        }
+        return accounts;
     }
 
     /**
@@ -84,7 +105,7 @@ public class Bank {
      * @param srcPassport  passport source
      * @param srcRequisite requisites source
      * @param destPassport passport destination
-     * @param dstRequisite passport destination
+     * @param dstRequisite requisites destination
      * @param amount       money volume
      * @return result true if success
      */
@@ -94,6 +115,19 @@ public class Bank {
                                  String dstRequisite, double amount) {
 
         boolean transfer = false;
+
+        Account srcAccount = getAccount(srcPassport, srcRequisite);
+        Account dstAccount = getAccount(destPassport, dstRequisite);
+
+        if (!Objects.isNull(srcAccount) && !Objects.isNull(dstAccount)) {
+            if (srcAccount.getValue() >= amount) {
+                srcAccount.debitValue(amount);
+                dstAccount.addValue(amount);
+                transfer = true;
+            }
+        }
+
+        /*
         for (Account srcAccount : getUserAccounts(srcPassport)) {
             if (srcAccount.getRequisites().equals(srcRequisite) && srcAccount.getValue() >= amount) {
                 for (Account destAccount : getUserAccounts(destPassport)) {
@@ -107,7 +141,7 @@ public class Bank {
             }
 
         }
-
+        */
 
         return transfer;
 
