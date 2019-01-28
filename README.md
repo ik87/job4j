@@ -53,9 +53,9 @@
 
 |            Knowledge             | 1<br>introduction   | 2<br>Basic  | 3<br>Good     | 5<br>Confident | 6<br>Pro        |
 |:-------------------------------- |:-----------------:|:-------------:|:-------------:|:--------------:|:---------------:|
-|**Interfaces**                    | ![done][done]     | ![done][done] | ![done][done] | ![done][done]  |                 |
+|**Interfaces**                    | ![done][done]     | ![done][done] | ![done][done] |                |                |
 |**Lambda Expressions**            | ![done][done]     | ![done][done] |               |                |                 |
-|**Inner Classes**                 | ![done][done]     | ![done][done] |               |                | ![done][done]   |
+|**Inner Classes**                 | ![done][done]     | ![done][done] | ![done][done] |                |                |
 |**Enumeration Classes**           | ![done][done]     | ![done][done] | ![done][done] |                |                 |
 |**Reflection**                    | ![done][done]     |               |               |                |                 |
 
@@ -95,7 +95,7 @@
 |            Knowledge             | 1<br>introduction |   2<br>Basic  | 3<br>Good     | 5<br>Confident | 6<br>Pro        |
 |:-------------------------------- |:-----------------:|:-------------:|:-------------:|:--------------:|:---------------:|
 |**UML**    	                   | ![done][done]     | ![done][done] |               |                |                 |
-|**OOP**		                   | ![done][done]     | ![done][done] | ![done][done] | ![done][done]  |                 |
+|**OOP**		                   | ![done][done]     | ![done][done] | ![done][done] |                |                 |
 |**SOLID**					 	   | ![done][done]     | ![done][done] |               |                |                 |
 |**Patterns** 		               | ![done][done]     |               |               |                |                 |
 |**to be continued...**            |                   |               |               |                |                 |
