@@ -75,7 +75,7 @@ public class MenuTracker {
      */
     public void show() {
         for (UserAction action : this.actions) {
-            System.out.print(action.info());
+            output.accept(action.info());
         }
     }
 
