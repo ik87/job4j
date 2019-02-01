@@ -2,7 +2,6 @@ package ru.job4j.stream.addresslist;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.junit.Test;
 import org.junit.Before;
@@ -17,31 +16,40 @@ import static org.hamcrest.core.Is.is;
  */
 public class ProfilesTest {
     private List<Profile> profiles;
-    Address[] rawAddress;
-    private Profiles data;
-
+    private List<Address> address;
+    private Profiles counter;
     @Before
     public void init() {
-        data = new Profiles();
-        rawAddress = new Address[]{
-                new Address("Moscow"),
-                new Address("St. Petersburg"),
-                new Address("Nizhny Novgorod"),
-                new Address("Bryansk"),
-                new Address("Tula"),
-                new Address("Oslo")
-        };
         profiles = new ArrayList<>();
-
-        for (Address a : rawAddress) {
-            profiles.add(new Profile(a));
-        }
+        address = new ArrayList<>();
+        counter = new Profiles();
+        address.add(new Address("Скопин", "Пырьева", 56, 30));
+        address.add(new Address("Покровка", "Кропоткинская", 97, 144));
+        address.add(new Address("Ольовка", "Кремлевский Проезд", 25, 196));
+        address.add(new Address("Чунский", "Златоустовская", 49, 16));
+        address.add(new Address("Скопин", "Пырьева", 56, 30));
+        address.add(new Address("Покровка", "Кропоткинская", 97, 144));
+        address.add(new Address("Алеевка", " Восточный 3-й Переулок", 15, 3));
+        address.add(new Address("Шатки", "Каретный Б. Переулок", 57, 143));
+        address.forEach(x->profiles.add(new Profile(x)));
     }
 
     @Test
     public void whenGetAddressThenListAddress() {
-        List<Address> address = data.collect(profiles);
+        List<Address> list = counter.collect(profiles);
+        assertThat(list, is(address));
+    }
 
-        assertThat(address, is(Arrays.asList(rawAddress)));
+    @Test
+    public void whenGetAddressThenUniqueSortedListAddress() {
+        List<Address> list = counter.uniqueSortedCollect(profiles);
+        List<Address> expected = new ArrayList<>();
+        expected.add(address.get(6));
+        expected.add(address.get(2));
+        expected.add(address.get(1));
+        expected.add(address.get(0));
+        expected.add(address.get(3));
+        expected.add(address.get(7));
+        assertThat(list, is(expected));
     }
 }
