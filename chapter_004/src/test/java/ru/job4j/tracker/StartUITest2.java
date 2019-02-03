@@ -32,6 +32,12 @@ public class StartUITest2 {
         public void accept(String s) {
             stdout.print(s);
         }
+
+
+        @Override
+        public String toString() {
+            return out.toString();
+        }
     };
     private final String menu =
             new StringJoiner(System.lineSeparator(), "", System.lineSeparator())
@@ -111,7 +117,7 @@ public class StartUITest2 {
         body.append(menu);
         new StartUI(new StubInput(action), tracker, output).init();
         // assertThat(new String(out.toByteArray()).contains(expected), is(true));
-        assertThat(out.toString(), is(body.toString()));
+        assertThat(output.toString(), is(body.toString()));
 
     }
 
@@ -130,7 +136,7 @@ public class StartUITest2 {
         body.append(String.format("------------------------------------------------------------------------------%n"));
         body.append(menu);
         new StartUI(new StubInput(action), tracker, output).init();
-        assertThat(out.toString(), is(body.toString()));
+        assertThat(output.toString(), is(body.toString()));
     }
 
     @Test
@@ -147,7 +153,7 @@ public class StartUITest2 {
         body.append(String.format("------------------------------------------------------------------------------%n"));
         body.append(menu);
         new StartUI(new StubInput(action), tracker, output).init();
-        assertThat(out.toString(), is(body.toString()));
+        assertThat(output.toString(), is(body.toString()));
     }
 
 }

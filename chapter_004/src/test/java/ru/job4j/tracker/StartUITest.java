@@ -30,6 +30,12 @@ public class StartUITest {
         public void accept(String s) {
             stdout.print(s);
         }
+
+        @Override
+        public String toString() {
+            return out.toString();
+        }
+
     };
 
     @Before
@@ -87,7 +93,7 @@ public class StartUITest {
                             item.getId(), item.getName(), item.getDesc()));
         }
         new StartUI(new StubInput(action), tracker, output).init();
-        assertThat(new String(out.toByteArray()).contains(expected), is(true));
+        assertThat(output.toString().contains(expected), is(true));
     }
 
     @Test
@@ -100,7 +106,7 @@ public class StartUITest {
                             item.getId(), item.getName(), item.getDesc()));
         }
         new StartUI(new StubInput(action), tracker, output).init();
-        assertThat(out.toString().contains(expected), is(true));
+        assertThat(output.toString().contains(expected), is(true));
     }
 
     @Test
@@ -111,7 +117,7 @@ public class StartUITest {
         String expected = String.format("%-20s%-11s%-25s%n",
                 item.getId(), item.getName(), item.getDesc());
         new StartUI(new StubInput(action), tracker, output).init();
-        assertThat(out.toString().contains(expected), is(true));
+        assertThat(output.toString().contains(expected), is(true));
     }
 
 }
