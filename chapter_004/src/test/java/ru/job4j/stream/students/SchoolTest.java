@@ -21,19 +21,18 @@ public class SchoolTest {
     @Before
     public void init() {
         school = new School();
-        students = new ArrayList<>();
-        students.add(new Student(15));
-        students.add(new Student(20));
-        students.add(new Student(30));
-        students.add(new Student(80));
-        students.add(new Student(55));
-        students.add(new Student(75));
-        students.add(new Student(40));
-        students.add(new Student(88));
-        students.add(new Student(100));
-        students.add(new Student(12));
-        students.add(new Student(60));
-
+        students = List.of(
+                new Student(15),
+                new Student(20),
+                new Student(30),
+                new Student(80),
+                new Student(55),
+                new Student(75),
+                new Student(40),
+                new Student(88),
+                new Student(100),
+                new Student(12),
+                new Student(60));
     }
 
     @Test

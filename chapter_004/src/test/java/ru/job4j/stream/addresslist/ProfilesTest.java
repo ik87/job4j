@@ -18,20 +18,23 @@ public class ProfilesTest {
     private List<Profile> profiles;
     private List<Address> address;
     private Profiles counter;
+
     @Before
     public void init() {
         profiles = new ArrayList<>();
-        address = new ArrayList<>();
+
         counter = new Profiles();
-        address.add(new Address("Скопин", "Пырьева", 56, 30));
-        address.add(new Address("Покровка", "Кропоткинская", 97, 144));
-        address.add(new Address("Ольовка", "Кремлевский Проезд", 25, 196));
-        address.add(new Address("Чунский", "Златоустовская", 49, 16));
-        address.add(new Address("Скопин", "Пырьева", 56, 30));
-        address.add(new Address("Покровка", "Кропоткинская", 97, 144));
-        address.add(new Address("Алеевка", " Восточный 3-й Переулок", 15, 3));
-        address.add(new Address("Шатки", "Каретный Б. Переулок", 57, 143));
-        address.forEach(x->profiles.add(new Profile(x)));
+        address = List.of(
+                new Address("Скопин", "Пырьева", 56, 30),
+                new Address("Покровка", "Кропоткинская", 97, 144),
+                new Address("Ольовка", "Кремлевский Проезд", 25, 196),
+                new Address("Чунский", "Златоустовская", 49, 16),
+                new Address("Скопин", "Пырьева", 56, 30),
+                new Address("Покровка", "Кропоткинская", 97, 144),
+                new Address("Алеевка", " Восточный 3-й Переулок", 15, 3),
+                new Address("Шатки", "Каретный Б. Переулок", 57, 143));
+
+        address.forEach(x -> profiles.add(new Profile(x)));
     }
 
     @Test
@@ -43,13 +46,13 @@ public class ProfilesTest {
     @Test
     public void whenGetAddressThenUniqueSortedListAddress() {
         List<Address> list = counter.uniqueSortedCollect(profiles);
-        List<Address> expected = new ArrayList<>();
-        expected.add(address.get(6));
-        expected.add(address.get(2));
-        expected.add(address.get(1));
-        expected.add(address.get(0));
-        expected.add(address.get(3));
-        expected.add(address.get(7));
+        List<Address> expected = List.of(
+                address.get(6),
+                address.get(2),
+                address.get(1),
+                address.get(0),
+                address.get(3),
+                address.get(7));
         assertThat(list, is(expected));
     }
 }
