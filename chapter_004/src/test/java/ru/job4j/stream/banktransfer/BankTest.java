@@ -20,12 +20,12 @@ public class BankTest {
     @Before
     public void init() {
         bank = new Bank();
-        accounts = new ArrayList<>();
-
-        accounts.add(new Account(500, "511"));
-        accounts.add(new Account(330, "611"));
-        accounts.add(new Account(200, "522"));
-        accounts.add(new Account(150, "622"));
+        accounts = List.of(
+                new Account(500, "511"),
+                new Account(330, "611"),
+                new Account(200, "522"),
+                new Account(150, "622")
+        );
 
 
         bank.addUser(user1);
@@ -44,7 +44,7 @@ public class BankTest {
         List<Account> accountsUser1 = bank.getUserAccounts(user1.getPassport());
         List<Account> accountsUser2 = bank.getUserAccounts(user2.getPassport());
 
-        List<Account> result = new ArrayList<Account>() {
+        List<Account> result = new ArrayList<>() {
             {
                 addAll(accountsUser1);
                 addAll(accountsUser2);

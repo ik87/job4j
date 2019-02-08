@@ -20,22 +20,24 @@ public class SchoolTest {
 
     @Before
     public void init() {
+
+
         school = new School();
-        students = new ArrayList<>();
-        students.add(new Student("Mike", 15));
-        //students.add(null);
-        students.add(new Student("Den", 20));
-        students.add(new Student("Ann", 30));
-        //students.add(null);
-        students.add(new Student("Tom", 80));
-        students.add(new Student("Kan", 55));
-        students.add(new Student("Kat", 75));
-        students.add(new Student("Smith", 40));
-        //students.add(null);
-        students.add(new Student("Jan", 88));
-        students.add(new Student("Ban", 100));
-        students.add(new Student("Tad", 12));
-        students.add(new Student("Hank", 60));
+        students = List.of(
+                new Student("Mike", 15),
+                //students.add(null);
+                new Student("Den", 20),
+                new Student("Ann", 30),
+                //students.add(null);
+                new Student("Tom", 80),
+                new Student("Kan", 55),
+                new Student("Kat", 75),
+                new Student("Smith", 40),
+                //students.add(null);
+                new Student("Jan", 88),
+                new Student("Ban", 100),
+                new Student("Tad", 12),
+                new Student("Hank", 60));
 
     }
 
