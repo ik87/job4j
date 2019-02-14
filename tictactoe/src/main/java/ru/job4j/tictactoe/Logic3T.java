@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
  * @since 0.1
  */
 public class Logic3T {
-    List<Figure3T> table;
 
+    private final Figure3T[][] table;
     /**
      * all win states
      */
@@ -28,11 +28,14 @@ public class Logic3T {
      * @return result
      */
     private boolean calculate(Predicate<Figure3T> predicate) {
+
         boolean flag = false;
+        List<Figure3T> board = Arrays.stream(table).flatMap(Arrays::stream).
+                collect(Collectors.toList());
         for (var condition : win) {
             int j = 0;
             while (j < condition.length) {
-                if (!predicate.test(table.get(condition[j]))) {
+                if (!predicate.test(board.get(condition[j]))) {
                     break;
                 }
                 j++;
@@ -43,12 +46,12 @@ public class Logic3T {
             }
         }
 
+
         return flag;
     }
 
     public Logic3T(Figure3T[][] table) {
-        this.table = Arrays.stream(table).flatMap(Arrays::stream).
-                collect(Collectors.toList());
+        this.table = table;
     }
 
     public boolean isWinnerX() {
@@ -61,6 +64,10 @@ public class Logic3T {
     }
 
     public boolean hasGap() {
-        return !table.stream().allMatch(x -> x.hasMarkO() || x.hasMarkX());
+        List<Figure3T> board = Arrays.stream(table).flatMap(Arrays::stream).
+                collect(Collectors.toList());
+
+        return !board.stream().allMatch(x -> x.hasMarkO() || x.hasMarkX());
+
     }
 }
