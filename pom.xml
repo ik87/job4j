@@ -23,6 +23,7 @@
         <module>puzzle</module>
 		<module>tictactoe</module>
         <module>chess</module>
+        <module>coffeemachine</module>
 
     </modules>
     <dependencies>
