@@ -6,8 +6,8 @@ import java.util.Iterator;
  * Converter  iterator of iterators to single iterator
  *
  * @author Kosolpaov Ilya (d_dexter@mail.ru)
- * @version 0.1
- * @since 16.03.2019
+ * @version 0.2
+ * @since 17.03.2019
  */
 public class Converter {
     Iterator<Integer> iterator = null;
@@ -17,19 +17,27 @@ public class Converter {
         return new Iterator<Integer>() {
             @Override
             public boolean hasNext() {
-                if (it.hasNext() && !iterator.hasNext()) {
-                    iterator = it.next();
-                }
+                process();
                 return iterator.hasNext();
             }
 
             @Override
             public Integer next() {
-
-                if (!iterator.hasNext()) {
-                    iterator = it.next();
-                }
+                process();
                 return iterator.next();
+            }
+
+            /**
+             * processing next int
+             */
+            private void process() {
+                while (it.hasNext()) {
+                    if (!iterator.hasNext()) {
+                        iterator = it.next();
+                    } else {
+                        break;
+                    }
+                }
             }
         };
 
