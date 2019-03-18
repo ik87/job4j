@@ -40,6 +40,13 @@ public class SimpleArrayTest {
         assertThat(simpleArray.get(2), is(3));
     }
 
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void whenGetElementThenException() {
+        SimpleArray<Integer> simpleArray = new SimpleArray<>(1);
+        simpleArray.add(3);
+        simpleArray.get(2);
+    }
+
     @Test
     public void checkCount() {
         SimpleArray<Integer> simpleArray = new SimpleArray<>(5);

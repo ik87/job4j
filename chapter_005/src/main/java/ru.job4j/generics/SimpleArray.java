@@ -45,8 +45,12 @@ public class SimpleArray<T> implements Iterable<T> {
      * replace element in the index position
      * @param index position for new element
      * @param element any element
+     * @throws IndexOutOfBoundsException if index more then array length or less then 0
      */
     public void set(int index, T element) {
+        if (index >= count && index < 0) {
+            throw new IndexOutOfBoundsException();
+        }
         data[index] = element;
     }
 
@@ -56,7 +60,7 @@ public class SimpleArray<T> implements Iterable<T> {
      * @throws IndexOutOfBoundsException if index more then array length or less then 0
      */
     public void remove(int index) {
-        if (index >= data.length && index < 0) {
+        if (index >= count && index < 0) {
             throw new IndexOutOfBoundsException();
         }
         System.arraycopy(data, index + 1, data, index, data.length - 1 - index);
