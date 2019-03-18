@@ -28,7 +28,7 @@ public class EvenNumbersIterator implements Iterator {
     @Override
     public Object next() {
         process();
-        if (data.length == index) {
+        if (!hasNext()) {
             throw new NoSuchElementException();
         }
 

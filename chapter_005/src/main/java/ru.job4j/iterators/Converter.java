@@ -1,6 +1,7 @@
 package ru.job4j.iterators;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Converter  iterator of iterators to single iterator
@@ -24,6 +25,9 @@ public class Converter {
             @Override
             public Integer next() {
                 process();
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
                 return iterator.next();
             }
 
