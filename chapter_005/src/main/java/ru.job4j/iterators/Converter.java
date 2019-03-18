@@ -18,23 +18,6 @@ public class Converter {
         return new Iterator<Integer>() {
             @Override
             public boolean hasNext() {
-                process();
-                return iterator.hasNext();
-            }
-
-            @Override
-            public Integer next() {
-                process();
-                if (!hasNext()) {
-                    throw new NoSuchElementException();
-                }
-                return iterator.next();
-            }
-
-            /**
-             * processing next int
-             */
-            private void process() {
                 while (it.hasNext()) {
                     if (!iterator.hasNext()) {
                         iterator = it.next();
@@ -42,6 +25,15 @@ public class Converter {
                         break;
                     }
                 }
+                return iterator.hasNext();
+            }
+
+            @Override
+            public Integer next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                return iterator.next();
             }
         };
 
