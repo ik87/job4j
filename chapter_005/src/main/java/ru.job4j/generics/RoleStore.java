@@ -7,8 +7,8 @@ package ru.job4j.generics;
  * @version $Id$
  * @since 0.1
  */
-public class RoleStore extends GeneralStore {
+public class RoleStore extends GeneralStore<Role> {
     public RoleStore(int size) {
-        super(new SimpleArray<Role>(size));
+        super(new SimpleArray<>(size));
     }
 }
