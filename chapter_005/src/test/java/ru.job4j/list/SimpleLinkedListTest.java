@@ -37,4 +37,11 @@ public class SimpleLinkedListTest {
         assertThat(list.delete(), is(3));
         assertThat(list.get(1), is(1));
     }
+    @Test
+    public void whenDeleteAllElementsThenSizeZero() {
+        assertThat(list.delete(), is(3));
+        assertThat(list.delete(), is(2));
+        assertThat(list.delete(), is(1));
+        assertThat(list.getCount(), is(0));
+    }
 }

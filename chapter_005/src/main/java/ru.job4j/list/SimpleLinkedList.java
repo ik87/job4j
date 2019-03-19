@@ -46,11 +46,7 @@ public class SimpleLinkedList<E> implements SimpleList<E> {
             throw new NoSuchElementException();
         }
         E data = this.first.data;
-        if (size > 0) {
-            this.first = this.first.next;
-        } else {
-            this.first = null;
-        }
+        this.first = this.first.next;
         size--;
         return data;
     }
