@@ -1,5 +1,6 @@
 package ru.job4j.list;
 
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
@@ -10,9 +11,9 @@ import java.util.NoSuchElementException;
  * @since 0.1
  */
 public class SimpleLinkedList<E> implements SimpleList<E> {
+
     private int size;
     private Node<E> first;
-
     private static class Node<E> {
         E data;
         Node<E> next;
@@ -57,5 +58,10 @@ public class SimpleLinkedList<E> implements SimpleList<E> {
     @Override
     public int getCount() {
         return size;
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        return null;
     }
 }

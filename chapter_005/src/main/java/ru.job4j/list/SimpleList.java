@@ -6,7 +6,7 @@ package ru.job4j.list;
  * @version $Id$
  * @since 0.1
  */
-public interface SimpleList<E> {
+public interface SimpleList<E> extends Iterable<E> {
     /**
      * add data
      * @param data data
