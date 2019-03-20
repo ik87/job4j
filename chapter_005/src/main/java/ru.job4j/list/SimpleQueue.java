@@ -13,9 +13,7 @@ public class SimpleQueue<E> {
      * @param element some element
      */
     public void push(E element) {
-        while (bStack.getCount() > 0) {
-            aStack.push(bStack.pop());
-        }
+        swap(aStack, bStack);
         aStack.push(element);
     }
 
@@ -24,10 +22,19 @@ public class SimpleQueue<E> {
      * @return top element
      */
     public E pop() {
-        while (aStack.getCount() > 0) {
-            bStack.push(aStack.pop());
-        }
+        swap(bStack, aStack);
         return bStack.pop();
+    }
+
+    /**
+     * swap elements
+     * @param a first stack
+     * @param b second stack
+     */
+    private void swap(SimpleStack<E> a, SimpleStack<E> b) {
+        while (b.getCount() > 0) {
+            a.push(b.pop());
+        }
     }
 
     /**
