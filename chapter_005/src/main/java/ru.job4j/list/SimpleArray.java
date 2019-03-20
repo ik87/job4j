@@ -6,31 +6,29 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- *  Example simply array with dynamic capacity
- *  Also it implements "fail-fast" iterator
+ * Example simply array with dynamic capacity
+ * Also it implements "fail-fast" iterator
  *
+ * @param <E> any reference type
  * @author Kosolapov Ilya (d_dexter@mail.ru)
  * @version $Id$
  * @since 0.1
- * @param <E> any reference type
  */
 public class SimpleArray<E> implements SimpleList<E> {
     private final static int DEFAULT_CAPACITY = 3;
     private Object[] container;
-    private Integer count;
-    private Integer modCount;
+    private Integer count = 0;
+    private Integer modCount = 0;
 
     public SimpleArray() {
-        count = 0;
-        modCount = 0;
         container = new Object[DEFAULT_CAPACITY];
     }
 
     /**
-     *  check "count" and "container" if they size are equal then make resize
+     * check "count" and "container" if they size are equal then make resize
      */
     private void checkSize() {
-        if (this.container.length == count) {
+        if (count.equals(this.container.length)) {
             grove();
         }
     }
@@ -46,13 +44,13 @@ public class SimpleArray<E> implements SimpleList<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return new Iterator<E>() {
+        return new Iterator<>() {
             private Integer index = 0;
             private final Integer change = modCount;
 
             @Override
             public boolean hasNext() {
-                if (change != modCount) {
+                if (!change.equals(modCount)) {
                     throw new ConcurrentModificationException();
                 }
                 return index < count;
