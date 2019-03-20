@@ -1,7 +1,7 @@
 package ru.job4j.list;
 
 /**
- * This is the simple stack is based on the linked list
+ * This is the simple stack (LIFO) is based on the linked list
  *
  * @author Kosolapov Ilya (d_dexter@mail.ru)
  * @since $Id$
@@ -11,14 +11,26 @@ package ru.job4j.list;
 public class SimpleStack<E> {
     SimpleList<E> container = new SimpleLinkedList<>();
 
+    /**
+     * an element put on the top stack
+     * @param element some element
+     */
     public void push(E element) {
         container.add(element);
     }
 
+    /**
+     * get a top element
+     * @return top element
+     */
     public E pop() {
         return container.delete();
     }
 
+    /**
+     * get capacity
+     * @return size
+     */
     public int getCount() {
         return container.getCount();
     }
