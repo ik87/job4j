@@ -4,6 +4,7 @@ import ru.job4j.list.SimpleArray;
 import ru.job4j.list.SimpleList;
 
 import java.util.Iterator;
+
 /**
  * Example simply set based on the SimpleArray list
  *
@@ -13,7 +14,7 @@ import java.util.Iterator;
  * @since 0.1
  */
 public class SimpleSet<E> implements Iterable<E> {
-    SimpleList<E> container = new SimpleArray<>();
+    private SimpleList<E> container = new SimpleArray<>();
 
     /**
      * add any reference type element
@@ -21,14 +22,7 @@ public class SimpleSet<E> implements Iterable<E> {
      * @param element element
      */
     public void add(E element) {
-        boolean has = false;
-        for (E e : container) {
-            if (e.equals(element)) {
-                has = true;
-                break;
-            }
-        }
-        if (!has) {
+        if (!contain(element)) {
             container.add(element);
         }
     }
@@ -36,6 +30,22 @@ public class SimpleSet<E> implements Iterable<E> {
     @Override
     public Iterator<E> iterator() {
         return container.iterator();
+    }
+
+    /**
+     * check exist element is
+     * @param element element
+     * @return if exist then true
+     */
+    public boolean contain(E element) {
+        boolean has = false;
+        for (E e : container) {
+            if (e.equals(element)) {
+                has = true;
+                break;
+            }
+        }
+        return has;
     }
 
     @Override
