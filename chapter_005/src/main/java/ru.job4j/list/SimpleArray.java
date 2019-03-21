@@ -79,7 +79,7 @@ public class SimpleArray<E> implements SimpleList<E> {
     }
 
     @Override
-    public int getCount() {
+    public int count() {
         return count;
     }
 

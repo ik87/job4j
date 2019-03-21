@@ -21,7 +21,7 @@ public class SimpleQueueTest {
 
     @Test
     public void whenPushThenPushed() {
-        assertThat(queue.getCount(), is(3));
+        assertThat(queue.count(), is(3));
     }
 
     @Test
@@ -29,7 +29,7 @@ public class SimpleQueueTest {
         Assert.assertThat(queue.pop(), is(1));
         Assert.assertThat(queue.pop(), is(2));
         Assert.assertThat(queue.pop(), is(3));
-        assertThat(queue.getCount(), is(0));
+        assertThat(queue.count(), is(0));
     }
     @Test
     public void whenPopAndPushThenSame() {
@@ -38,7 +38,7 @@ public class SimpleQueueTest {
         queue.pop(); //pop 2
         queue.push(8);
         queue.push(9);
-        while (queue.getCount() > 0) {
+        while (queue.count() > 0) {
             sb.append(queue.pop());
         }
         assertThat(sb.toString(), is("389"));

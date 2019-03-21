@@ -31,7 +31,15 @@ public class SimpleStack<E> {
      * get capacity
      * @return size
      */
-    public int getCount() {
-        return container.getCount();
+    public int count() {
+        return container.count();
+    }
+
+    /**
+     * check is capacity
+     * @return result
+     */
+    public boolean isEmpty() {
+        return container.count() == 0;
     }
 }

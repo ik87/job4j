@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ConcurrentModificationException;
-import java.util.Iterator;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -32,7 +31,7 @@ public class SimpleLinkedListTest {
 
     @Test
     public void whenAddThreeElementsThenUseGetSizeResultThree() {
-        assertThat(list.getCount(), is(3));
+        assertThat(list.count(), is(3));
     }
 
     @Test
@@ -46,7 +45,7 @@ public class SimpleLinkedListTest {
         assertThat(list.delete(), is(3));
         assertThat(list.delete(), is(2));
         assertThat(list.delete(), is(1));
-        assertThat(list.getCount(), is(0));
+        assertThat(list.count(), is(0));
     }
 
     @Test

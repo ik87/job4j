@@ -16,7 +16,7 @@ public interface SimpleList<E> extends Iterable<E> {
     /**
      *delete first element
      * @return deleted element
-     * @throws "NoSuchElementException if list is empty"
+     * @throws java.util.NoSuchElementException if list is empty"
      */
     E delete();
 
@@ -24,7 +24,7 @@ public interface SimpleList<E> extends Iterable<E> {
      * get current capacity
      * @return size
      */
-    int getCount();
+    int count();
 
     /**
      * get element by index

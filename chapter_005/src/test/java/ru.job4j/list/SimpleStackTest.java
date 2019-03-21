@@ -26,7 +26,7 @@ public class SimpleStackTest {
 
     @Test
     public void whenPushThenPushed() {
-        assertThat(stack.getCount(), is(3));
+        assertThat(stack.count(), is(3));
     }
 
     @Test
@@ -34,6 +34,6 @@ public class SimpleStackTest {
         Assert.assertThat(stack.pop(), is(3));
         Assert.assertThat(stack.pop(), is(2));
         Assert.assertThat(stack.pop(), is(1));
-        assertThat(stack.getCount(), is(0));
+        assertThat(stack.count(), is(0));
     }
 }

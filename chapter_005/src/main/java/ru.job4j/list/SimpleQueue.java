@@ -6,8 +6,8 @@ package ru.job4j.list;
  * @param <E>
  */
 public class SimpleQueue<E> {
-    private SimpleStack<E> aStack = new SimpleStack<>();
-    private SimpleStack<E> bStack = new SimpleStack<>();
+    private SimpleStack<E> in = new SimpleStack<>();
+    private SimpleStack<E> out = new SimpleStack<>();
 
     /**
      * an element put on the top one stack after put existing elements
@@ -15,7 +15,7 @@ public class SimpleQueue<E> {
      * @param element some element
      */
     public void push(E element) {
-        aStack.push(element);
+        in.push(element);
     }
 
     /**
@@ -24,21 +24,20 @@ public class SimpleQueue<E> {
      * @return top element
      */
     public E pop() {
-        if (bStack.getCount() == 0) {
-            while (aStack.getCount() > 0) {
-                bStack.push(aStack.pop());
+        if (out.isEmpty()) {
+            while (!in.isEmpty()) {
+                out.push(in.pop());
             }
         }
-        return bStack.pop();
+        return out.pop();
     }
 
     /**
      * get capacity
      * @return size
      */
-    public int getCount() {
-        return aStack.getCount() + bStack.getCount();
+    public int count() {
+        return in.count() + out.count();
     }
-
 
 }
