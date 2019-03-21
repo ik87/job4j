@@ -7,16 +7,22 @@ package ru.job4j.list;
  */
 public class CheckLinkedList {
     /**
-     * Check node collision
+     * Check collisions cycle
+     *
      * @param first some node
      * @return
      */
     public boolean hasCycle(Node first) {
-        int firstHash = first.hashCode();
+        Node turtle = first;
+        Node hare = first;
         boolean result = false;
-        while (first != null) {
-            first = first.next;
-            if (firstHash == first.hashCode()) {
+
+        while (hare.next != null) {
+            turtle = turtle.next;
+            if (hare.next != null) {
+                hare = hare.next.next;
+            }
+            if (turtle.value.equals(hare.value)) {
                 result = true;
                 break;
             }
