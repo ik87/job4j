@@ -12,7 +12,7 @@ import static org.hamcrest.core.Is.is;
 
 /**
  * @author Kosolapov Ilya (d_dexter@mail.ru)
- * @version 0.1
+ * @version 0.2
  */
 public class SimpleSetTest {
     private SimpleSet<Integer> set;
@@ -25,6 +25,7 @@ public class SimpleSetTest {
             set.add(n);
         }
     }
+
     @Test
     public void checkContainsElement() {
         assertTrue(set.contain(3));
@@ -34,8 +35,29 @@ public class SimpleSetTest {
     public void whenAddThenDoesntContainTheSame() {
         List<Integer> result = new ArrayList<>();
         for (int n : set) {
-          result.add(n);
+            result.add(n);
         }
         assertThat(result, is(List.of(1, 2, 3, 4, 5)));
+    }
+
+    @Test
+    public void whenNullAndIntThenSame() {
+        SimpleSet<Integer> set = new SimpleSet<>();
+        Integer[] expected = {1, null, 5};
+        Integer[] result = new Integer[3];
+        set.add(1);
+        set.add(null);
+        set.add(5);
+        set.add(null);
+
+        int i = 0;
+        for (Integer e : set) {
+           result[i++] = e;
+        }
+
+        assertThat(result, is(expected));
+
+
+
     }
 }

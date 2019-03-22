@@ -4,6 +4,7 @@ import ru.job4j.list.SimpleArray;
 import ru.job4j.list.SimpleList;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 /**
  * Example simply set based on the SimpleArray list
@@ -40,7 +41,7 @@ public class SimpleSet<E> implements Iterable<E> {
     public boolean contain(E element) {
         boolean has = false;
         for (E e : container) {
-            if (e.equals(element)) {
+            if (Objects.equals(e, element)) {
                 has = true;
                 break;
             }
