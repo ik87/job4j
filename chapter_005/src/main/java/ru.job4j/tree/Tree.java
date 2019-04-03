@@ -6,6 +6,9 @@ import java.util.LinkedList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.ConcurrentModificationException;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 /**
  * This is Simple version Tree
@@ -16,6 +19,8 @@ import java.util.ConcurrentModificationException;
  * @since $Id$
  */
 public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
+
+
     private Node<E> root;
     private int modCount;
 
@@ -43,6 +48,29 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         return result;
     }
 
+    @Override
+    public boolean isBinary() {
+        boolean result = true;
+        Node<E> rsl = null;
+        Queue<Node<E>> data = new LinkedList<>();
+        data.offer(this.root);
+        if (this.root.leaves().size() <= 2) {
+            while (!data.isEmpty()) {
+                rsl = data.poll();
+                for (Node<E> e : rsl.leaves()) {
+                    if (e.leaves().size() > 2) {
+                        result = false;
+                        break;
+                    }
+                    data.offer(e);
+                }
+            }
+        } else {
+            result = false;
+        }
+        return result;
+    }
+
     /**
      * Constructor
      *
@@ -51,6 +79,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     public Tree(E value) {
         root = new Node<>(value);
     }
+
 
     @Override
     public Optional<Node<E>> findBy(E value) {
