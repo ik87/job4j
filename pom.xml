@@ -25,6 +25,7 @@
 		<module>tictactoe</module>
         <module>chess</module>
         <module>coffeemachine</module>
+        <module>departmentsort</module>
 
     </modules>
     <dependencies>
