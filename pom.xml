@@ -26,6 +26,7 @@
         <module>chess</module>
         <module>coffeemachine</module>
         <module>departmentsort</module>
+        <module>chapter_006</module>
 
     </modules>
     <dependencies>
