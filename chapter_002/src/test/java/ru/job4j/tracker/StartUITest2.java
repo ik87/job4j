@@ -22,7 +22,7 @@ import static org.junit.Assert.assertThat;
  */
 public class StartUITest2 {
 
-    private Tracker tracker;
+    private ITracker tracker;
     private final PrintStream stdout = System.out;
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
     private final String menu =
@@ -67,7 +67,7 @@ public class StartUITest2 {
 
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         String[] action = {"0", "test name", "desc", "6"};
         new StartUI(new StubInput(action), tracker).init();
         assertThat(tracker.findAll()[0].getName(), is("test name"));

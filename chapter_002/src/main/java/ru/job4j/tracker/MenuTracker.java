@@ -14,7 +14,7 @@ public class MenuTracker {
     /**
      * Storage tracker
      */
-    private Tracker tracker;
+    private ITracker tracker;
     /**
      * StartUI
      */
@@ -32,7 +32,7 @@ public class MenuTracker {
 
     private List<UserAction> actions = new ArrayList<>();
 
-    public MenuTracker(Input input, Tracker tracker) {
+    public MenuTracker(Input input, ITracker tracker) {
         this.tracker = tracker;
         this.input = input;
     }
@@ -115,7 +115,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             System.out.println("----------------- Add new request -----------------");
             String name = input.ask("Enter request name");
             String desc = input.ask("Enter request description");
@@ -135,7 +135,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             String title = "------------------------------ Show all requests -----------------------------";
             print(title, tracker.findAll());
         }
@@ -151,7 +151,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             String title = "------------------------------ Edit some request ------------------------------";
             //  print(title, tracker.findAll());
             String id = input.ask("Enter id request");
@@ -176,7 +176,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             String title = "----------------------------- Delete some request -----------------------------";
             // print(title, tracker.findAll());
             String id = input.ask("Enter id request");
@@ -199,7 +199,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             String title = "----------------------------- Find by Id -------------------------------------";
             System.out.println();
             String id = input.ask("Enter id request");
@@ -222,7 +222,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             String title = "-------------------------------- Find by name --------------------------------";
             System.out.println();
             String name = input.ask("Enter name request");
@@ -245,7 +245,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             startui.setExit(true);
         }
 

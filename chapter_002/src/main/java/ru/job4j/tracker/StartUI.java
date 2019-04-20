@@ -15,14 +15,14 @@ public class StartUI {
     public static final String FIND_BY_NAME = "5";
     public static final String EXIT = "6";
     public final Input input;
-    public final Tracker tracker;
+    public final ITracker tracker;
     private boolean exit = false;
 
     public void setExit(boolean exit) {
         this.exit = exit;
     }
 
-    public StartUI(Input input, Tracker tracker) {
+    public StartUI(Input input, ITracker tracker) {
         this.input = input;
         this.tracker = tracker;
     }

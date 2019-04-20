@@ -17,7 +17,7 @@ public class TrackerTest {
 
     @Test
     public void whenAddNewItemThenTrackerHasSameItem() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Item item = new Item("test1", "testDexcription", 123L);
         tracker.add(item);
         assertThat(tracker.findAll()[0], is(item));
@@ -25,7 +25,7 @@ public class TrackerTest {
 
     @Test
     public void whenReplaceNameThenReturnName() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Item previous = new Item("test1", "testDexcription", 123L);
         Item next = new Item("test2", "testDexcription2", 123L);
         tracker.add(previous);
@@ -36,7 +36,7 @@ public class TrackerTest {
 
     @Test
     public void whenDeleteItemTenDeleted() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Item item = new Item("test1", "testDexcription", 123L);
         Item item2 = new Item("test2", "testDexcription2", 123L);
         Item item3 = new Item("test3", "testDexcription3", 123L);
@@ -51,7 +51,7 @@ public class TrackerTest {
 
     @Test
     public void whenGetAllItemsThenSame() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Item[] items = {
                 tracker.add(new Item("test1", "testDexcription", 123L)),
                 tracker.add(new Item("test2", "testDexcription2", 123L)),
@@ -63,7 +63,7 @@ public class TrackerTest {
 
     @Test
     public void whenGetByNameThenGetProperItems() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Item[] items = {
                 new Item("test", "testDexcription", 123L),
                 new Item("test2", "testDexcription2", 123L),
@@ -80,7 +80,7 @@ public class TrackerTest {
 
     @Test
     public void whenGetByIdThenGetProperItem() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Item[] items = {
                 new Item("test1", "testDexcription", 123L),
                 new Item("test2", "testDexcription2", 123L),

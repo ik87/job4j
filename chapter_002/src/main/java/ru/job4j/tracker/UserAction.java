@@ -12,7 +12,7 @@ public interface UserAction {
     /**
      * Main method
      */
-    void execute(Input input, Tracker tracker);
+    void execute(Input input, ITracker tracker);
 
     /**
      * Return information about action

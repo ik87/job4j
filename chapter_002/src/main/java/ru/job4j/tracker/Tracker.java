@@ -8,7 +8,7 @@ import java.util.Random;
  * @version $ID$
  * @since 0.1
  */
-public class Tracker {
+public class Tracker implements ITracker {
     /**
      * Array for requests
      */
