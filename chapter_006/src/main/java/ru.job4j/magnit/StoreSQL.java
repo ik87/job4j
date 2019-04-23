@@ -62,8 +62,9 @@ public class StoreSQL implements AutoCloseable {
 
             for (int i = 0; i < size; i++) {
                 pstm.setInt(1, i + 1);
-                pstm.executeUpdate();
+                pstm.addBatch();
             }
+            pstm.executeBatch();
         } catch (SQLException e) {
             connect.rollback();
             connect.setAutoCommit(true);
