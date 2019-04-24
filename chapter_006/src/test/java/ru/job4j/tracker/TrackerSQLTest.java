@@ -3,6 +3,9 @@ package ru.job4j.tracker;
 import org.junit.Test;
 
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.Properties;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -13,20 +16,29 @@ import static org.junit.Assert.*;
  * @since 0.1
  */
 public class TrackerSQLTest {
-    private InputStream config = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties");
-    @Test
-    public void checkConnection() throws Exception {
-        try (TrackerSQL trackerSQL = new TrackerSQL(config)) {
-            assertTrue(trackerSQL.init());
+
+    public Connection init() {
+        try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
+            Properties config = new Properties();
+            config.load(in);
+            Class.forName(config.getProperty("driver-class-name"));
+            return DriverManager.getConnection(
+                    config.getProperty("url"),
+                    config.getProperty("username"),
+                    config.getProperty("password")
+
+
+            );
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
         }
     }
 
+
     @Test
     public void whenAddThenAdded() throws Exception {
-        try (TrackerSQL trackerSQL = new TrackerSQL(config)) {
-            trackerSQL.init();
-            trackerSQL.dropTable();
-            trackerSQL.createTables();
+        try (TrackerSQL trackerSQL = new TrackerSQL(ConnectionRollback.create(this.init()))) {
+            //trackerSQL.createTables();
             long time = 1555505563550L; // 17.04.19 12:00
             Item item = new Item("Jack", "todo1", time);
             item.setId("1");
@@ -36,16 +48,13 @@ public class TrackerSQLTest {
             assertThat(result.getName(), is(item.getName()));
             assertThat(result.getDesc(), is(item.getDesc()));
             assertThat(result.getCreate(), is(item.getCreate()));
-            trackerSQL.dropTable();
         }
     }
 
     @Test
     public void whenFindByNameThenFound() throws Exception {
-        try (TrackerSQL trackerSQL = new TrackerSQL(config)) {
-            trackerSQL.init();
-            trackerSQL.dropTable();
-            trackerSQL.createTables();
+        try (TrackerSQL trackerSQL = new TrackerSQL(ConnectionRollback.create(this.init()))) {
+            // trackerSQL.createTables();
             long time = 1555505563550L; // 17.04.19 12:00
 
             Item item1 = new Item("Jack", "todo1", time);
@@ -73,15 +82,13 @@ public class TrackerSQLTest {
             assertThat(result[1].getName(), is(item4.getName()));
             assertThat(result[1].getDesc(), is(item4.getDesc()));
             assertThat(result[1].getCreate(), is(item4.getCreate()));
-            trackerSQL.dropTable();
         }
     }
+
     @Test
     public void whenFindAllThenFound() throws Exception {
-        try (TrackerSQL trackerSQL = new TrackerSQL(config)) {
-            trackerSQL.init();
-            trackerSQL.dropTable();
-            trackerSQL.createTables();
+        try (TrackerSQL trackerSQL = new TrackerSQL(ConnectionRollback.create(this.init()))) {
+            //trackerSQL.createTables();
             long time = 1555505563550L; // 17.04.19 12:00
             Item[] items = new Item[4];
             items[0] = new Item("Jack", "todo1", time);
@@ -105,15 +112,13 @@ public class TrackerSQLTest {
                 assertThat(result[i].getDesc(), is(items[i].getDesc()));
                 assertThat(result[i].getCreate(), is(items[i].getCreate()));
             }
-            trackerSQL.dropTable();
         }
     }
+
     @Test
     public void whenReplaceThenReplaced() throws Exception {
-        try (TrackerSQL trackerSQL = new TrackerSQL(config)) {
-            trackerSQL.init();
-            trackerSQL.dropTable();
-            trackerSQL.createTables();
+        try (TrackerSQL trackerSQL = new TrackerSQL(ConnectionRollback.create(this.init()))) {
+            // trackerSQL.createTables();
             long time = 1555505563550L; // 17.04.19 12:00
             Item[] items = new Item[4];
             items[0] = new Item("Jack", "todo1", time);
@@ -138,15 +143,13 @@ public class TrackerSQLTest {
             assertThat(result.getName(), is(expected.getName()));
             assertThat(result.getDesc(), is(expected.getDesc()));
             assertThat(result.getCreate(), is(expected.getCreate()));
-            trackerSQL.dropTable();
         }
     }
+
     @Test
     public void whenDeleteThenDeleted() throws Exception {
-        try (TrackerSQL trackerSQL = new TrackerSQL(config)) {
-            trackerSQL.init();
-            trackerSQL.dropTable();
-            trackerSQL.createTables();
+        try (TrackerSQL trackerSQL = new TrackerSQL(ConnectionRollback.create(this.init()))) {
+            //trackerSQL.createTables();
             long time = 1555505563550L; // 17.04.19 12:00
 
             Item item = new Item("Dan", "todo4", time);
@@ -155,7 +158,6 @@ public class TrackerSQLTest {
             assertNotNull(trackerSQL.findById("1"));
             trackerSQL.delete("1");
             assertNull(trackerSQL.findById("1"));
-            trackerSQL.dropTable();
         }
     }
 }

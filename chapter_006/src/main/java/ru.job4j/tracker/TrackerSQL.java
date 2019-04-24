@@ -19,7 +19,11 @@ import org.apache.logging.log4j.LogManager;
 public class TrackerSQL implements AutoCloseable, ITracker {
 
     private Connection connection;
-    private InputStream config;
+    private InputStream config = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties");
+
+    public TrackerSQL(Connection connection) {
+        this.connection = connection;
+    }
 
     /**
      * use for track SQLException
@@ -42,13 +46,10 @@ public class TrackerSQL implements AutoCloseable, ITracker {
         return this.connection != null;
     }
 
-    public TrackerSQL(InputStream config) {
-        this.config = config;
-    }
-
     /**
      * Create table Item
      */
+   /*
     public void createTables() {
         String sql = "CREATE TABLE IF NOT EXISTS Item (id serial, name varchar(50), description text, created timestamp)";
         try (Statement st = connection.createStatement()) {
@@ -57,6 +58,7 @@ public class TrackerSQL implements AutoCloseable, ITracker {
             LOG.error(e.getMessage(), e);
         }
     }
+    */
 
     /**
      * Drop table item
