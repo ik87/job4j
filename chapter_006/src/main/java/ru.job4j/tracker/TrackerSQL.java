@@ -19,7 +19,11 @@ import org.apache.logging.log4j.LogManager;
 public class TrackerSQL implements AutoCloseable, ITracker {
 
     private Connection connection;
-    private InputStream config;
+    private InputStream config = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties");
+
+    public TrackerSQL(Connection connection) {
+        this.connection = connection;
+    }
 
     /**
      * use for track SQLException
@@ -42,37 +46,11 @@ public class TrackerSQL implements AutoCloseable, ITracker {
         return this.connection != null;
     }
 
-    public TrackerSQL(InputStream config) {
-        this.config = config;
-    }
-
-    /**
-     * Create table Item
-     */
-    public void createTables() {
-        String sql = "CREATE TABLE IF NOT EXISTS Item (id serial, name varchar(50), description text, created timestamp)";
-        try (Statement st = connection.createStatement()) {
-            st.executeUpdate(sql);
-        } catch (SQLException e) {
-            LOG.error(e.getMessage(), e);
-        }
-    }
-
-    /**
-     * Drop table item
-     */
-    public void dropTable() {
-        String sql = "DROP TABLE IF EXISTS Item";
-        try (Statement st = connection.createStatement()) {
-            st.executeUpdate(sql);
-        } catch (SQLException e) {
-            LOG.error(e.getMessage(), e);
-        }
-    }
-
     @Override
     public void close() throws Exception {
-        connection.close();
+        if (connection != null) {
+            connection.close();
+        }
     }
 
     /**
@@ -85,11 +63,16 @@ public class TrackerSQL implements AutoCloseable, ITracker {
     public Item add(Item item) {
         Item result = null;
         String sql = "INSERT INTO item(name, description, created) VALUES (?, ?, ?)";
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstm.setString(1, item.getName());
             pstm.setString(2, item.getDesc());
             pstm.setTimestamp(3, new Timestamp(item.getCreate()));
             pstm.executeUpdate();
+            try (ResultSet generatedKeys = pstm.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    item.setId(generatedKeys.getString(1));
+                }
+            }
             result = item;
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
@@ -188,4 +171,5 @@ public class TrackerSQL implements AutoCloseable, ITracker {
     interface ConsumerX<T> {
         void accept(T obj) throws SQLException;
     }
+
 }
