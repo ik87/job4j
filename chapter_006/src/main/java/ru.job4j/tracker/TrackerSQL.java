@@ -46,35 +46,11 @@ public class TrackerSQL implements AutoCloseable, ITracker {
         return this.connection != null;
     }
 
-    /**
-     * Create table Item
-     */
-   /*
-    public void createTables() {
-        String sql = "CREATE TABLE IF NOT EXISTS Item (id serial, name varchar(50), description text, created timestamp)";
-        try (Statement st = connection.createStatement()) {
-            st.executeUpdate(sql);
-        } catch (SQLException e) {
-            LOG.error(e.getMessage(), e);
-        }
-    }
-    */
-
-    /**
-     * Drop table item
-     */
-    public void dropTable() {
-        String sql = "DROP TABLE IF EXISTS Item";
-        try (Statement st = connection.createStatement()) {
-            st.executeUpdate(sql);
-        } catch (SQLException e) {
-            LOG.error(e.getMessage(), e);
-        }
-    }
-
     @Override
     public void close() throws Exception {
-        connection.close();
+        if (connection != null) {
+            connection.close();
+        }
     }
 
     /**

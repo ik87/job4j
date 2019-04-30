@@ -3,8 +3,10 @@ package ru.job4j.tracker;
 import org.junit.Test;
 
 import java.io.InputStream;
+import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
 import static org.hamcrest.core.Is.is;
@@ -16,24 +18,6 @@ import static org.junit.Assert.*;
  * @since 0.1
  */
 public class TrackerSQLTest {
-
-    public Connection init() {
-        try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
-            Properties config = new Properties();
-            config.load(in);
-            Class.forName(config.getProperty("driver-class-name"));
-            return DriverManager.getConnection(
-                    config.getProperty("url"),
-                    config.getProperty("username"),
-                    config.getProperty("password")
-
-
-            );
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
-        }
-    }
-
 
     @Test
     public void whenAddThenAdded() throws Exception {
@@ -112,6 +96,56 @@ public class TrackerSQLTest {
             assertNotNull(trackerSQL.findById(item.getId()));
             trackerSQL.delete(item.getId());
             assertNull(trackerSQL.findById(item.getId()));
+        }
+    }
+
+    public Connection init() {
+        try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
+            Properties config = new Properties();
+            config.load(in);
+            Class.forName(config.getProperty("driver-class-name"));
+            return DriverManager.getConnection(
+                    config.getProperty("url"),
+                    config.getProperty("username"),
+                    config.getProperty("password")
+
+
+            );
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+
+    /**
+     * Connection, which rollback all commits.
+     * It is used for integration test.
+     */
+    public static class ConnectionRollback {
+
+        /**
+         * Create connection with autocommit=false mode and rollback call, when conneciton is closed.
+         *
+         * @param connection connection.
+         * @return Connection object.
+         * @throws SQLException possible exception.
+         */
+        public static Connection create(Connection connection) throws SQLException {
+            connection.setAutoCommit(false);
+            return (Connection) Proxy.newProxyInstance(
+                    ConnectionRollback.class.getClassLoader(),
+                    new Class[]{Connection.class},
+                    (proxy, method, args) -> {
+                        Object rsl = null;
+                        if ("close".equals(method.getName())) {
+                            connection.rollback();
+                            connection.close();
+                        } else {
+                            rsl = method.invoke(connection, args);
+                        }
+                        return rsl;
+                    }
+            );
         }
     }
 }
