@@ -27,6 +27,7 @@
         <module>coffeemachine</module>
         <module>departmentsort</module>
         <module>chapter_006</module>
+        <module>parser_vacancy</module>
 
     </modules>
     <dependencies>
