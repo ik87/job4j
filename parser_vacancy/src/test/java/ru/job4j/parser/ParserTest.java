@@ -1,6 +1,7 @@
 package ru.job4j.parser;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.junit.Test;
 
 
@@ -21,6 +22,8 @@ public class ParserTest {
             parser.setDoc(Jsoup.connect(url + "/" + i).get());
             for (Vacancy vacancy : parser) {
                 if (convertDate.convert(vacancy.date) >= minDate) {
+                    Document page = Jsoup.connect(vacancy.link).get();
+                    vacancy.description = parser.page(page);
                     System.out.println(vacancy);
                 } else {
                     flag = false;

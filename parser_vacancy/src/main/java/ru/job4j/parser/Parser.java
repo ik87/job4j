@@ -4,21 +4,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.function.Predicate;
 
 
 public class Parser implements Iterable<Vacancy>{
-    /*
-    private Set<Vacancy> vacancies = new HashSet<>();
-    private ConvertDate convertDate = new ConvertDate();
-    //private String generalUrl = "https://www.sql.ru/forum/job/";
-    private Document connection;//Document connection = Jsoup.connect("https://www.sql.ru/forum/job/1").get();
-    private Long minDate; //= "01 янв 19, 00:00";
-    private String[] keyWord; // = {"java", "javaEE", "javaSE"};
-    private String[] keyWordExcept;// = {"javaScript", "java-Script"};
-    private Long lastDate = 0L;
-    */
     private Document doc;
     private Predicate<String> filter;
 
@@ -52,8 +43,9 @@ public class Parser implements Iterable<Vacancy>{
         return vacancy;
     }
 
-    private String page(Element element) {
-        return null;
+    public String page(Document doc) throws IOException {
+        Elements elements = doc.getElementsByClass("msgBody");
+        return elements.get(1).text();
     }
 
     public void setFilter(Predicate<String> filter) {

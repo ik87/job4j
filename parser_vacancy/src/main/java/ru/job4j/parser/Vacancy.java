@@ -10,6 +10,6 @@ public class Vacancy {
 
     @Override
     public String toString() {
-        return String.format("name: %s\nlink: %s\ndate: %s\n",name, link, date);
+        return String.format("name: %s\nlink: %s\ndate: %s\ndescription: %s\n",name, link, date, description);
     }
 }
