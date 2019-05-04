@@ -39,7 +39,7 @@
 |**Method Parameters**             | ![done][done]     | ![done][done] | ![done][done] | ![done][done]  | ![done][done]   |
 |**Object Construction**           | ![done][done]     | ![done][done] | ![done][done] | ![done][done]  | ![done][done]   |
 |**Packages**                      | ![done][done]     | ![done][done] | ![done][done] | ![done][done]  | ![done][done]   |
-|**Java doc**                      | ![done][done]     | ![done][done] | ![done][done] |                |                 |
+|**Java connection**                      | ![done][done]     | ![done][done] | ![done][done] |                |                 |
 
 **Inheritance**
 
