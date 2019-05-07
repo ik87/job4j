@@ -9,18 +9,19 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ConvertDate {
-    private static final Locale LOCALE_RU = new Locale("ru");
-    private Long time = 0L;
-    private DateFormatSymbols dfs = DateFormatSymbols.getInstance(LOCALE_RU);
     private String[] shortMonths = {
             "янв", "фев", "мар", "апр", "май", "июн",
             "июл", "авг", "сен", "окт", "ноя", "дек"};
+    private DateFormatSymbols dfs = DateFormatSymbols.getInstance(LOCALE_RU);
+
+    private static final Locale LOCALE_RU = new Locale("ru");
+
 
     public Long convert(String d) throws ParseException {
         //29 апр 19, 14:06
         //сегодня, 22:42
         //вчера, 11:50
-
+        Long time = 0L;
         dfs.setShortMonths(shortMonths);
         if (d.contains("сегодня")) {
             time = datePeriod(d, 0);
