@@ -4,16 +4,15 @@ import java.util.Properties;
 import java.util.function.Predicate;
 
 public class Filter implements Predicate<String> {
-    private Properties config;
-
-    public Filter(Properties properties) {
-        this.config = properties;
+    private String[] filters;
+    public Filter(Properties config) {
+        this.filters = config.getProperty("jdbc.filter").split(",");
     }
 
-    private String[] filters = config.getProperty("jdbc.filter").split(",");
 
     @Override
     public boolean test(String s) {
+        s = s.toLowerCase();
         boolean result = true;
         for (String filter : filters) {
             if (filter.startsWith("!")) {

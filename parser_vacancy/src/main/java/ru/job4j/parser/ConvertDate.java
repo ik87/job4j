@@ -1,21 +1,17 @@
 package ru.job4j.parser;
 
-import java.sql.Timestamp;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import java.util.*;
 
 public class ConvertDate {
     private String[] shortMonths = {
             "янв", "фев", "мар", "апр", "май", "июн",
             "июл", "авг", "сен", "окт", "ноя", "дек"};
-    private DateFormatSymbols dfs = DateFormatSymbols.getInstance(LOCALE_RU);
-
-    private static final Locale LOCALE_RU = new Locale("ru");
-
+    private DateFormatSymbols dfs = DateFormatSymbols.getInstance(LOCALE);
+    private static final Locale LOCALE = new Locale("ru");
+    private TimeZone timeZone = TimeZone.getTimeZone("Europe/Moscow");
 
     public Long convert(String d) throws ParseException {
         //29 апр 19, 14:06
@@ -28,23 +24,29 @@ public class ConvertDate {
         } else if (d.contains("вчера")) {
             time = datePeriod(d, -1);
         } else {
-            SimpleDateFormat parser = new SimpleDateFormat("d MMM yy, HH:mm", LOCALE_RU);
+            SimpleDateFormat parser = new SimpleDateFormat("dd MMM yy, HH:mm", LOCALE);
             parser.setDateFormatSymbols(dfs);
             time = parser.parse(d).getTime();
+
         }
         return time;
     }
 
     private Long datePeriod(String d, int amount) {
-        Date date = new Date();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
+        Calendar cal = new GregorianCalendar(timeZone);
         cal.add(Calendar.DATE, amount);
-        cal.set(Calendar.HOUR, Integer.parseInt(d.subSequence(d.length() - 5, d.length() - 3).toString()));
+        cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(d.subSequence(d.length() - 5, d.length() - 3).toString()));
         cal.set(Calendar.MINUTE, Integer.parseInt(d.subSequence(d.length() - 2, d.length()).toString()));
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
-        System.out.println(new Timestamp(cal.getTime().getTime()));
-        return cal.getTime().getTime();
+        return cal.getTimeInMillis();
+    }
+
+    public Long currentTime() {
+       Calendar cal = new GregorianCalendar(timeZone);
+       cal.setTimeInMillis(System.currentTimeMillis());
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTimeInMillis();
     }
 }

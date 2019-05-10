@@ -23,7 +23,9 @@ public class Parser implements Iterable<Vacancy>{
     }
 
     public Elements table(Document doc) {
-        return doc.getElementsByClass("postslisttopic").parents();
+        //return doc.getElementsByClass("postslisttopic").parents();
+        return doc.getElementsByClass("forumTable")
+                .get(0).getElementsByClass("postslisttopic").parents();
     }
 
     private Vacancy elementToVacancy(Element element) {
@@ -53,7 +55,7 @@ public class Parser implements Iterable<Vacancy>{
     }
 
     private class ParserIterator implements Iterator<Vacancy> {
-        private int index = 9;
+        private int index = 0;
         private Elements elements = table(doc);
         private Vacancy vacancy = nextVacancy();
         @Override

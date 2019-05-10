@@ -38,6 +38,7 @@ public class Main {
 
         //try get connection to db
         try {
+            Class.forName(config.getProperty("jdbc.driver"));
             connection = DriverManager.getConnection(
                     config.getProperty("jdbc.url"),
                     config.getProperty("jdbc.username"),
@@ -48,12 +49,12 @@ public class Main {
             stroreSQL = new StroreSQL(connection);
 
             //get last updated
-            Long lastUpdate = stroreSQL.getLastUpdate();
-            if(lastUpdate.equals(-1L)) {
-                lastUpdate =  convertDate.convert(config.getProperty("jdbc.date"));
+            Long lastUpdate = stroreSQL.lastUpdate();
+            if (lastUpdate.equals(-1L)) {
+                lastUpdate = convertDate.convert(config.getProperty("jdbc.date"));
             }
 
-            //set site
+            //set connect
             parser.setDoc(Jsoup.connect(url).get());
 
             //set filter
@@ -63,7 +64,9 @@ public class Main {
             int i = 0;
             boolean isEnd = false;
             do {
+                //parse inner page some vacancy
                 parser.setDoc(Jsoup.connect(url + "/" + i).get());
+                //parse table
                 for (Vacancy vacancy : parser) {
                     if (convertDate.convert(vacancy.date) > lastUpdate) {
                         Document page = Jsoup.connect(vacancy.link).get();
@@ -83,7 +86,8 @@ public class Main {
             stroreSQL.add(vacancyMap.values());
 
 
-        } catch (SQLException | ParseException | IOException e) {
+            // } catch (SQLException | ParseException | IOException e) {
+        } catch (Exception e) {
             LOG.error(e.getMessage(), e);
         }
 
