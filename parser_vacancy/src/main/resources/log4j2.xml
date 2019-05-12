@@ -6,7 +6,10 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="ru.job4j.parser" level="trace" additivity="false">
+        <Logger name="ru.job4j.parser" level="info" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="org.quartz" level="error" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
         <Root level="error">

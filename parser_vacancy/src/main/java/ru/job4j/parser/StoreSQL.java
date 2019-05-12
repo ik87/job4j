@@ -4,11 +4,11 @@ import java.sql.*;
 import java.text.ParseException;
 import java.util.Collection;
 
-public class StroreSQL implements AutoCloseable {
+public class StoreSQL implements AutoCloseable {
     private Connection connection;
     private ConvertDate convertDate = new ConvertDate();
 
-    public StroreSQL(Connection connection) {
+    public StoreSQL(Connection connection) {
         this.connection = connection;
     }
 
@@ -28,10 +28,11 @@ public class StroreSQL implements AutoCloseable {
         }
         timeUpdate();
     }
+
     private void timeUpdate() throws SQLException {
         String sql = "INSERT INTO last_update (updated) VALUES (?)";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setTimestamp(1 ,  new Timestamp(convertDate.currentTime()));
+            pstmt.setTimestamp(1, new Timestamp(convertDate.currentTime()));
             pstmt.executeUpdate();
         }
     }
@@ -41,9 +42,11 @@ public class StroreSQL implements AutoCloseable {
         String sql = "SELECT max(updated) as max FROM last_update";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                time = rs.getTimestamp("max").getTime();
+            if (rs.next()) {
+                Timestamp last = rs.getTimestamp("max");
+                time = last == null ? time : last.getTime();
             }
+
         }
         return time;
     }

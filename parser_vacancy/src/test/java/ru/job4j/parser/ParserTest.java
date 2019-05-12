@@ -1,6 +1,8 @@
 package ru.job4j.parser;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -12,6 +14,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.function.Predicate;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -20,62 +23,63 @@ import static org.hamcrest.core.IsNot.not;
 
 public class ParserTest {
 
-    /*  // @Test
-      // public void getRightDate2() throws Exception {
-           ParserTable parser = new ParserTable();
-           String url = "https://www.sql.ru/forum/job";
-           var doc = Jsoup.connect(url).get();
-
-           ConvertDate convertDate = new ConvertDate();
-
-           Long minDate = convertDate.convert("01 янв 19, 00:00");
-
-           boolean flag = true;
-           int i = 1;
-           parser.table(doc);
-           Predicate<String> filter = new Filter(config());
-           List<Vacancy> vacancies = new ArrayList<>();
-
-           //parse to list Vacancies
-           do {
-               parser.table(Jsoup.connect(url + "/" + i).get());
-               Vacancy vacancy = null;
-               while ((vacancy = parser.nextVacancy()) != null) {
-                   if(i == 1) {
-                       System.out.println(new Timestamp(convertDate.convert(vacancy.date)));
-                   }
-                   if (convertDate.convert(vacancy.date) > minDate) {
-                       if (filter.test(vacancy.name)) {
-                           Document page = Jsoup.connect(vacancy.link).get();
-                           vacancy.description = parser.pageToString(page);
-                           vacancies.add(vacancy);
-                           //System.out.println(vacancy);
-                       }
-                   } else {
-                       flag = false;
-                       break;
-                   }
-               }
-               i++;
-
-           } while (flag);
-
-           //parse put to sql
-           try (StroreSQL trackerSQL = new StroreSQL(ConnectionRollback.create(this.init(config())))) {
-               trackerSQL.add(vacancies);
-               Long time = trackerSQL.lastUpdate();
-               System.out.println(new Timestamp(time));
-           }
-
-           //check sql
-
-       }
-   */
+    @Ignore
     @Test
+    public void getRightDate2() throws Exception {
+        Parser parser = new Parser();
+        String url = "https://www.sql.ru/forum/job";
+        var doc = Jsoup.connect(url).get();
+
+        ConvertDate convertDate = new ConvertDate();
+
+        Long minDate = convertDate.convert("01 янв 19, 00:00");
+
+        boolean flag = true;
+        int i = 1;
+        parser.table(doc);
+        Predicate<String> filter = new Filter(config());
+        List<Vacancy> vacancies = new ArrayList<>();
+
+        //parse to list Vacancies
+        do {
+            parser.table(Jsoup.connect(url + "/" + i).get());
+            Vacancy vacancy = null;
+            while ((vacancy = parser.nextVacancy()) != null) {
+                if (i == 1) {
+                    System.out.println(new Timestamp(convertDate.convert(vacancy.date)));
+                }
+                if (convertDate.convert(vacancy.date) > minDate) {
+                    if (filter.test(vacancy.name)) {
+                        Document page = Jsoup.connect(vacancy.link).get();
+                        vacancy.description = parser.pageToString(page);
+                        vacancies.add(vacancy);
+                        //System.out.println(vacancy);
+                    }
+                } else {
+                    flag = false;
+                    break;
+                }
+            }
+            i++;
+
+        } while (flag);
+
+        //parse put to sql
+        try (StoreSQL trackerSQL = new StoreSQL(ConnectionRollback.create(this.init(config())))) {
+            trackerSQL.add(vacancies);
+            Long time = trackerSQL.lastUpdate();
+            System.out.println(new Timestamp(time));
+        }
+
+        //check sql
+
+    }
+
+    @Ignore    @Test
     public void parseTableThenGetRightResult() throws Exception {
-        String path = ParserTable.class.getResource("/test_files/vacansyTable.html").getPath();
+        String path = Parser.class.getResource("/test_files/vacansyTable.html").getPath();
         File input = new File(path);
-        ParserTable parser = new ParserTable();
+        Parser parser = new Parser();
         parser.table(Jsoup.parse(input, "windows-1251"));
         Filter filter = new Filter(config());
         List<Vacancy> result = new ArrayList<>();
@@ -92,23 +96,23 @@ public class ParserTest {
 
     @Test
     public void parsePageThenGetRightResult() throws Exception {
-        String path = ParserTable.class.getResource("/test_files/vacansyPage.html").getPath();
+        String path = Parser.class.getResource("/test_files/vacansyPage.html").getPath();
         File input = new File(path);
-        ParserTable parser = new ParserTable();
+        Parser parser = new Parser();
         String page = parser.pageToString(Jsoup.parse(input, "windows-1251"));
         assertThat(page, is("Требуется java разработчик junior"));
     }
 
     @Test
     public void putValueToDBThenGetLastUpdate() throws Exception {
-        try (StroreSQL stroreSQL = new StroreSQL(ConnectionRollback.create(init(config())))) {
+        try (StoreSQL storeSQL = new StoreSQL(ConnectionRollback.create(init(config())))) {
             Vacancy vacancy = new Vacancy();
             vacancy.date = "05 мая 19, 15:01";
             vacancy.name = "Требуется java разработчик";
             vacancy.description = "Требуется java разработчик junior";
             vacancy.link = "vacansyPage.html";
-            stroreSQL.add(List.of(vacancy));
-            Long result = stroreSQL.lastUpdate();
+            storeSQL.add(List.of(vacancy));
+            Long result = storeSQL.lastUpdate();
             assertThat(result, not(-1L));
         }
     }
@@ -130,7 +134,7 @@ public class ParserTest {
     //get Properties
     public Properties config() throws IOException {
         Properties config;
-        try (InputStream in = ParserTable.class.getClassLoader().getResourceAsStream("app.properties")) {
+        try (InputStream in = Parser.class.getClassLoader().getResourceAsStream("app.properties")) {
             config = new Properties();
             config.load(in);
         }
