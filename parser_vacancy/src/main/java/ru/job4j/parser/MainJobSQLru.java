@@ -16,6 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+/**
+ * @author Kosolapov Ilya (d_dexter@mail.ru)
+ * @version $ID$
+ * @since 0.1
+ */
 public class MainJobSQLru implements Job {
     private static final Logger LOG = LogManager.getLogger(MainJobSQLru.class.getName());
 
@@ -30,9 +35,14 @@ public class MainJobSQLru implements Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
         JobDataMap dataMap = context.getJobDetail().getJobDataMap();
+        /**
+         * get properties settings
+         */
         Properties config = (Properties) dataMap.get("properties");
 
-        //get last updated
+        /**
+         * get last updated
+         */
         try (StoreSQL storeSQL = new StoreSQL(init(config))) {
             lastUpdate = lastUpdate(storeSQL, config);
             LOG.info("load last update time: " + new Timestamp(lastUpdate));
@@ -40,16 +50,20 @@ public class MainJobSQLru implements Job {
             throw new JobExecutionException(e.getMessage(), e);
         }
 
-        //parse site to vacancy
+        /**
+         * parse site to vacancy
+         */
         try {
-            filter = new Filter(config);
+            filter = new Filter(config.getProperty("jdbc.filter"));
             vacancies = parseVacancies(lastUpdate, filter);
             LOG.info("Parsing was complete...");
         } catch (Exception e) {
             throw new JobExecutionException(e.getMessage(), e);
         }
 
-        //put parsed date to DB
+        /**
+         * put parsed date to DB
+         */
         try {
             Connection connection = init(config);
             try (StoreSQL storeSQL = new StoreSQL(connection)) {
@@ -67,12 +81,20 @@ public class MainJobSQLru implements Job {
 
     }
 
+    /**
+     * Main method for parsing date from  https://www.sql.ru/forum/job
+     * @param lastUpdate min parsing date
+     * @param filter filter
+     * @return List vacancies
+     * @throws IOException if url not found
+     * @throws ParseException if problems with parsing
+     */
     private  List<Vacancy> parseVacancies(Long lastUpdate, Filter filter)
             throws IOException, ParseException {
         Parser parser = new Parser();
         String url = "https://www.sql.ru/forum/job";
         var doc = Jsoup.connect(url).get();
-        ConvertDate convertDate = new ConvertDate();
+        Converter converter = new Converter();
         boolean flag = true;
         int i = 1;
         parser.table(doc);
@@ -83,7 +105,7 @@ public class MainJobSQLru implements Job {
             parser.table(Jsoup.connect(url + "/" + i).get());
             Vacancy vacancy = null;
             while ((vacancy = parser.nextVacancy()) != null) {
-                if (convertDate.convert(vacancy.date) > lastUpdate) {
+                if (converter.date(vacancy.date) > lastUpdate) {
                     if (filter.test(vacancy.name)) {
                         Document page = Jsoup.connect(vacancy.link).get();
                         vacancy.description = parser.pageToString(page);
@@ -109,8 +131,8 @@ public class MainJobSQLru implements Job {
     }
 
     private  Long lastUpdate(StoreSQL storeSQL, Properties config) throws SQLException, ParseException {
-        ConvertDate convertDate = new ConvertDate();
-        Long lastUpdateProperty = convertDate.convert(config.getProperty("jdbc.date"));
+        Converter converter = new Converter();
+        Long lastUpdateProperty = converter.date(config.getProperty("jdbc.date"));
         Long lastUpdate = storeSQL.lastUpdate();
         if (lastUpdate.equals(-1L) || lastUpdateProperty > lastUpdate) {
             lastUpdate = lastUpdateProperty;

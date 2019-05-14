@@ -18,33 +18,44 @@ import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
-
+/**
+ * Main class, entry point for parsing data
+ *
+ * @author Kosolapov Ilya (d_dexter@mail.ru)
+ * @version $ID$
+ * @since 0.1
+ */
 public class SqlRuParser {
     private static final Logger LOG = LogManager.getLogger(SqlRuParser.class.getName());
+    /**
+     * if debug true then properties get from resources
+     * else false then file properties get from args[0]
+     */
+    private static final boolean DEBUG = true;
 
     public static void main(String[] args) {
 
         Properties config = new Properties();
-
-        try {
-            config = config();
-            LOG.info("load property...");
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-            System.exit(1);
+        if (DEBUG) {
+            //get properties from resources\app.properties
+            try {
+                config = config();
+                LOG.info("load property...");
+            } catch (Exception e) {
+                LOG.error(e.getMessage(), e);
+                System.exit(1);
+            }
+        } else {
+            //get property file from args
+            try (FileInputStream fin = new FileInputStream(args[0])) {
+                config.load(fin);
+                LOG.info("load property...");
+            } catch (Exception e) {
+                LOG.error("file with properties not found");
+                System.exit(1);
+            }
         }
 
-
-/*
-        //try get property file from args
-        try (FileInputStream fin = new FileInputStream(args[0])) {
-            config.load(fin);
-            LOG.info("load property...");
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-            System.exit(1);
-        }
-*/
         //get last updated
         try {
             LOG.info("parser is waiting");
@@ -57,6 +68,7 @@ public class SqlRuParser {
             JobDetail job = newJob(MainJobSQLru.class)
                     .withIdentity("job1", "group1")
                     .build();
+            // send properties config to MainJobSQLru.class
             job.getJobDataMap().put("properties", config);
 
             Trigger trigger = newTrigger()
@@ -70,12 +82,16 @@ public class SqlRuParser {
         }
 
 
-
     }
 
 
-    //get Properties
-    public static Properties config() throws IOException {
+    /**
+     * Get properties from resources  and decoding cyrillic
+     *
+     * @return Properties
+     * @throws IOException if file not found
+     */
+    private static Properties config() throws IOException {
         Properties config;
         try (InputStream in = Parser.class.getClassLoader().getResourceAsStream("app.properties");
              InputStreamReader inEnc = new InputStreamReader(in, "UTF-8");) {
