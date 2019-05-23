@@ -6,12 +6,19 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="ru.job4j.parser" level="info" additivity="false">
+        <Logger name="ru.job4j.parser.Main" level="info" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="ru.job4j.parser.TimeManager" level="debug" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
         <Logger name="org.quartz" level="error" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
+        <Logger name="ru.job4j.parser.executer.ExecuteSqlRu" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
         <Root level="error">
             <AppenderRef ref="Console"/>
         </Root>

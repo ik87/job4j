@@ -1,65 +1,117 @@
 package ru.job4j.parser;
 
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-/**
- * Main class for parse table and inner page
- *
- * @author Kosolapov Ilya (d_dexter@mail.ru)
- * @version $ID$
- * @since 0.1
- */
-public class Parser {
-    /**
-     * tr elements
-     */
-    private Elements tr;
-    /**
-     * starting index tr
-     */
-    private int index;
 
-    public void table(Document doc) {
-        tr = doc.getElementsByClass("forumTable")
-                .get(0).getElementsByTag("tr");
-        index = 4;
-    }
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+public abstract class Parser<T> implements Iterable<T> {
+
 
     /**
-     * get vacancy from parsed tr that not  null
-     * @return vacancy
+     * Define elements the row that have to get to entity
+     *
+     * @param element some row
+     * @return entity
      */
-    public Vacancy nextVacancy() {
-        Vacancy vacancy = null;
-        while (index < tr.size() && vacancy == null) {
-            vacancy = trToVacancy(tr.get(index++));
-        }
-        return vacancy;
-    }
+    protected abstract T row(Element element);
 
     /**
-     * Parse tr and get vacancy
-     * @param element
+     * Define rows of table, that could be parsed
+     *
+     * @param index index table (1,2,3...)
      * @return
      */
-    private Vacancy trToVacancy(Element element) {
-        Vacancy vacancy = new Vacancy();
-        var td = element.getElementsByTag("td");
-        var title = td.get(1).children();
-        vacancy.date = td.get(5).text();
-        vacancy.name = title.get(0).text();
-        vacancy.link = title.get(0).attr("href");
-        return vacancy;
-    }
+    protected abstract Elements table(Integer index);
 
     /**
-     * Parse inner page and get String
-     * @param doc inner page
-     * @return string
+     * Define inner page, that could be parsed
+     *
+     * @param entity item that have to modify
      */
-    public String pageToString(Document doc) {
-        Elements elements = doc.getElementsByClass("msgBody");
-        return elements.get(1).text();
+    protected abstract void page(T entity);
+
+    /**
+     * Define filter gate
+     *
+     * @param entity filtered entity
+     * @return true if proper
+     */
+    protected abstract boolean filter(T entity);
+
+    /**
+     * Define state when iteration could be end
+     *
+     * @param entity
+     * @return
+     */
+    protected abstract boolean condition(T entity);
+
+    /**
+     * Get list entities
+     */
+    public List<T> getEntity() {
+        return StreamSupport.stream(spliterator(), false).collect(Collectors.toList());
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            Integer tableIndex = 0;
+            Integer rowIndex = 0;
+            Elements rows;
+            T entity;
+
+            {
+                rows = table(tableIndex); //get first table
+                entity = nextEntity(); //prepare entity
+            }
+
+            @Override
+            public boolean hasNext() {
+                return entity != null;
+            }
+
+            @Override
+            public T next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                T tmp = entity;
+                entity = nextEntity();
+                return tmp;
+            }
+
+            private T nextEntity() {
+
+                T entity = null;
+
+                do {
+                    entity = row(rows.get(rowIndex++));
+                    if (rowIndex == rows.size()) {
+                        rows = table(++tableIndex);
+                        rowIndex = 0;
+                        if (rows == null) {
+                            entity = null;
+                            break;
+                        }
+                    }
+                    if (condition(entity)) {
+                        entity = null;
+                        break;
+                    }
+                } while (!filter(entity));
+                if (entity != null) {
+                    page(entity);
+                }
+                return entity;
+            }
+
+        };
+
     }
 }

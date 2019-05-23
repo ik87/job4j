@@ -7,6 +7,8 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.impl.StdSchedulerFactory;
+import ru.job4j.parser.executer.ExecuteSqlRu;
+import ru.job4j.parser.parsers.ParserSqlRu;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -25,13 +27,14 @@ import static org.quartz.TriggerBuilder.newTrigger;
  * @version $ID$
  * @since 0.1
  */
-public class SqlRuParser {
-    private static final Logger LOG = LogManager.getLogger(SqlRuParser.class.getName());
+public class Main {
+    private static final Logger LOG = LogManager.getLogger(Main.class.getName());
     /**
      * if debug true then properties get from resources
      * else false then file properties get from args[0]
      */
     private static final boolean DEBUG = true;
+    private static TimeManager timeManager = new TimeManager();
 
     public static void main(String[] args) {
 
@@ -56,30 +59,9 @@ public class SqlRuParser {
             }
         }
 
-        //get last updated
-        try {
-            LOG.info("parser is waiting");
-            // Grab the Scheduler instance from the Factory
-            Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
-
-            // and start it off
-            scheduler.start();
-            // define the job and tie it to our DumbJob class
-            JobDetail job = newJob(MainJobSQLru.class)
-                    .withIdentity("job1", "group1")
-                    .build();
-            // send properties config to MainJobSQLru.class
-            job.getJobDataMap().put("properties", config);
-
-            Trigger trigger = newTrigger()
-                    .withIdentity("trigger1", "group1")
-                    .startNow()
-                    .withSchedule(cronSchedule(config.getProperty("cron.time")))
-                    .build();
-            scheduler.scheduleJob(job, trigger);
-        } catch (SchedulerException e) {
-            LOG.error(e.getMessage(), e);
-        }
+        timeManager.putConfig(config);
+        timeManager.putJobs(ExecuteSqlRu.class);
+        timeManager.start();
 
 
     }
@@ -93,7 +75,7 @@ public class SqlRuParser {
      */
     private static Properties config() throws IOException {
         Properties config;
-        try (InputStream in = Parser.class.getClassLoader().getResourceAsStream("app.properties");
+        try (InputStream in = ParserSqlRu.class.getClassLoader().getResourceAsStream("app.properties");
              InputStreamReader inEnc = new InputStreamReader(in, "UTF-8");) {
             config = new Properties();
             config.load(inEnc);

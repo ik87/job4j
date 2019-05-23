@@ -1,4 +1,4 @@
-package ru.job4j.parser;
+package ru.job4j.parser.utils;
 
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
@@ -15,7 +15,7 @@ import java.util.TimeZone;
  * @version $ID$
  * @since 0.1
  */
-public class Converter {
+public class UtilsSqlRu {
     private String[] shortMonths = {
             "янв", "фев", "мар", "апр", "май", "июн",
             "июл", "авг", "сен", "окт", "ноя", "дек"};
@@ -24,13 +24,13 @@ public class Converter {
     private TimeZone timeZone = TimeZone.getTimeZone("Europe/Moscow");
 
     /**
-     * Convert parsed date to Long
+     * Convert parsed dateToMillis to Long
      * for example:
      *          29 апр 19, 14:06 -> 1556535960000
      *          сегодня, 14:06  -> 1557831960000
      *          вчера, 14:06  -> 1557745560000
-     * @param d date in string format
-     * @return date in Long format
+     * @param d dateToMillis in string format
+     * @return dateToMillis in Long format
      * @throws ParseException
      */
     public Long date(String d) throws ParseException {
@@ -60,15 +60,4 @@ public class Converter {
         return cal.getTimeInMillis();
     }
 
-    /**
-     * Get current time depends by timezone
-     * @return get current time in Long formats
-     */
-    public Long currentTime() {
-       Calendar cal = new GregorianCalendar(timeZone);
-       cal.setTimeInMillis(System.currentTimeMillis());
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        return cal.getTimeInMillis();
-    }
 }

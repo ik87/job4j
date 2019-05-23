@@ -1,0 +1,101 @@
+package ru.job4j.parser.queries;
+
+import org.junit.Test;
+import ru.job4j.parser.Parser;
+import ru.job4j.parser.entities.EntitySqlRu;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Proxy;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Properties;
+
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.*;
+import static ru.job4j.parser.StorageDB.init;
+
+public class QuerySqlRuTest {
+
+    @Test
+    public void putValueToDBThenGetLastUpdate() throws Exception {
+        EntitySqlRu expected = new EntitySqlRu();
+        expected.date = "05 мая 19, 15:01";
+        expected.name = "Требуется java разработчик";
+        expected.desc = "Требуется java разработчик junior";
+        expected.link = "vacansyPage.html";
+
+        int result = 0;
+
+        //Connection connection;
+        try {
+            Connection connection = ConnectionRollback.create(init(config()));
+            try (QuerySqlRu querySqlRu = new QuerySqlRu(connection)) {
+                querySqlRu.add(List.of(expected));
+                result = querySqlRuGetCount(connection);
+                assertThat(1, is(result));
+            }
+        } catch (SQLException e) {
+            throw e;
+        }
+
+    }
+
+    public int querySqlRuGetCount(Connection connection) throws SQLException {
+        int size = 0;
+        String sql = "SELECT count(*) as count FROM vacancy_sql_ru";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                size = rs.getInt("count");
+            }
+        }
+        return size;
+    }
+
+    //get Properties
+    public Properties config() throws IOException {
+        Properties config;
+        try (InputStream in = Parser.class.getClassLoader().getResourceAsStream("app.properties")) {
+            config = new Properties();
+            config.load(in);
+        }
+        return config;
+    }
+
+    /**
+     * Connection, which rollback all commits.
+     * It is used for integration test.
+     */
+    public static class ConnectionRollback {
+
+        /**
+         * Create connection with autocommit=false mode and rollback call, when connection is closed.
+         *
+         * @param connection connection.
+         * @return Connection object.
+         * @throws java.sql.SQLException possible exception.
+         */
+        public static Connection create(Connection connection) throws SQLException {
+            connection.setAutoCommit(false);
+            return (Connection) Proxy.newProxyInstance(
+                    ConnectionRollback.class.getClassLoader(),
+                    new Class[]{Connection.class},
+                    (proxy, method, args) -> {
+                        Object rsl = null;
+                        if ("close".equals(method.getName())) {
+                            //  connection.commit();
+                            connection.rollback();
+                            connection.close();
+                        } else {
+                            rsl = method.invoke(connection, args);
+                        }
+                        return rsl;
+                    }
+            );
+        }
+    }
+}
