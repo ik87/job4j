@@ -1,9 +1,6 @@
 [![Build Status](https://travis-ci.org/ik87/job4j.svg?branch=master)](https://travis-ci.org/ik87/job4j)
 [![codecov](https://codecov.io/gh/ik87/job4j/branch/master/graph/badge.svg)](https://codecov.io/gh/ik87/job4j)
 
-"В курсе производилась работа с ветках git."
-## Объединение зафиксированных изменений
-## Создания новой ветки через IDEA
 ## Репозиторий Косолапова Ильи
 
 Прохожу обучение по курсу на[ Job4j.ru](http://job4j.ru " Job4j.ru").
