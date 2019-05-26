@@ -21,7 +21,7 @@ import static ru.job4j.parser.StorageDB.init;
 public class QuerySqlRuTest {
 
     @Test
-    public void putValueToDBThenGetLastUpdate() throws Exception {
+    public void putValueToDBThenGetCount() throws Exception {
         EntitySqlRu expected = new EntitySqlRu();
         expected.date = "05 мая 19, 15:01";
         expected.name = "Требуется java разработчик";

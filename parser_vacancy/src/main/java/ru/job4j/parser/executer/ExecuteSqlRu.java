@@ -31,6 +31,7 @@ public class ExecuteSqlRu implements Job {
          * get properties settings
          */
         Properties config = (Properties) dataMap.get("properties");
+
         LOG.debug("get config");
         //get last update time
         Long lastUpdate = getLastTimeUpdate(config, jobExecutionContext.getPreviousFireTime());
@@ -64,7 +65,7 @@ public class ExecuteSqlRu implements Job {
 
     }
 
-    public Long getLastTimeUpdate(Properties config, Date lastFireTime) throws JobExecutionException {
+    public Long getLastTimeUpdate(Properties config, Date lastFireTime) {
 
         String lastTimeProperty = config.getProperty("sql_ru.parse_with");
         Long lastTimeUpdate = null;

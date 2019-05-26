@@ -41,18 +41,17 @@ public class TimeManager {
             for (Class classJob : classesJob) {
                 String prefix = propertiesPrefix(classJob);
                 String on = config.getProperty(prefix + ".state");
-                String group = config.getProperty(prefix + ".cron");
+                String time = config.getProperty(prefix + ".cron");
 
                 if ("on".equals(on)) {
                     JobDetail job = newJob(classJob)
-                            .withIdentity(prefix, group)
+                            .withIdentity("job_" + prefix)
                             .build();
                     job.getJobDataMap().put("properties", config);
-                    LOG.debug(config.getProperty("cron." + group));
                     Trigger trigger = newTrigger()
-                            .withIdentity("trigger_" + prefix, group)
+                            .withIdentity("trigger_" + prefix)
                             .startNow()
-                            .withSchedule(cronSchedule(config.getProperty("cron." + group)))
+                            .withSchedule(cronSchedule(time))
                             .build();
                     triggersAndJobs.put(job, Set.of(trigger));
                 }
@@ -67,7 +66,7 @@ public class TimeManager {
 
     }
 
-    private String propertiesPrefix(Class<?> clazz) {
+    private String propertiesPrefix(Class clazz) {
         String classname = clazz.getSimpleName();
         String prefix = classname.replaceAll("^Execute([A-Z][a-z]*)([A-Z][a-z]*)$", "$1_$2");
         return prefix.toLowerCase();

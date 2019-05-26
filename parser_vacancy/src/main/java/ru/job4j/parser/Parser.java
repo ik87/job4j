@@ -1,8 +1,10 @@
 package ru.job4j.parser;
 
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -10,7 +12,6 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public abstract class Parser<T> implements Iterable<T> {
-
 
     /**
      * Define elements the row that have to get to entity
@@ -29,11 +30,29 @@ public abstract class Parser<T> implements Iterable<T> {
     protected abstract Elements table(Integer index);
 
     /**
+     * Define settings for connect to table, use in {@link #table} method
+     *
+     * @param index index table
+     * @return document
+     * @throws IOException if something went wrong
+     */
+    protected abstract Document connectToTable(Integer index) throws IOException;
+
+    /**
      * Define inner page, that could be parsed
      *
      * @param entity item that have to modify
      */
     protected abstract void page(T entity);
+
+    /**
+     * Define settings for connect to page, use in {@link #page} method
+     *
+     * @param url url
+     * @return document
+     * @throws IOException if something went wrong
+     */
+    protected abstract Document connectToPage(String url) throws IOException;
 
     /**
      * Define filter gate

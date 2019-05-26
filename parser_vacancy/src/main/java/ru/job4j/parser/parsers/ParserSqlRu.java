@@ -44,7 +44,7 @@ public class ParserSqlRu extends Parser<EntitySqlRu> {
     protected Elements table(Integer index) {
         Document doc;
         try {
-            doc = Jsoup.connect("https://www.sql.ru/forum/job/" + (index + 1)).get();
+            doc = connectToTable(index + 1);
             Elements tr = doc.getElementsByClass("forumTable")
                     .get(0).getElementsByTag("tr");
             return new Elements(tr.subList(4, tr.size()));
@@ -55,10 +55,15 @@ public class ParserSqlRu extends Parser<EntitySqlRu> {
     }
 
     @Override
+    protected Document connectToTable(Integer index) throws IOException {
+        return Jsoup.connect("https://www.sql.ru/forum/job/" + index).get();
+    }
+
+    @Override
     protected void page(EntitySqlRu entitySqlRu) {
         Document doc;
         try {
-            doc = Jsoup.connect(entitySqlRu.link).get();
+            doc = connectToPage(entitySqlRu.link);
             Elements elements = doc.getElementsByClass("msgBody");
             entitySqlRu.desc = elements.get(1).text();
         } catch (IOException e) {
@@ -67,9 +72,12 @@ public class ParserSqlRu extends Parser<EntitySqlRu> {
     }
 
     @Override
+    protected Document connectToPage(String url) throws IOException {
+        return Jsoup.connect(url).get();
+    }
+
+    @Override
     protected boolean filter(EntitySqlRu entitySqlRu) {
-        //Pattern pattern = Pattern.compile("(?!java\\W*script)(java)",
-        //      Pattern.CASE_INSENSITIVE);
         Pattern pattern = Pattern.compile(filter,
                 Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(entitySqlRu.name);

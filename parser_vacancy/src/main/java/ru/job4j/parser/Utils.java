@@ -11,18 +11,6 @@ public class Utils {
     private static final Logger LOG = LogManager.getLogger(Utils.class.getName());
     public static final TimeZone EUROPE_MOSCOW = TimeZone.getTimeZone("Europe/Moscow");
 
-    /**
-     * Get current time depends by timezone
-     *
-     * @return get current time in Long formats
-     */
-    public Long currentTime(TimeZone timeZone) {
-        Calendar cal = new GregorianCalendar(timeZone);
-        cal.setTimeInMillis(System.currentTimeMillis());
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        return cal.getTimeInMillis();
-    }
 
     public Long dateToMillis(String date, TimeZone timeZone) {
         //04 11 19, 10:00
