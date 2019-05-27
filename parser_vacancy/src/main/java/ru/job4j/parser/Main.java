@@ -2,12 +2,8 @@ package ru.job4j.parser;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.Trigger;
-import org.quartz.impl.StdSchedulerFactory;
 import ru.job4j.parser.executer.ExecuteSqlRu;
+import ru.job4j.parser.executer.ExecuteSqlRus;
 import ru.job4j.parser.parsers.ParserSqlRu;
 
 import java.io.FileInputStream;
@@ -18,7 +14,6 @@ import java.util.Properties;
 
 import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
-import static org.quartz.TriggerBuilder.newTrigger;
 
 /**
  * Main class, entry point for parsing data
@@ -34,6 +29,7 @@ public class Main {
      * else false then file properties get from args[0]
      */
     private static final boolean DEBUG = true;
+   // private static TimeManager timeManager = new TimeManager();
     private static TimeManager timeManager = new TimeManager();
 
     public static void main(String[] args) {

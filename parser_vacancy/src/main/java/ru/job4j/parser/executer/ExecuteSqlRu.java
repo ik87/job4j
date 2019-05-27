@@ -6,6 +6,7 @@ import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import ru.job4j.parser.Parser;
 import ru.job4j.parser.StorageDB;
 import ru.job4j.parser.Utils;
 import ru.job4j.parser.entities.EntitySqlRu;
@@ -38,12 +39,11 @@ public class ExecuteSqlRu implements Job {
 
         LOG.debug("get time " + new Utils().millisToDate(lastUpdate, Utils.EUROPE_MOSCOW));
 
-        ParserSqlRu parserSqlRu = new ParserSqlRu();
-        parserSqlRu.setCondition(lastUpdate);
-        parserSqlRu.setFilter(config.getProperty("sql_ru.filter"));
+        Parser parser = new ParserSqlRu();
+        parser.setCondition(lastUpdate);
+        parser.setFilterTable(config.getProperty("sql_ru.filterTable"));
+        List<EntitySqlRu> entities = parser.getEntity();
 
-
-        List<EntitySqlRu> entities = parserSqlRu.getEntity();
         LOG.debug("Parsed");
         LOG.debug(entities);
         /**

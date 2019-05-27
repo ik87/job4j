@@ -1,7 +1,5 @@
 package ru.job4j.parser.parsers;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -11,23 +9,12 @@ import ru.job4j.parser.Parser;
 import ru.job4j.parser.entities.EntitySqlRu;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ParserSqlRu extends Parser<EntitySqlRu> {
-    private final static Logger LOG = LogManager.getLogger(ParserSqlRu.class.getName());
+
+
     private UtilsSqlRu utilsSqlRu = new UtilsSqlRu();
-    private String filter;
-    private Long condition;
 
-    public void setFilter(String filter) {
-        this.filter = filter;
-    }
-
-    public void setCondition(Long condition) {
-        this.condition = condition;
-    }
 
     @Override
     protected EntitySqlRu row(Element element) {
@@ -41,17 +28,11 @@ public class ParserSqlRu extends Parser<EntitySqlRu> {
     }
 
     @Override
-    protected Elements table(Integer index) {
-        Document doc;
-        try {
-            doc = connectToTable(index + 1);
-            Elements tr = doc.getElementsByClass("forumTable")
-                    .get(0).getElementsByTag("tr");
-            return new Elements(tr.subList(4, tr.size()));
-        } catch (IOException | IndexOutOfBoundsException e) {
-            LOG.error(e.getMessage(), e);
-        }
-        return null;
+    protected Elements table(Integer index) throws IOException {
+        Document doc = connectToTable(index + 1);
+        Elements tr = doc.getElementsByClass("forumTable")
+                .get(0).getElementsByTag("tr");
+        return new Elements(tr.subList(4, tr.size()));
     }
 
     @Override
@@ -60,15 +41,11 @@ public class ParserSqlRu extends Parser<EntitySqlRu> {
     }
 
     @Override
-    protected void page(EntitySqlRu entitySqlRu) {
-        Document doc;
-        try {
-            doc = connectToPage(entitySqlRu.link);
-            Elements elements = doc.getElementsByClass("msgBody");
-            entitySqlRu.desc = elements.get(1).text();
-        } catch (IOException e) {
-            LOG.error(e.getMessage(), e);
-        }
+    protected void page(EntitySqlRu entitySqlRu) throws IOException {
+        Document doc = connectToPage(entitySqlRu.link);
+        Elements elements = doc.getElementsByClass("msgBody");
+        entitySqlRu.desc = elements.get(1).text();
+
     }
 
     @Override
@@ -77,23 +54,18 @@ public class ParserSqlRu extends Parser<EntitySqlRu> {
     }
 
     @Override
-    protected boolean filter(EntitySqlRu entitySqlRu) {
-        Pattern pattern = Pattern.compile(filter,
-                Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(entitySqlRu.name);
-        return matcher.find();
+    protected boolean filterTable(EntitySqlRu entitySqlRu) {
+        return matchFilter(entitySqlRu.name, filterTable);
+    }
+
+    @Override
+    protected boolean filterPage(EntitySqlRu entitySqlRu) {
+        return matchFilter(entitySqlRu.desc, filterPage);
     }
 
     @Override
     protected boolean condition(EntitySqlRu entitySqlRu) {
-        try {
-            long date = utilsSqlRu.date(entitySqlRu.date);
-            //return dateToMillis <= utilsSqlRu.dateToMillis("1 янв 19, 00:00");
-            return date <= condition;
-        } catch (ParseException e) {
-            LOG.error(e.getMessage(), e);
-        }
-        return false;
+        return conditionState(utilsSqlRu.date(entitySqlRu.date));
     }
 }
 

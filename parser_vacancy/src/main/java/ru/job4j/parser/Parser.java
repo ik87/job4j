@@ -1,5 +1,7 @@
 package ru.job4j.parser;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -8,10 +10,44 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public abstract class Parser<T> implements Iterable<T> {
+
+    private final static Logger LOG = LogManager.getLogger(Parser.class.getName());
+    protected String filterTable;
+    protected String filterPage;
+    private Long condition;
+
+    public void setFilterTable(String filterTable) {
+        this.filterTable = filterTable;
+    }
+
+    public void setFilterPage(String filterPage) {
+        this.filterPage = filterPage;
+    }
+
+    public void setCondition(Long condition) {
+        this.condition = condition;
+    }
+
+    protected boolean matchFilter(String text, String filter) {
+        boolean state = true;
+        if (filter != null) {
+            Pattern pattern = Pattern.compile(filter,
+                    Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(text);
+            state = matcher.find();
+        }
+        return state;
+    }
+
+    protected boolean conditionState(Long date) {
+        return date <= condition;
+    }
 
     /**
      * Define elements the row that have to get to entity
@@ -27,7 +63,7 @@ public abstract class Parser<T> implements Iterable<T> {
      * @param index index table (1,2,3...)
      * @return
      */
-    protected abstract Elements table(Integer index);
+    protected abstract Elements table(Integer index) throws IOException;
 
     /**
      * Define settings for connect to table, use in {@link #table} method
@@ -43,7 +79,7 @@ public abstract class Parser<T> implements Iterable<T> {
      *
      * @param entity item that have to modify
      */
-    protected abstract void page(T entity);
+    protected abstract void page(T entity) throws IOException;
 
     /**
      * Define settings for connect to page, use in {@link #page} method
@@ -55,12 +91,20 @@ public abstract class Parser<T> implements Iterable<T> {
     protected abstract Document connectToPage(String url) throws IOException;
 
     /**
-     * Define filter gate
+     * Define filter table gate
      *
      * @param entity filtered entity
      * @return true if proper
      */
-    protected abstract boolean filter(T entity);
+    protected abstract boolean filterTable(T entity);
+
+    /**
+     * Define filter page gate
+     *
+     * @param entity filtered entity
+     * @return true if proper
+     */
+    protected abstract boolean filterPage(T entity);
 
     /**
      * Define state when iteration could be end
@@ -86,7 +130,12 @@ public abstract class Parser<T> implements Iterable<T> {
             T entity;
 
             {
-                rows = table(tableIndex); //get first table
+                try {
+                    rows = table(tableIndex); //get first table
+                } catch (IOException e) {
+                    LOG.error(e.getMessage(), e);
+                }
+
                 entity = nextEntity(); //prepare entity
             }
 
@@ -106,28 +155,39 @@ public abstract class Parser<T> implements Iterable<T> {
             }
 
             private T nextEntity() {
+                try {
 
-                T entity = null;
+                    T entity = null;
 
-                do {
-                    entity = row(rows.get(rowIndex++));
-                    if (rowIndex == rows.size()) {
-                        rows = table(++tableIndex);
-                        rowIndex = 0;
-                        if (rows == null) {
+                    do {
+                        entity = row(rows.get(rowIndex++));
+                        if (rowIndex == rows.size()) {
+                            rows = table(++tableIndex);
+                            rowIndex = 0;
+                            if (rows == null) {
+                                entity = null;
+                                break;
+                            }
+                        }
+                        if (condition(entity)) {
                             entity = null;
                             break;
                         }
+                        if (filterTable(entity)) {
+                            page(entity);
+                            if (filterPage(entity)) {
+                                break;
+                            }
+                        }
+                    } while (true);
+                    if (entity != null) {
+                        page(entity);
                     }
-                    if (condition(entity)) {
-                        entity = null;
-                        break;
-                    }
-                } while (!filter(entity));
-                if (entity != null) {
-                    page(entity);
+                    return entity;
+                } catch (IOException e) {
+                    LOG.error(e.getMessage(), e);
                 }
-                return entity;
+                return null;
             }
 
         };

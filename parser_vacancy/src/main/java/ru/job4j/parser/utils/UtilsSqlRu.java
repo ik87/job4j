@@ -1,5 +1,9 @@
 package ru.job4j.parser.utils;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import ru.job4j.parser.Parser;
+
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,6 +20,7 @@ import java.util.TimeZone;
  * @since 0.1
  */
 public class UtilsSqlRu {
+    private final static Logger LOG = LogManager.getLogger(UtilsSqlRu.class.getName());
     private String[] shortMonths = {
             "янв", "фев", "мар", "апр", "май", "июн",
             "июл", "авг", "сен", "окт", "ноя", "дек"};
@@ -33,7 +38,7 @@ public class UtilsSqlRu {
      * @return dateToMillis in Long format
      * @throws ParseException
      */
-    public Long date(String d) throws ParseException {
+    public Long date(String d) {
         Long time = 0L;
         dfs.setShortMonths(shortMonths);
         if (d.contains("сегодня")) {
@@ -44,7 +49,11 @@ public class UtilsSqlRu {
             SimpleDateFormat parser = new SimpleDateFormat("dd MMM yy, HH:mm", LOCALE);
             parser.setTimeZone(timeZone);
             parser.setDateFormatSymbols(dfs);
-            time = parser.parse(d).getTime();
+            try {
+                time = parser.parse(d).getTime();
+            } catch (ParseException e) {
+                LOG.error(e.getMessage(), e);
+            }
 
         }
         return time;

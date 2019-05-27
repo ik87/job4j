@@ -39,7 +39,7 @@ public class ParserSqlRuTest {
             }
         };
 
-        parserSqlRu.setFilter("(?!java\\W*script)(java)");
+        parserSqlRu.setFilterTable("(?!java\\W*script)(java)");
         parserSqlRu.setCondition(new Utils().dateToMillis("01 01 19, 00:00", Utils.EUROPE_MOSCOW));
 
         List<EntitySqlRu> result = parserSqlRu.getEntity();

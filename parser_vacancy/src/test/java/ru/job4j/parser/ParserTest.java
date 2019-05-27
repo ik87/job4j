@@ -15,7 +15,7 @@ public class ParserTest {
     public void parseSqlRu() {
         ParserSqlRu parserSqlRu = new ParserSqlRu();
         parserSqlRu.setCondition(new Utils().dateToMillis("1 01 19, 00:00", Utils.EUROPE_MOSCOW));
-        parserSqlRu.setFilter("(?!java\\W*script)(java)");
+        parserSqlRu.setFilterTable("(?!java\\W*script)(java)");
 
         for (EntitySqlRu entitySqlRu : parserSqlRu) {
             System.out.print(entitySqlRu);
