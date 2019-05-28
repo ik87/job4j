@@ -4,7 +4,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import ru.job4j.parser.entities.EntitySqlRu;
-import ru.job4j.parser.executer.ExecuteSqlRu;
 import ru.job4j.parser.parsers.ParserSqlRu;
 
 

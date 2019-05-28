@@ -3,7 +3,6 @@ package ru.job4j.parser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.parser.executer.ExecuteSqlRu;
-import ru.job4j.parser.executer.ExecuteSqlRus;
 import ru.job4j.parser.parsers.ParserSqlRu;
 
 import java.io.FileInputStream;
@@ -56,7 +55,7 @@ public class Main {
         }
 
         timeManager.putConfig(config);
-        timeManager.putJobs(ExecuteSqlRu.class);
+        timeManager.putJobs(new ExecuteSqlRu());
         timeManager.start();
 
 
