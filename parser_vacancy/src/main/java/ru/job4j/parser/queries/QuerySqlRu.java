@@ -28,8 +28,8 @@ public class QuerySqlRu extends StorageDB<EntitySqlRu> {
             pstmt.setString(1, entity.name);
             pstmt.setString(2, entity.desc);
             pstmt.setString(3, entity.link);
-            pstmt.setTimestamp(4, new Timestamp(utilsSqlRu.date(entity.date)));
-            pstmt.setTimestamp(5, new Timestamp(utilsSqlRu.date(entity.date)));
+            pstmt.setTimestamp(4, new Timestamp(entity.date));
+            pstmt.setTimestamp(5, new Timestamp(entity.date));
     }
 
 

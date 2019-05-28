@@ -18,33 +18,33 @@ import java.util.TimeZone;
  * @version $ID$
  * @since 0.1
  */
-public class UtilsSqlRu {
-    private final static Logger LOG = LogManager.getLogger(UtilsSqlRu.class.getName());
-    private String[] shortMonths = {
-            "янв", "фев", "мар", "апр", "май", "июн",
-            "июл", "авг", "сен", "окт", "ноя", "дек"};
+public class UtilsAvitoRu {
+    private final static Logger LOG = LogManager.getLogger(UtilsAvitoRu.class.getName());
+    private String[] months = {
+            "января", "февраля", "марта", "апреля", "мая", "июня",
+            "июля", "августа", "сентября", "окттября", "ноября", "декабря"};
     private DateFormatSymbols dfs = DateFormatSymbols.getInstance(LOCALE);
     private static final Locale LOCALE = new Locale("ru");
 
     /**
      * Convert parsed dateToMillis to Long
      * for example:
-     *          29 апр 19, 14:06 -> 1556535960000
-     *          сегодня, 14:06  -> 1557831960000
-     *          вчера, 14:06  -> 1557745560000
+     *          29 апрeля 14:06 -> 1556535960000
+     *          Сегодня 14:06  -> 1557831960000
+     *          Вчера 14:06  -> 1557745560000
      * @param d dateToMillis in string format
      * @return dateToMillis in Long format
      * @throws ParseException
      */
-    public Long dateToMillisRus(String d, TimeZone timeZone) {
+    public Long date(String d, TimeZone timeZone) {
         Long time = 0L;
-        dfs.setShortMonths(shortMonths);
-        if (d.contains("сегодня")) {
+        dfs.setMonths(months);
+        if (d.contains("Cегодня")) {
             time = datePeriod(d, 0, timeZone);
-        } else if (d.contains("вчера")) {
+        } else if (d.contains("Вчера")) {
             time = datePeriod(d, -1, timeZone);
         } else {
-            SimpleDateFormat parser = new SimpleDateFormat("dd MMM yy, HH:mm", LOCALE);
+            SimpleDateFormat parser = new SimpleDateFormat("dd MMMM HH:mm", LOCALE);
             parser.setTimeZone(timeZone);
             parser.setDateFormatSymbols(dfs);
             try {

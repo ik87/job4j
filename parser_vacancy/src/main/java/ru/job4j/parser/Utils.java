@@ -9,7 +9,6 @@ import java.util.*;
 
 public class Utils {
     private static final Logger LOG = LogManager.getLogger(Utils.class.getName());
-    public static final TimeZone EUROPE_MOSCOW = TimeZone.getTimeZone("Europe/Moscow");
 
 
     public Long dateToMillis(String date, TimeZone timeZone) {
@@ -24,13 +23,6 @@ public class Utils {
             LOG.error(e.getMessage(), e);
         }
         return -1L;
-    }
-
-    public String millisToDate(Long millis, TimeZone timeZone) {
-        Date date = new Date(millis);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd MM yy, HH:mm");
-        formatter.setTimeZone(timeZone);
-        return formatter.format(date);
     }
 
 

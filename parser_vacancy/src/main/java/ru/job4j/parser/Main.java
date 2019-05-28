@@ -2,7 +2,6 @@ package ru.job4j.parser;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.job4j.parser.executer.ExecuteSqlRu;
 import ru.job4j.parser.parsers.ParserSqlRu;
 
 import java.io.FileInputStream;
@@ -10,9 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
-
-import static org.quartz.CronScheduleBuilder.cronSchedule;
-import static org.quartz.JobBuilder.newJob;
 
 /**
  * Main class, entry point for parsing data
@@ -55,7 +51,6 @@ public class Main {
         }
 
         timeManager.putConfig(config);
-        timeManager.putJobs(new ExecuteSqlRu());
         timeManager.start();
 
 

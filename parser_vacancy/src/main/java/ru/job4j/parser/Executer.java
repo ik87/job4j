@@ -18,24 +18,28 @@ public class Executer implements Job {
         JobDataMap dataMap = jobExecutionContext.getJobDetail().getJobDataMap();
         Date previousFireTime = jobExecutionContext.getPreviousFireTime();
         //get filters and condition
-        String filterTable = dataMap.getString("filter_table");
-        String filterPage = dataMap.getString("filter_page");
+        Config config = (Config) dataMap.get("config");
+
+        Class<? extends StorageDB> dbClass;
+        Class<? extends Parser> parserClass;
+        Parser parser;
+
+        try {
+            dbClass = (Class<? extends StorageDB>) Class.forName("ru.job4j.parser.queries.Query" + config.getSite());
+            parserClass = (Class<? extends Parser>) Class.forName("ru.job4j.parser.parsers.Parser" + config.getSite());
+            parser = parserClass.getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            throw new JobExecutionException(e.getMessage(), e);
+        }
+
+
         Long condition = previousFireTime != null
-                ? previousFireTime.getTime() : dataMap.getLong("parse_with");
-        //get settings database String driver, String url, String username, String password
-        String driver = dataMap.getString("jdbc_driver");
-        String url = dataMap.getString("jdbc_url");
-        String username = dataMap.getString("jdbc_username");
-        String password = dataMap.getString("jdbc_password");
+                ? previousFireTime.getTime() : config.getParseWith();
 
-        Class<? extends StorageDB> db = (Class<? extends StorageDB>) dataMap.get("db");
-        Parser parser = (Parser) dataMap.get("parser");
+        config.setParseWith(condition);
 
-
-        //set parse
-        parser.setFilterTable(filterTable);
-        parser.setFilterPage(filterPage);
-        parser.setCondition(condition);
+        //set config parse
+        parser.setConfig(config);
 
         //get entities from parser
         List entities = parser.getEntity();
@@ -46,8 +50,8 @@ public class Executer implements Job {
          * put parsed dateToMillis to DB
          */
         try {
-            Connection connection = init(driver, url, username, password);
-            try (StorageDB storageDB = db.getConstructor(Connection.class).newInstance(connection)) {
+            Connection connection = init(config);
+            try (StorageDB storageDB = dbClass.getConstructor(Connection.class).newInstance(connection)) {
                 connection.setAutoCommit(false);
                 storageDB.add(entities);
                 connection.commit();
@@ -61,9 +65,9 @@ public class Executer implements Job {
     }
 
 
-    public Connection init(String driver, String url, String username, String password)
+    public Connection init(Config config)
             throws ClassNotFoundException, SQLException {
-        Class.forName(driver);
-        return DriverManager.getConnection(url, username, password);
+        Class.forName(config.getDriver());
+        return DriverManager.getConnection(config.getSubUrl(), config.getUsername(), config.getPassword());
     }
 }

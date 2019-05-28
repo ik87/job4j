@@ -3,12 +3,15 @@ package ru.job4j.parser.parsers;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
+import ru.job4j.parser.Config;
 import ru.job4j.parser.Utils;
 import ru.job4j.parser.entities.EntitySqlRu;
+import ru.job4j.parser.utils.UtilsSqlRu;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.TimeZone;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -38,14 +41,18 @@ public class ParserSqlRuTest {
                 return parseHtmlFile("/sql_ru/table.html");
             }
         };
+        TimeZone timeZone = TimeZone.getTimeZone("Europe/Moscow");
+        Config config = new Config();
+        config.setFilterTable("(?!java\\W*script)(java)");
+        config.setParseWith(new Utils().dateToMillis("01 01 19, 00:00", timeZone));
+        config.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"));
 
-        parserSqlRu.setFilterTable("(?!java\\W*script)(java)");
-        parserSqlRu.setCondition(new Utils().dateToMillis("01 01 19, 00:00", Utils.EUROPE_MOSCOW));
-
+        parserSqlRu.setConfig(config);
         List<EntitySqlRu> result = parserSqlRu.getEntity();
 
         assertThat(result.get(0).name, is("Требуется java разработчик"));
-        assertThat(result.get(0).date, is("05 мая 19, 15:01"));
+        assertThat(result.get(0).date,
+                is( new UtilsSqlRu().dateToMillisRus("05 мая 19, 15:01", timeZone)));
         assertThat(result.get(0).link, is("page.html"));
         assertThat(result.get(0).desc, is("Требуется java разработчик junior"));
 

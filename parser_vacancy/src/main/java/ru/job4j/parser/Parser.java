@@ -18,20 +18,11 @@ import java.util.stream.StreamSupport;
 public abstract class Parser<T> implements Iterable<T> {
 
     private final static Logger LOG = LogManager.getLogger(Parser.class.getName());
-    protected String filterTable;
-    protected String filterPage;
-    private Long condition;
 
-    public void setFilterTable(String filterTable) {
-        this.filterTable = filterTable;
-    }
+    protected Config config;
 
-    public void setFilterPage(String filterPage) {
-        this.filterPage = filterPage;
-    }
-
-    public void setCondition(Long condition) {
-        this.condition = condition;
+    public void setConfig(Config config) {
+        this.config = config;
     }
 
     protected boolean matchFilter(String text, String filter) {
@@ -46,7 +37,7 @@ public abstract class Parser<T> implements Iterable<T> {
     }
 
     protected boolean conditionState(Long date) {
-        return date <= condition;
+        return date <= config.getParseWith();
     }
 
     /**
@@ -84,7 +75,7 @@ public abstract class Parser<T> implements Iterable<T> {
     /**
      * Define settings for connect to page, use in {@link #page} method
      *
-     * @param url url
+     * @param url subUrl
      * @return document
      * @throws IOException if something went wrong
      */
@@ -107,7 +98,7 @@ public abstract class Parser<T> implements Iterable<T> {
     protected abstract boolean filterPage(T entity);
 
     /**
-     * Define state when iteration could be end
+     * Define siteState when iteration could be end
      *
      * @param entity
      * @return

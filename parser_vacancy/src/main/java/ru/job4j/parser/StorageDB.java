@@ -2,13 +2,10 @@ package ru.job4j.parser;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.job4j.parser.utils.UtilsSqlRu;
 
 import java.sql.*;
-import java.text.ParseException;
 import java.util.Collection;
 import java.util.Properties;
-import java.util.function.Consumer;
 
 /**
  * Main class for work with DB, save vacancy, get last dateToMillis update

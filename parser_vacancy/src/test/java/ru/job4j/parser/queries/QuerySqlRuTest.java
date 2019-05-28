@@ -2,7 +2,9 @@ package ru.job4j.parser.queries;
 
 import org.junit.Test;
 import ru.job4j.parser.Parser;
+import ru.job4j.parser.Utils;
 import ru.job4j.parser.entities.EntitySqlRu;
+import ru.job4j.parser.utils.UtilsSqlRu;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
+import java.util.TimeZone;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -23,27 +26,34 @@ public class QuerySqlRuTest {
     @Test
     public void putValueToDBThenGetCount() throws Exception {
         EntitySqlRu expected = new EntitySqlRu();
-        expected.date = "05 мая 19, 15:01";
+
+
         expected.name = "Требуется java разработчик";
         expected.desc = "Требуется java разработчик junior";
         expected.link = "vacansyPage.html";
+        expected.date = new Utils().
+                dateToMillis("01 01 19, 00:00", TimeZone.getTimeZone("Europe/Moscow"));
 
         int result = 0;
 
         //Connection connection;
-        try {
-            Connection connection = ConnectionRollback.create(init(config()));
-            try (QuerySqlRu querySqlRu = new QuerySqlRu(connection)) {
-                querySqlRu.add(List.of(expected));
-                result = querySqlRuGetCount(connection);
-                assertThat(1, is(result));
-            }
-        } catch (SQLException e) {
-            throw e;
+
+        Connection connection = ConnectionRollback.create(init(config()));
+        try (QuerySqlRu querySqlRu = new QuerySqlRu(connection)) {
+            querySqlRu.add(List.of(expected));
+            result = querySqlRuGetCount(connection);
+            assertThat(1, is(result));
         }
+
 
     }
 
+    /**
+     * Get count of rows
+     * @param connection connection
+     * @return size table
+     * @throws SQLException
+     */
     public int querySqlRuGetCount(Connection connection) throws SQLException {
         int size = 0;
         String sql = "SELECT count(*) as count FROM vacancy_sql_ru";

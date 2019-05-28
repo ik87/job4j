@@ -21,7 +21,7 @@ public class ParserSqlRu extends Parser<EntitySqlRu> {
         EntitySqlRu vacancy = new EntitySqlRu();
         var td = element.getElementsByTag("td");
         var title = td.get(1).children();
-        vacancy.date = td.get(5).text();
+        vacancy.date = utilsSqlRu.dateToMillisRus(td.get(5).text(), config.getTimeZone());
         vacancy.name = title.get(0).text();
         vacancy.link = title.get(0).attr("href");
         return vacancy;
@@ -55,17 +55,17 @@ public class ParserSqlRu extends Parser<EntitySqlRu> {
 
     @Override
     protected boolean filterTable(EntitySqlRu entitySqlRu) {
-        return matchFilter(entitySqlRu.name, filterTable);
+        return matchFilter(entitySqlRu.name, config.getFilterTable());
     }
 
     @Override
     protected boolean filterPage(EntitySqlRu entitySqlRu) {
-        return matchFilter(entitySqlRu.desc, filterPage);
+        return matchFilter(entitySqlRu.desc, config.getFilterPage());
     }
 
     @Override
     protected boolean condition(EntitySqlRu entitySqlRu) {
-        return conditionState(utilsSqlRu.date(entitySqlRu.date));
+        return conditionState(entitySqlRu.date);
     }
 }
 
