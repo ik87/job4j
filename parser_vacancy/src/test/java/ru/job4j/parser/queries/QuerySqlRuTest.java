@@ -1,6 +1,7 @@
 package ru.job4j.parser.queries;
 
 import org.junit.Test;
+import ru.job4j.parser.Config;
 import ru.job4j.parser.Parser;
 import ru.job4j.parser.Utils;
 import ru.job4j.parser.entities.EntitySqlRu;
@@ -37,7 +38,6 @@ public class QuerySqlRuTest {
         int result = 0;
 
         //Connection connection;
-
         Connection connection = ConnectionRollback.create(init(config()));
         try (QuerySqlRu querySqlRu = new QuerySqlRu(connection)) {
             querySqlRu.add(List.of(expected));
@@ -67,12 +67,16 @@ public class QuerySqlRuTest {
     }
 
     //get Properties
-    public Properties config() throws IOException {
-        Properties config;
+    public Config config() throws IOException {
+        Properties properties;
+        Config config = new Config();
         try (InputStream in = Parser.class.getClassLoader().getResourceAsStream("app.properties")) {
-            config = new Properties();
-            config.load(in);
+            properties = new Properties();
+            properties.load(in);
         }
+        config.setProp(properties);
+        config.setDB();
+
         return config;
     }
 

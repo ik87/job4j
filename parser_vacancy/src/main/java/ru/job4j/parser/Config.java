@@ -5,14 +5,15 @@ import java.util.TimeZone;
 
 public class Config implements Cloneable{
 
-    private String site;
+    private String prefix;
     private String job;
 
     private String driver;
-    private String subUrl;
+    private String dbUrl;
     private String username;
     private String password;
 
+    private String subUrl;
     private boolean siteState;
     private boolean jobState;
     private String cron;
@@ -25,15 +26,15 @@ public class Config implements Cloneable{
 
     public boolean setSite(int num) {
         clearSite();
-        String name = "site" + num;
-        this.site = prop.getProperty(name);
-        siteState = "on".equals(prop.getProperty(site + ".state"));
+        String name = "prefix" + num;
+        this.prefix = prop.getProperty(name);
+        siteState = "on".equals(prop.getProperty(prefix + ".state"));
         return prop.containsKey(name);
     }
 
     public boolean setJob(int num) {
         clearJob();
-        String name = site + ".job" + num + ".state";
+        String name = prefix + ".job" + num + ".state";
         this.job = ".job" + num;
         this.jobState = "on".equals(prop.getProperty(name));
         return prop.containsKey(name);
@@ -45,23 +46,23 @@ public class Config implements Cloneable{
         time();
     }
 
-    private void setDB() {
+    public void setDB() {
         driver = prop.getProperty("jdbc.driver");
-        subUrl = prop.getProperty("jdbc.url");
+        dbUrl = prop.getProperty("jdbc.url");
         username = prop.getProperty("jdbc.username");
         password = prop.getProperty("jdbc.password");
     }
 
-    private void setSettings() {
-        cron = prop.getProperty(site + job + ".cron");
-        filterTable = prop.getProperty(site + job + ".filter_table");
-        filterPage = prop.getProperty(site + job + ".filter_page");
-        filterPage = prop.getProperty(site + job + ".sub_url");
+    public void setSettings() {
+        cron = prop.getProperty(prefix + job + ".cron");
+        filterTable = prop.getProperty(prefix + job + ".filter_table");
+        filterPage = prop.getProperty(prefix + job + ".filter_page");
+        subUrl = prop.getProperty(prefix + job + ".sub_url");
     }
 
     private void time() {
-        String time = prop.getProperty(site + job + ".parse_with");
-        String timeZone = prop.getProperty(site + job + ".time_zone");
+        String time = prop.getProperty(prefix + job + ".parse_with");
+        String timeZone = prop.getProperty(prefix + job + ".time_zone");
 
         if (time != null && timeZone != null) {
             this.timeZone = TimeZone.getTimeZone(timeZone);
@@ -80,7 +81,7 @@ public class Config implements Cloneable{
     }
 
     private void clearSite() {
-        site = null;
+        prefix = null;
         siteState = false;
         clearJob();
     }
@@ -98,12 +99,12 @@ public class Config implements Cloneable{
         }
     }
 
-    public String getSite() {
-        return site;
+    public String getPrefix() {
+        return prefix;
     }
 
-    public void setSite(String site) {
-        this.site = site;
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 
     public String getJob() {
@@ -210,4 +211,11 @@ public class Config implements Cloneable{
         this.prop = prop;
     }
 
+    public String getDbUrl() {
+        return dbUrl;
+    }
+
+    public void setDbUrl(String dbUrl) {
+        this.dbUrl = dbUrl;
+    }
 }

@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-public abstract class Parser<T> implements Iterable<T> {
+public abstract class Parser<T extends Entity> implements Iterable<T> {
 
     private final static Logger LOG = LogManager.getLogger(Parser.class.getName());
 
@@ -87,7 +87,9 @@ public abstract class Parser<T> implements Iterable<T> {
      * @param entity filtered entity
      * @return true if proper
      */
-    protected abstract boolean filterTable(T entity);
+    protected boolean filterTable(Entity entity) {
+        return matchFilter(entity.getTextRow(), config.getFilterTable());
+    }
 
     /**
      * Define filter page gate
@@ -95,7 +97,9 @@ public abstract class Parser<T> implements Iterable<T> {
      * @param entity filtered entity
      * @return true if proper
      */
-    protected abstract boolean filterPage(T entity);
+    protected boolean filterPage(Entity entity) {
+        return matchFilter(entity.getTextPage(), config.getFilterPage());
+    }
 
     /**
      * Define siteState when iteration could be end
@@ -103,7 +107,9 @@ public abstract class Parser<T> implements Iterable<T> {
      * @param entity
      * @return
      */
-    protected abstract boolean condition(T entity);
+    protected boolean condition(Entity entity) {
+        return conditionState(entity.getDate());
+    }
 
     /**
      * Get list entities

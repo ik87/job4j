@@ -52,20 +52,5 @@ public class ParserSqlRu extends Parser<EntitySqlRu> {
     protected Document connectToPage(String url) throws IOException {
         return Jsoup.connect(url).get();
     }
-
-    @Override
-    protected boolean filterTable(EntitySqlRu entitySqlRu) {
-        return matchFilter(entitySqlRu.name, config.getFilterTable());
-    }
-
-    @Override
-    protected boolean filterPage(EntitySqlRu entitySqlRu) {
-        return matchFilter(entitySqlRu.desc, config.getFilterPage());
-    }
-
-    @Override
-    protected boolean condition(EntitySqlRu entitySqlRu) {
-        return conditionState(entitySqlRu.date);
-    }
 }
 

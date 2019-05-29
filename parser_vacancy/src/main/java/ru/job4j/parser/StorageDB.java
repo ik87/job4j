@@ -52,12 +52,9 @@ public abstract class StorageDB<T> implements AutoCloseable {
     }
 
 
-    public static Connection init(Properties config) throws ClassNotFoundException, SQLException {
-        Class.forName(config.getProperty("jdbc.driver"));
-        return DriverManager.getConnection(
-                config.getProperty("jdbc.url"),
-                config.getProperty("jdbc.username"),
-                config.getProperty("jdbc.password")
-        );
+    public final static Connection init(Config config)
+            throws ClassNotFoundException, SQLException {
+        Class.forName(config.getDriver());
+        return DriverManager.getConnection(config.getDbUrl(), config.getUsername(), config.getPassword());
     }
 }

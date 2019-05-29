@@ -41,6 +41,8 @@ public class ParserSqlRuTest {
                 return parseHtmlFile("/sql_ru/table.html");
             }
         };
+
+
         TimeZone timeZone = TimeZone.getTimeZone("Europe/Moscow");
         Config config = new Config();
         config.setFilterTable("(?!java\\W*script)(java)");

@@ -15,7 +15,7 @@
         <Logger name="org.quartz" level="error" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
-        <Logger name="ru.job4j.parser.executer.ExecuteSqlRu" level="debug" additivity="false">
+        <Logger name="ru.job4j.parser.Executer" level="debug" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
 

@@ -1,17 +1,18 @@
 package ru.job4j.parser;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
 public class Executer implements Job {
+    private static final Logger LOG = LogManager.getLogger(Executer.class.getName());
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
@@ -19,55 +20,57 @@ public class Executer implements Job {
         Date previousFireTime = jobExecutionContext.getPreviousFireTime();
         //get filters and condition
         Config config = (Config) dataMap.get("config");
+        LOG.debug("set config is complete");
 
-        Class<? extends StorageDB> dbClass;
-        Class<? extends Parser> parserClass;
+        Class<StorageDB> dbClass;
+        Class<Parser> parserClass;
         Parser parser;
 
         try {
-            dbClass = (Class<? extends StorageDB>) Class.forName("ru.job4j.parser.queries.Query" + config.getSite());
-            parserClass = (Class<? extends Parser>) Class.forName("ru.job4j.parser.parsers.Parser" + config.getSite());
-            parser = parserClass.getDeclaredConstructor().newInstance();
+            dbClass = (Class<StorageDB>) Class.forName("ru.job4j.parser.queries.Query" + config.getPrefix());
+            parserClass = (Class<Parser>) Class.forName("ru.job4j.parser.parsers.Parser" + config.getPrefix());
         } catch (Exception e) {
             throw new JobExecutionException(e.getMessage(), e);
         }
 
+        LOG.debug("set classes is complete");
 
         Long condition = previousFireTime != null
                 ? previousFireTime.getTime() : config.getParseWith();
 
         config.setParseWith(condition);
 
+        try {
+            parser = parserClass.getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            throw new JobExecutionException(e.getMessage(), e);
+        }
+
         //set config parse
         parser.setConfig(config);
-
         //get entities from parser
         List entities = parser.getEntity();
-        System.out.println(entities);
-
+        LOG.debug("Parsed: ");
+        LOG.debug(entities);
         //put to db
         /**
          * put parsed dateToMillis to DB
          */
-        try {
-            Connection connection = init(config);
-            try (StorageDB storageDB = dbClass.getConstructor(Connection.class).newInstance(connection)) {
-                connection.setAutoCommit(false);
-                storageDB.add(entities);
-                connection.commit();
+        if(entities != null) {
+            try {
+                Connection connection = StorageDB.init(config);
+                try (StorageDB storageDB = dbClass.getConstructor(Connection.class).newInstance(connection)) {
+                    connection.setAutoCommit(false);
+                    storageDB.add(entities);
+                    connection.commit();
+                } catch (Exception e) {
+                    connection.rollback();
+                    throw new Exception(e);
+                }
             } catch (Exception e) {
-                connection.rollback();
-                throw new Exception(e);
+                throw new JobExecutionException(e.getMessage(), e);
             }
-        } catch (Exception e) {
-            throw new JobExecutionException(e.getMessage(), e);
         }
     }
 
-
-    public Connection init(Config config)
-            throws ClassNotFoundException, SQLException {
-        Class.forName(config.getDriver());
-        return DriverManager.getConnection(config.getSubUrl(), config.getUsername(), config.getPassword());
-    }
 }

@@ -18,7 +18,6 @@ import static org.quartz.TriggerBuilder.newTrigger;
  */
 public class TimeManager {
     private static final Logger LOG = LogManager.getLogger(TimeManager.class.getName());
-    private Utils utils = new Utils();
     private Properties properties;
 
     public void putConfig(Properties properties) {

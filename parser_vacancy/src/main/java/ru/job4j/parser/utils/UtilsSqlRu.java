@@ -2,6 +2,7 @@ package ru.job4j.parser.utils;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.job4j.parser.Utils;
 
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
@@ -18,7 +19,7 @@ import java.util.TimeZone;
  * @version $ID$
  * @since 0.1
  */
-public class UtilsSqlRu {
+public class UtilsSqlRu extends Utils {
     private final static Logger LOG = LogManager.getLogger(UtilsSqlRu.class.getName());
     private String[] shortMonths = {
             "янв", "фев", "мар", "апр", "май", "июн",
@@ -55,16 +56,6 @@ public class UtilsSqlRu {
 
         }
         return time;
-    }
-
-    private Long datePeriod(String d, int amount, TimeZone timeZone) {
-        Calendar cal = new GregorianCalendar(timeZone);
-        cal.add(Calendar.DATE, amount);
-        cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(d.subSequence(d.length() - 5, d.length() - 3).toString()));
-        cal.set(Calendar.MINUTE, Integer.parseInt(d.subSequence(d.length() - 2, d.length()).toString()));
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        return cal.getTimeInMillis();
     }
 
 }
