@@ -5,14 +5,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import ru.job4j.parser.Parser;
-import ru.job4j.parser.Utils;
 import ru.job4j.parser.entities.EntityAvitoRu;
-import ru.job4j.parser.utils.UtilsAvitoRu;
+import ru.job4j.parser.utils.UtilsRu;
 
 import java.io.IOException;
 
 public class ParserAvitoRu extends Parser<EntityAvitoRu> {
-    UtilsAvitoRu utilsAvitoRu = new UtilsAvitoRu();
+    UtilsRu utilsRu = new UtilsRu();
 
     @Override
     protected EntityAvitoRu row(Element element) {
@@ -21,7 +20,7 @@ public class ParserAvitoRu extends Parser<EntityAvitoRu> {
         entity.name = element.select("h3").text();
         entity.price = element.select("div > span.price").text();
         String date = element.parent().select("div.data > div").attr("data-absolute-date").trim();
-        entity.date = utilsAvitoRu.dateToMillisRus(date,config.getTimeZone());
+        entity.date = utilsRu.dateToMillisRus(date + " 19",config.getTimeZone(),"dd MMMM HH:mm yy");
         return entity;
     }
 

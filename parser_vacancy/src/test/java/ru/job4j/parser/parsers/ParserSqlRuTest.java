@@ -6,7 +6,7 @@ import org.junit.Test;
 import ru.job4j.parser.Config;
 import ru.job4j.parser.Utils;
 import ru.job4j.parser.entities.EntitySqlRu;
-import ru.job4j.parser.utils.UtilsSqlRu;
+import ru.job4j.parser.utils.UtilsRu;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class ParserSqlRuTest {
         TimeZone timeZone = TimeZone.getTimeZone("Europe/Moscow");
         Config config = new Config();
         config.setFilterTable("(?!java\\W*script)(java)");
-        config.setParseWith(new Utils().dateToMillis("01 01 19, 00:00", timeZone));
+        config.setParseWith(new Utils().dateToMillis("01 01 19, 00:00", timeZone, "dd MM yy, HH:mm"));
         config.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"));
 
         parserSqlRu.setConfig(config);
@@ -54,7 +54,7 @@ public class ParserSqlRuTest {
 
         assertThat(result.get(0).name, is("Требуется java разработчик"));
         assertThat(result.get(0).date,
-                is( new UtilsSqlRu().dateToMillisRus("05 мая 19, 15:01", timeZone)));
+                is(new UtilsRu().dateToMillisRus("05 мая 19, 15:01", timeZone, "dd MM yy, HH:mm")));
         assertThat(result.get(0).link, is("page.html"));
         assertThat(result.get(0).desc, is("Требуется java разработчик junior"));
 

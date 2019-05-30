@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.parser.StorageDB;
 import ru.job4j.parser.entities.EntitySqlRu;
-import ru.job4j.parser.utils.UtilsSqlRu;
+import ru.job4j.parser.utils.UtilsRu;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 
 public class QuerySqlRu extends StorageDB<EntitySqlRu> {
     private static final Logger LOG = LogManager.getLogger(QuerySqlRu.class.getName());
-    private UtilsSqlRu utilsSqlRu = new UtilsSqlRu();
+    private UtilsRu utilsRu = new UtilsRu();
     public QuerySqlRu(Connection connection) {
         super(connection);
     }

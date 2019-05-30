@@ -10,20 +10,17 @@ import java.util.*;
 public class Utils {
     private static final Logger LOG = LogManager.getLogger(Utils.class.getName());
 
-    public Long dateToMillis(String date, TimeZone timeZone) {
-        //04 11 19, 10:00
-        SimpleDateFormat parser = new SimpleDateFormat("dd MM yy, HH:mm");
-        parser.setTimeZone(timeZone);
-        Long time;
+    public Long dateToMillis(String date, TimeZone timeZone, String template) {
+        Long time = 0L;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(template);
+        simpleDateFormat.setTimeZone(timeZone);
         try {
-            time = parser.parse(date).getTime();
-            return time;
+            time = simpleDateFormat.parse(date).getTime();
         } catch (ParseException e) {
             LOG.error(e.getMessage(), e);
         }
-        return -1L;
+        return time;
     }
-
 
 
     protected Long datePeriod(String d, int amount, TimeZone timeZone) {

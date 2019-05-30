@@ -5,7 +5,6 @@ import ru.job4j.parser.Config;
 import ru.job4j.parser.Parser;
 import ru.job4j.parser.Utils;
 import ru.job4j.parser.entities.EntitySqlRu;
-import ru.job4j.parser.utils.UtilsSqlRu;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +32,7 @@ public class QuerySqlRuTest {
         expected.desc = "Требуется java разработчик junior";
         expected.link = "vacansyPage.html";
         expected.date = new Utils().
-                dateToMillis("01 01 19, 00:00", TimeZone.getTimeZone("Europe/Moscow"));
+                dateToMillis("01 01 19, 00:00", TimeZone.getTimeZone("Europe/Moscow"), "dd MM yy, HH:mm");
 
         int result = 0;
 

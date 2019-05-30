@@ -66,7 +66,7 @@ public class Config implements Cloneable{
 
         if (time != null && timeZone != null) {
             this.timeZone = TimeZone.getTimeZone(timeZone);
-            parseWith = new Utils().dateToMillis(time, this.timeZone);
+            parseWith = new Utils().dateToMillis(time, this.timeZone,"DD MM yy, HH:mm");
         }
 
     }

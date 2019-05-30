@@ -4,7 +4,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import ru.job4j.parser.utils.UtilsSqlRu;
+import ru.job4j.parser.utils.UtilsRu;
 import ru.job4j.parser.Parser;
 import ru.job4j.parser.entities.EntitySqlRu;
 
@@ -13,7 +13,7 @@ import java.io.IOException;
 public class ParserSqlRu extends Parser<EntitySqlRu> {
 
 
-    private UtilsSqlRu utilsSqlRu = new UtilsSqlRu();
+    private UtilsRu utilsRu = new UtilsRu();
 
 
     @Override
@@ -21,7 +21,8 @@ public class ParserSqlRu extends Parser<EntitySqlRu> {
         EntitySqlRu vacancy = new EntitySqlRu();
         var td = element.getElementsByTag("td");
         var title = td.get(1).children();
-        vacancy.date = utilsSqlRu.dateToMillisRus(td.get(5).text(), config.getTimeZone());
+        vacancy.date = utilsRu.dateToMillisRus(td.get(5).text(),
+                config.getTimeZone(), "dd MMM yy, HH:mm");
         vacancy.name = title.get(0).text();
         vacancy.link = title.get(0).attr("href");
         return vacancy;
