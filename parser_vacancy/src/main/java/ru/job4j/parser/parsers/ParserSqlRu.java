@@ -11,6 +11,13 @@ import ru.job4j.parser.entities.EntitySqlRu;
 import java.io.IOException;
 import java.util.TimeZone;
 
+/**
+ * Defines some methods that used in Parser
+ *
+ * @author Kosolapov Ilya (d_dexter@mail.ru)
+ * @version $ID$
+ * @since 0.1
+ */
 public class ParserSqlRu extends Parser<EntitySqlRu> {
     private Utils utilsRu = new Utils();
     private TimeZone timeZone = TimeZone.getTimeZone("Europe/Moscow");

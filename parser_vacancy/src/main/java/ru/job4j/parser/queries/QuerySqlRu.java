@@ -7,13 +7,17 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
+/**
+ * Child class for work with Database, this class override some methods
+ *
+ * @author Kosolapov Ilya (d_dexter@mail.ru)
+ * @version $ID$
+ * @since 0.1
+ */
 public class QuerySqlRu extends StorageDB<EntitySqlRu> {
-   // public QuerySqlRu(Connection connection) {
-   //     super(connection);
-  //  }
 
     @Override
-    protected String sqlQuery() {
+    protected String sqlInsertQuery() {
         return "INSERT INTO vacancy_sql_ru (name, description, link, updated) VALUES (?, ?, ?, ?)"
                 + "ON CONFLICT (name) DO UPDATE SET updated = ?";
     }

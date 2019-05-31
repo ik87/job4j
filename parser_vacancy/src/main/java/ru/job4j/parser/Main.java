@@ -19,7 +19,6 @@ import java.util.TimeZone;
  */
 public class Main {
 
-
     private static final Logger LOG = LogManager.getLogger(Main.class.getName());
     /**
      * if debug true then properties get from resources
@@ -61,6 +60,7 @@ public class Main {
         parserSqlRu.setCondition(condition);
         parserSqlRu.setFilter(filter);
 
+        //Load all needs to timeManager
         timeManager.setProperties(config);
         timeManager.setExecute(Executer.class);
         timeManager.setConnectDB(connectDB);

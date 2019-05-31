@@ -10,6 +10,8 @@ import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
 /**
+ * Main class define Time manager that use quartz api
+ *
  * @author Kosolapov Ilya (d_dexter@mail.ru)
  * @version $ID$
  * @since 0.1
@@ -41,6 +43,10 @@ public class TimeManager {
         this.storageDB = storageDB;
     }
 
+    /**
+     * Main method. After some preparing it can start job
+     * @throws SchedulerException if something went wrong
+     */
     public void start() throws SchedulerException {
 
             // Grab the Scheduler instance from the Factory

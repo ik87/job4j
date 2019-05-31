@@ -2,6 +2,11 @@ package ru.job4j.parser.entities;
 
 import ru.job4j.parser.Entity;
 
+/**
+ * @author Kosolapov Ilya (d_dexter@mail.ru)
+ * @version $ID$
+ * @since 0.1
+ */
 public class EntitySqlRu implements Entity {
 
     public String name;

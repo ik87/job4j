@@ -12,6 +12,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * Utils, some classes for work with date, load property
+ *
+ * @author Kosolapov Ilya (d_dexter@mail.ru)
+ * @version $ID$
+ * @since 0.1
+ */
 public class Utils {
     private static final Logger LOG = LogManager.getLogger(Utils.class.getName());
     private String[] shortMonths = {
@@ -28,7 +35,7 @@ public class Utils {
      * Вчера 14:06  -> 1557745560000
      *
      * @param date dateToMillis in string format
-     * @return dateToMillis in Long format
+     * @return date in Long format
      */
     public Long dateToMillisRus(String date, TimeZone timeZone, String template) {
         Long time = 0L;
@@ -42,7 +49,13 @@ public class Utils {
         return time;
     }
 
-
+    /**
+     * General class for working with date
+     * @param date any date
+     * @param timeZone any timezone
+     * @param template any template
+     * @return date in Long format
+     */
     public Long dateToMillis(String date, TimeZone timeZone, String template) {
         Long time = 0L;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(template, LOCALE);
@@ -57,7 +70,13 @@ public class Utils {
         return time;
     }
 
-
+    /**
+     * Helpers method for processing date in short word view
+     * @param d
+     * @param amount amount, number from this date. Where 0 means Today, -1 Yesterday
+     * @param timeZone timezone
+     * @return date in Long format
+     */
     protected Long datePeriod(String d, int amount, TimeZone timeZone) {
         Calendar cal = new GregorianCalendar(timeZone);
         cal.add(Calendar.DATE, amount);

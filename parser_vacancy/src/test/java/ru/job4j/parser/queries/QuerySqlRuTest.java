@@ -18,13 +18,20 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 import static ru.job4j.parser.StorageDB.init;
 
+/**
+ * Test QuerySQL
+ *
+ * @author Kosolapov Ilya (d_dexter@mail.ru)
+ * @version $ID$
+ * @since 0.1
+ */
 public class QuerySqlRuTest {
 
     @Test
     public void putValueToDBThenGetCount() throws Exception {
         Utils utils = new Utils();
+        //Create Entity date
         EntitySqlRu expected = new EntitySqlRu();
-
         expected.name = "Требуется java разработчик";
         expected.desc = "Требуется java разработчик junior";
         expected.link = "vacansyPage.html";
@@ -35,11 +42,12 @@ public class QuerySqlRuTest {
                         "dd MM yy, HH:mm"
                 );
 
-        int result;
 
+        //Instance StorageDB
         StorageDB querySqlRu = new QuerySqlRu();
         ConnectDB connectDB = () -> ConnectionRollback.create(init(utils.config()));
 
+        int result;
         try (Connection connection = connectDB.getInstance()) {
             querySqlRu.setConnection(connection);
             querySqlRu.add(List.of(expected));

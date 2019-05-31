@@ -15,6 +15,15 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+/**
+ * Main class for work with parsing any html kind of "Table and Page",
+ * this abstract class perform general logic, and
+ * child classes must overload some methods
+ *
+ * @author Kosolapov Ilya (d_dexter@mail.ru)
+ * @version $ID$
+ * @since 0.1
+ */
 public abstract class Parser<T extends Entity> implements Iterable<T> {
 
     private final static Logger LOG = LogManager.getLogger(Parser.class.getName());

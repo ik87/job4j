@@ -5,7 +5,8 @@ import java.util.Collection;
 import java.util.Properties;
 
 /**
- * Main class for work with DB, save vacancy, get last dateToMillis update
+ * Main class for work with Database, this abstract class perform general logic,
+ * child classes must overload some methods
  *
  * @author Kosolapov Ilya (d_dexter@mail.ru)
  * @version $ID$
@@ -15,8 +16,19 @@ public abstract class StorageDB<T> {
 
     Connection connection;
 
-    protected abstract String sqlQuery();
+    /**
+     * Define sql query kind of
+     * "INSERT INTO table (name, description, link, updated) VALUES (?, ?, ?, ?)"
+     * @return String query
+     */
+    protected abstract String sqlInsertQuery();
 
+    /**
+     * This method needs to link members entity and Prepared Statement together
+     * @param pstmt
+     * @param entity
+     * @throws SQLException
+     */
     protected abstract void putEntities(PreparedStatement pstmt, T entity) throws SQLException;
 
     public void setConnection(Connection connection) {
@@ -29,7 +41,7 @@ public abstract class StorageDB<T> {
      * @param entities Collection parsed entities
      */
     public void add(Collection<T> entities) throws SQLException {
-        PreparedStatement pstmt = connection.prepareStatement(sqlQuery());
+        PreparedStatement pstmt = connection.prepareStatement(sqlInsertQuery());
         for (T entity : entities) {
             putEntities(pstmt, entity);
             pstmt.addBatch();
@@ -37,7 +49,13 @@ public abstract class StorageDB<T> {
         pstmt.executeBatch();
     }
 
-
+    /**
+     * Use for making connect
+     * @param config config, it could be Utils::config method
+     * @return connect
+     * @throws ClassNotFoundException can throws
+     * @throws SQLException  can throws
+     */
     public static Connection init(Properties config)
             throws ClassNotFoundException, SQLException {
         Class.forName(config.getProperty("jdbc.driver"));
