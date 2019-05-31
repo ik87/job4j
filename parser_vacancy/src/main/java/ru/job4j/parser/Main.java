@@ -2,13 +2,19 @@ package ru.job4j.parser;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.quartz.SchedulerException;
 import ru.job4j.parser.parsers.ParserSqlRu;
+import ru.job4j.parser.queries.QuerySqlRu;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
+import java.util.TimeZone;
 
 /**
  * Main class, entry point for parsing data
@@ -18,22 +24,24 @@ import java.util.Properties;
  * @since 0.1
  */
 public class Main {
+
+
     private static final Logger LOG = LogManager.getLogger(Main.class.getName());
     /**
      * if debug true then properties get from resources
      * else false then file properties get from args[0]
      */
     private static final boolean DEBUG = true;
-   // private static TimeManager timeManager = new TimeManager();
+    // private static TimeManager timeManager = new TimeManager();
     private static TimeManager timeManager = new TimeManager();
 
     public static void main(String[] args) {
-
+        Utils utils = new Utils();
         Properties config = new Properties();
         if (DEBUG) {
             //get properties from resources\app.properties
             try {
-                config = config();
+                config = utils.config();
                 LOG.info("load property...");
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
@@ -50,26 +58,27 @@ public class Main {
             }
         }
 
-        timeManager.putConfig(config);
-        timeManager.start();
+        TimeZone timeZone = TimeZone.getTimeZone("Europe/Moscow");
+        String filter = "(?!java\\W*script)(java)";
+        Long condition = utils.dateToMillis("01 01 19, 00:00", timeZone, "dd MM yy, HH:mm");
 
+        Parser parserSqlRu = new ParserSqlRu();
+        parserSqlRu.setCondition(condition);
+        parserSqlRu.setFilter(filter);
 
-    }
+        timeManager.setProperties(config);
+        timeManager.setExecute(Executer.class);
+        timeManager.setConnectDB(new ConnectDBAutoCommitOff(config));
+        timeManager.setParser(parserSqlRu);
+        timeManager.setStorageDB(new QuerySqlRu());
 
-
-    /**
-     * Get properties from resources  and decoding cyrillic
-     *
-     * @return Properties
-     * @throws IOException if file not found
-     */
-    private static Properties config() throws IOException {
-        Properties config;
-        try (InputStream in = ParserSqlRu.class.getClassLoader().getResourceAsStream("app.properties");
-             InputStreamReader inEnc = new InputStreamReader(in, "UTF-8");) {
-            config = new Properties();
-            config.load(inEnc);
+        try {
+            timeManager.start();
+        } catch (SchedulerException e) {
+            LOG.error(e.getMessage(), e);
         }
-        return config;
+
+
     }
+
 }

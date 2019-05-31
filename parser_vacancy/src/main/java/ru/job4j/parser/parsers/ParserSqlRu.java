@@ -4,25 +4,30 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import ru.job4j.parser.utils.UtilsRu;
+import ru.job4j.parser.Utils;
 import ru.job4j.parser.Parser;
 import ru.job4j.parser.entities.EntitySqlRu;
 
 import java.io.IOException;
+import java.util.TimeZone;
 
 public class ParserSqlRu extends Parser<EntitySqlRu> {
-
-
-    private UtilsRu utilsRu = new UtilsRu();
+    private Utils utilsRu = new Utils();
+    private TimeZone timeZone = TimeZone.getTimeZone("Europe/Moscow");
 
 
     @Override
     protected EntitySqlRu row(Element element) {
+
+
         EntitySqlRu vacancy = new EntitySqlRu();
         var td = element.getElementsByTag("td");
         var title = td.get(1).children();
-        vacancy.date = utilsRu.dateToMillisRus(td.get(5).text(),
-                config.getTimeZone(), "dd MMM yy, HH:mm");
+        vacancy.date = utilsRu.dateToMillisRus(
+                td.get(5).text(),
+                timeZone,
+                "dd MMM yy, HH:mm"
+        );
         vacancy.name = title.get(0).text();
         vacancy.link = title.get(0).attr("href");
         return vacancy;

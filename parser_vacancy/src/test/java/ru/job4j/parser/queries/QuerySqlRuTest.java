@@ -1,8 +1,9 @@
 package ru.job4j.parser.queries;
 
 import org.junit.Test;
-import ru.job4j.parser.Config;
+import ru.job4j.parser.ConnectDB;
 import ru.job4j.parser.Parser;
+import ru.job4j.parser.StorageDB;
 import ru.job4j.parser.Utils;
 import ru.job4j.parser.entities.EntitySqlRu;
 
@@ -27,18 +28,23 @@ public class QuerySqlRuTest {
     public void putValueToDBThenGetCount() throws Exception {
         EntitySqlRu expected = new EntitySqlRu();
 
-
         expected.name = "Требуется java разработчик";
         expected.desc = "Требуется java разработчик junior";
         expected.link = "vacansyPage.html";
         expected.date = new Utils().
-                dateToMillis("01 01 19, 00:00", TimeZone.getTimeZone("Europe/Moscow"), "dd MM yy, HH:mm");
+                dateToMillis(
+                        "01 01 19, 00:00",
+                        TimeZone.getTimeZone("Europe/Moscow"),
+                        "dd MM yy, HH:mm"
+                );
 
         int result = 0;
 
-        //Connection connection;
-        Connection connection = ConnectionRollback.create(init(config()));
-        try (QuerySqlRu querySqlRu = new QuerySqlRu(connection)) {
+        StorageDB querySqlRu = new QuerySqlRu();
+        ConnectDB connectDB = () -> ConnectionRollback.create(init(config()));
+
+        try (Connection connection = connectDB.getInstance()) {
+            querySqlRu.setConnection(connection);
             querySqlRu.add(List.of(expected));
             result = querySqlRuGetCount(connection);
             assertThat(1, is(result));
@@ -49,11 +55,12 @@ public class QuerySqlRuTest {
 
     /**
      * Get count of rows
+     *
      * @param connection connection
      * @return size table
      * @throws SQLException
      */
-    public int querySqlRuGetCount(Connection connection) throws SQLException {
+    public static int querySqlRuGetCount(Connection connection) throws SQLException {
         int size = 0;
         String sql = "SELECT count(*) as count FROM vacancy_sql_ru";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -66,17 +73,13 @@ public class QuerySqlRuTest {
     }
 
     //get Properties
-    public Config config() throws IOException {
+    public static Properties config() throws IOException {
         Properties properties;
-        Config config = new Config();
         try (InputStream in = Parser.class.getClassLoader().getResourceAsStream("app.properties")) {
             properties = new Properties();
             properties.load(in);
         }
-        config.setProp(properties);
-        config.setDB();
-
-        return config;
+        return properties;
     }
 
     /**
@@ -100,7 +103,6 @@ public class QuerySqlRuTest {
                     (proxy, method, args) -> {
                         Object rsl = null;
                         if ("close".equals(method.getName())) {
-                            //  connection.commit();
                             connection.rollback();
                             connection.close();
                         } else {

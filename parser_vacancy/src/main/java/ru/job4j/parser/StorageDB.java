@@ -14,16 +14,16 @@ import java.util.Properties;
  * @version $ID$
  * @since 0.1
  */
-public abstract class StorageDB<T> implements AutoCloseable {
+public abstract class StorageDB<T> {
     private static final Logger LOG = LogManager.getLogger(StorageDB.class.getName());
 
-    private Connection connection;
+    Connection connection;
 
     protected abstract String sqlQuery();
 
     protected abstract void putEntities(PreparedStatement pstmt, T entity) throws Exception;
 
-    public StorageDB(Connection connection) {
+    public void setConnection(Connection connection) {
         this.connection = connection;
     }
 
@@ -40,21 +40,26 @@ public abstract class StorageDB<T> implements AutoCloseable {
             }
             pstmt.executeBatch();
         } catch (Exception e) {
+            try {
+                if (!connection.getAutoCommit()) {
+                    connection.rollback();
+                }
+            } catch (Exception d) {
+                LOG.error(e.getMessage(), e);
+            }
             LOG.error(e.getMessage(), e);
         }
     }
 
-    @Override
-    public void close() throws Exception {
-        if (connection != null) {
-            connection.close();
-        }
-    }
 
-
-    public final static Connection init(Config config)
+    public final static Connection init(Properties config)
             throws ClassNotFoundException, SQLException {
-        Class.forName(config.getDriver());
-        return DriverManager.getConnection(config.getDbUrl(), config.getUsername(), config.getPassword());
+        Class.forName(config.getProperty("jdbc.driver"));
+        return DriverManager
+                .getConnection(
+                        config.getProperty("jdbc.url"),
+                        config.getProperty("jdbc.username"),
+                        config.getProperty("jdbc.password")
+                );
     }
 }

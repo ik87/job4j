@@ -19,25 +19,19 @@ public abstract class Parser<T extends Entity> implements Iterable<T> {
 
     private final static Logger LOG = LogManager.getLogger(Parser.class.getName());
 
-    protected Config config;
+    private String filter;
+    private Long condition;
 
-    public void setConfig(Config config) {
-        this.config = config;
+    public void setCondition(Long condition) {
+        this.condition = condition;
     }
 
-    protected boolean matchFilter(String text, String filter) {
-        boolean state = true;
-        if (filter != null) {
-            Pattern pattern = Pattern.compile(filter,
-                    Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(text);
-            state = matcher.find();
-        }
-        return state;
+    public void setFilter(String filter) {
+        this.filter = filter;
     }
 
     protected boolean conditionState(Long date) {
-        return date <= config.getParseWith();
+        return date <= condition;
     }
 
     /**
@@ -88,18 +82,16 @@ public abstract class Parser<T extends Entity> implements Iterable<T> {
      * @return true if proper
      */
     protected boolean filterTable(Entity entity) {
-        return matchFilter(entity.getTextRow(), config.getFilterTable());
+        boolean state = true;
+        if (filter != null) {
+            Pattern pattern = Pattern.compile(filter,
+                    Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(entity.getTextRow());
+            state = matcher.find();
+        }
+        return state;
     }
 
-    /**
-     * Define filter page gate
-     *
-     * @param entity filtered entity
-     * @return true if proper
-     */
-    protected boolean filterPage(Entity entity) {
-        return matchFilter(entity.getTextPage(), config.getFilterPage());
-    }
 
     /**
      * Define siteState when iteration could be end
@@ -172,14 +164,9 @@ public abstract class Parser<T extends Entity> implements Iterable<T> {
                         }
                         if (filterTable(entity)) {
                             page(entity);
-                            if (filterPage(entity)) {
-                                break;
-                            }
+                            break;
                         }
                     } while (true);
-                    if (entity != null) {
-                        page(entity);
-                    }
                     return entity;
                 } catch (IOException e) {
                     LOG.error(e.getMessage(), e);
