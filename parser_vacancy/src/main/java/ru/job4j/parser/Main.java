@@ -2,17 +2,11 @@ package ru.job4j.parser;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.quartz.SchedulerException;
 import ru.job4j.parser.parsers.ParserSqlRu;
 import ru.job4j.parser.queries.QuerySqlRu;
 
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Properties;
 import java.util.TimeZone;
 
@@ -61,6 +55,7 @@ public class Main {
         TimeZone timeZone = TimeZone.getTimeZone("Europe/Moscow");
         String filter = "(?!java\\W*script)(java)";
         Long condition = utils.dateToMillis("01 01 19, 00:00", timeZone, "dd MM yy, HH:mm");
+        ConnectDB connectDB = () -> StorageDB.init(utils.config());
 
         Parser parserSqlRu = new ParserSqlRu();
         parserSqlRu.setCondition(condition);
@@ -68,7 +63,7 @@ public class Main {
 
         timeManager.setProperties(config);
         timeManager.setExecute(Executer.class);
-        timeManager.setConnectDB(new ConnectDBAutoCommitOff(config));
+        timeManager.setConnectDB(connectDB);
         timeManager.setParser(parserSqlRu);
         timeManager.setStorageDB(new QuerySqlRu());
 

@@ -29,7 +29,6 @@ public class Utils {
      *
      * @param date dateToMillis in string format
      * @return dateToMillis in Long format
-     * @throws ParseException
      */
     public Long dateToMillisRus(String date, TimeZone timeZone, String template) {
         Long time = 0L;
@@ -69,13 +68,6 @@ public class Utils {
         return cal.getTimeInMillis();
     }
 
-    public String millisToDate(Long millis, TimeZone timeZone) {
-        Date date = new Date(millis);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd MM yy, HH:mm");
-        formatter.setTimeZone(timeZone);
-        return formatter.format(date);
-    }
-
 
 
     /**
@@ -87,7 +79,7 @@ public class Utils {
     public Properties config() throws IOException {
         Properties config;
         try (InputStream in = ParserSqlRu.class.getClassLoader().getResourceAsStream("app.properties");
-             InputStreamReader inEnc = new InputStreamReader(in, "UTF-8");) {
+             InputStreamReader inEnc = new InputStreamReader(in, "UTF-8")) {
             config = new Properties();
             config.load(inEnc);
         }

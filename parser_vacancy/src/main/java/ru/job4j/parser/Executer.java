@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 public class Executer implements Job {
     private static final Logger LOG = LogManager.getLogger(Executer.class.getName());
@@ -37,15 +36,19 @@ public class Executer implements Job {
 
         LOG.debug("Parsed: ");
         LOG.debug(entities);
-        //put to db
-        /**
-         * put parsed dateToMillis to DB
-         */
 
+       //put parsed dateToMillis to DB
         if (entities != null) {
             try (Connection connection = connectDB.getInstance()) {
+                connection.setAutoCommit(false);
                 storageDB.setConnection(connection);
-                storageDB.add(entities);
+                try {
+                    storageDB.add(entities);
+                    connection.commit();
+                } catch (SQLException e) {
+                    connection.rollback();
+                    throw e;
+                }
             } catch (Exception e) {
                 throw new JobExecutionException(e.getMessage(), e);
             }

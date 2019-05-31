@@ -4,6 +4,7 @@ import ru.job4j.parser.StorageDB;
 import ru.job4j.parser.entities.EntitySqlRu;
 
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class QuerySqlRu extends StorageDB<EntitySqlRu> {
@@ -18,7 +19,7 @@ public class QuerySqlRu extends StorageDB<EntitySqlRu> {
     }
 
     @Override
-    protected void putEntities(PreparedStatement pstmt, EntitySqlRu entity) throws Exception {
+    protected void putEntities(PreparedStatement pstmt, EntitySqlRu entity) throws SQLException {
             pstmt.setString(1, entity.name);
             pstmt.setString(2, entity.desc);
             pstmt.setString(3, entity.link);

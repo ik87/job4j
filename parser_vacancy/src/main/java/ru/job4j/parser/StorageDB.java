@@ -1,8 +1,5 @@
 package ru.job4j.parser;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.sql.*;
 import java.util.Collection;
 import java.util.Properties;
@@ -15,13 +12,12 @@ import java.util.Properties;
  * @since 0.1
  */
 public abstract class StorageDB<T> {
-    private static final Logger LOG = LogManager.getLogger(StorageDB.class.getName());
 
     Connection connection;
 
     protected abstract String sqlQuery();
 
-    protected abstract void putEntities(PreparedStatement pstmt, T entity) throws Exception;
+    protected abstract void putEntities(PreparedStatement pstmt, T entity) throws SQLException;
 
     public void setConnection(Connection connection) {
         this.connection = connection;
@@ -32,27 +28,17 @@ public abstract class StorageDB<T> {
      *
      * @param entities Collection parsed entities
      */
-    public void add(Collection<T> entities) {
-        try (PreparedStatement pstmt = connection.prepareStatement(sqlQuery())) {
-            for (T entity : entities) {
-                putEntities(pstmt, entity);
-                pstmt.addBatch();
-            }
-            pstmt.executeBatch();
-        } catch (Exception e) {
-            try {
-                if (!connection.getAutoCommit()) {
-                    connection.rollback();
-                }
-            } catch (Exception d) {
-                LOG.error(e.getMessage(), e);
-            }
-            LOG.error(e.getMessage(), e);
+    public void add(Collection<T> entities) throws SQLException {
+        PreparedStatement pstmt = connection.prepareStatement(sqlQuery());
+        for (T entity : entities) {
+            putEntities(pstmt, entity);
+            pstmt.addBatch();
         }
+        pstmt.executeBatch();
     }
 
 
-    public final static Connection init(Properties config)
+    public static Connection init(Properties config)
             throws ClassNotFoundException, SQLException {
         Class.forName(config.getProperty("jdbc.driver"));
         return DriverManager

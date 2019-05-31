@@ -9,9 +9,6 @@
         <Logger name="ru.job4j.parser.Main" level="info" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
-        <Logger name="ru.job4j.parser.TimeManager" level="debug" additivity="false">
-            <AppenderRef ref="Console"/>
-        </Logger>
         <Logger name="org.quartz" level="error" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>

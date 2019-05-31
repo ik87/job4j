@@ -15,11 +15,6 @@ public class EntitySqlRu implements Entity {
     }
 
     @Override
-    public String getTextPage() {
-        return desc;
-    }
-
-    @Override
     public Long getDate() {
         return date;
     }

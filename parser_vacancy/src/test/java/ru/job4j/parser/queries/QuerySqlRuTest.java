@@ -2,20 +2,16 @@ package ru.job4j.parser.queries;
 
 import org.junit.Test;
 import ru.job4j.parser.ConnectDB;
-import ru.job4j.parser.Parser;
 import ru.job4j.parser.StorageDB;
 import ru.job4j.parser.Utils;
 import ru.job4j.parser.entities.EntitySqlRu;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Properties;
 import java.util.TimeZone;
 
 import static org.hamcrest.core.Is.is;
@@ -26,22 +22,23 @@ public class QuerySqlRuTest {
 
     @Test
     public void putValueToDBThenGetCount() throws Exception {
+        Utils utils = new Utils();
         EntitySqlRu expected = new EntitySqlRu();
 
         expected.name = "Требуется java разработчик";
         expected.desc = "Требуется java разработчик junior";
         expected.link = "vacansyPage.html";
-        expected.date = new Utils().
+        expected.date = utils.
                 dateToMillis(
                         "01 01 19, 00:00",
                         TimeZone.getTimeZone("Europe/Moscow"),
                         "dd MM yy, HH:mm"
                 );
 
-        int result = 0;
+        int result;
 
         StorageDB querySqlRu = new QuerySqlRu();
-        ConnectDB connectDB = () -> ConnectionRollback.create(init(config()));
+        ConnectDB connectDB = () -> ConnectionRollback.create(init(utils.config()));
 
         try (Connection connection = connectDB.getInstance()) {
             querySqlRu.setConnection(connection);
@@ -58,7 +55,7 @@ public class QuerySqlRuTest {
      *
      * @param connection connection
      * @return size table
-     * @throws SQLException
+     * @throws SQLException exception
      */
     public static int querySqlRuGetCount(Connection connection) throws SQLException {
         int size = 0;
@@ -70,16 +67,6 @@ public class QuerySqlRuTest {
             }
         }
         return size;
-    }
-
-    //get Properties
-    public static Properties config() throws IOException {
-        Properties properties;
-        try (InputStream in = Parser.class.getClassLoader().getResourceAsStream("app.properties")) {
-            properties = new Properties();
-            properties.load(in);
-        }
-        return properties;
     }
 
     /**
