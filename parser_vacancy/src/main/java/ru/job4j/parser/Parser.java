@@ -18,7 +18,7 @@ import java.util.stream.StreamSupport;
 /**
  * Main class for work with parsing any html kind of "Table and Page",
  * this abstract class perform general logic, and
- * child classes must overload some methods
+ * child classes must override some methods
  *
  * @author Kosolapov Ilya (d_dexter@mail.ru)
  * @version $ID$

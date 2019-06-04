@@ -2,7 +2,6 @@ package ru.job4j.parser;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.job4j.parser.parsers.ParserSqlRu;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -87,8 +86,6 @@ public class Utils {
         return cal.getTimeInMillis();
     }
 
-
-
     /**
      * Get properties from resources  and decoding cyrillic
      *
@@ -97,7 +94,7 @@ public class Utils {
      */
     public Properties config() throws IOException {
         Properties config;
-        try (InputStream in = ParserSqlRu.class.getClassLoader().getResourceAsStream("app.properties");
+        try (InputStream in = Utils.class.getClassLoader().getResourceAsStream("app.properties");
              InputStreamReader inEnc = new InputStreamReader(in, "UTF-8")) {
             config = new Properties();
             config.load(inEnc);

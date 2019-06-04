@@ -6,7 +6,7 @@ import java.util.Properties;
 
 /**
  * Main class for work with Database, this abstract class perform general logic,
- * child classes must overload some methods
+ * child classes must override some methods
  *
  * @author Kosolapov Ilya (d_dexter@mail.ru)
  * @version $ID$

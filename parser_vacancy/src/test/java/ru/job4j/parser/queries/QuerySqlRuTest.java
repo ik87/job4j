@@ -6,12 +6,16 @@ import ru.job4j.parser.StorageDB;
 import ru.job4j.parser.Utils;
 import ru.job4j.parser.entities.EntitySqlRu;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 import java.util.TimeZone;
 
 import static org.hamcrest.core.Is.is;
@@ -107,5 +111,7 @@ public class QuerySqlRuTest {
                     }
             );
         }
+
+
     }
 }

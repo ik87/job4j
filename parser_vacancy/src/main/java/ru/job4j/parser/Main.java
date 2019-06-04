@@ -3,6 +3,7 @@ package ru.job4j.parser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.quartz.SchedulerException;
+import ru.job4j.parser.executers.ExecuterSqlRu;
 import ru.job4j.parser.parsers.ParserSqlRu;
 import ru.job4j.parser.queries.QuerySqlRu;
 
@@ -25,8 +26,7 @@ public class Main {
      * else false then file properties get from args[0]
      */
     private static final boolean DEBUG = true;
-    // private static TimeManager timeManager = new TimeManager();
-    private static TimeManager timeManager = new TimeManager();
+
 
     public static void main(String[] args) {
         Utils utils = new Utils();
@@ -51,21 +51,8 @@ public class Main {
             }
         }
 
-        TimeZone timeZone = TimeZone.getTimeZone("Europe/Moscow");
-        String filter = "(?!java\\W*script)(java)";
-        Long condition = utils.dateToMillis("01 01 19, 00:00", timeZone, "dd MM yy, HH:mm");
-        ConnectDB connectDB = () -> StorageDB.init(utils.config());
-
-        Parser parserSqlRu = new ParserSqlRu();
-        parserSqlRu.setCondition(condition);
-        parserSqlRu.setFilter(filter);
-
-        //Load all needs to timeManager
-        timeManager.setProperties(config);
-        timeManager.setExecute(Executer.class);
-        timeManager.setConnectDB(connectDB);
-        timeManager.setParser(parserSqlRu);
-        timeManager.setStorageDB(new QuerySqlRu());
+        //
+        TimeManager timeManager = new TimeManager(config, ExecuterSqlRu.class);
 
         try {
             timeManager.start();
