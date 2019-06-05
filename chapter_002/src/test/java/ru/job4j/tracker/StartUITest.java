@@ -10,6 +10,7 @@ import java.io.PrintStream;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test
@@ -79,7 +80,7 @@ public class StartUITest {
                             item.getId(), item.getName(), item.getDesc()));
         }
         new StartUI(new StubInput(action), tracker).init();
-        assertThat(new String(out.toByteArray()).contains(expected), is(true));
+        assertTrue(new String(out.toByteArray()).contains(expected));
     }
 
     @Test

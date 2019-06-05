@@ -2,12 +2,17 @@
 language: java
 jdk:
   - openjdk11
+dist: xenial
+addons:
+  - postgresql: "9.6"
 
 services:
   - postgresql
 
 before_install:
+  - psql --version
   - psql -c 'create database tracker;' -U postgres
+  - psql -c 'create database parser;' -U postgres
 
 # используем режим обычного пользователя для сборки проекта.
 sudo: false
