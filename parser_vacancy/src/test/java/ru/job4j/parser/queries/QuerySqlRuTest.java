@@ -6,16 +6,12 @@ import ru.job4j.parser.StorageDB;
 import ru.job4j.parser.Utils;
 import ru.job4j.parser.entities.EntitySqlRu;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Properties;
 import java.util.TimeZone;
 
 import static org.hamcrest.core.Is.is;
@@ -36,15 +32,15 @@ public class QuerySqlRuTest {
         Utils utils = new Utils();
         //Create Entity date
         EntitySqlRu expected = new EntitySqlRu();
-        expected.name = "Требуется java разработчик";
-        expected.desc = "Требуется java разработчик junior";
-        expected.link = "vacansyPage.html";
-        expected.date = utils.
+        expected.setName("Требуется java разработчик");
+        expected.setDesc("Требуется java разработчик junior");
+        expected.setLink("vacansyPage.html");
+        expected.setDate(utils.
                 dateToMillis(
                         "01 01 19, 00:00",
                         TimeZone.getTimeZone("Europe/Moscow"),
                         "dd MM yy, HH:mm"
-                );
+                ));
 
 
         //Instance StorageDB

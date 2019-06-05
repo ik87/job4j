@@ -23,7 +23,7 @@ public class Main {
     private static final Logger LOG = LogManager.getLogger(Main.class.getName());
     /**
      * if debug true then properties get from resources
-     * else false then file properties get from args[0]
+     * else file properties get from args[0]
      */
     private static final boolean DEBUG = true;
 
@@ -51,7 +51,7 @@ public class Main {
             }
         }
 
-        //
+
         TimeManager timeManager = new TimeManager(config, ExecuterSqlRu.class);
 
         try {

@@ -24,11 +24,11 @@ public class QuerySqlRu extends StorageDB<EntitySqlRu> {
 
     @Override
     protected void putEntities(PreparedStatement pstmt, EntitySqlRu entity) throws SQLException {
-            pstmt.setString(1, entity.name);
-            pstmt.setString(2, entity.desc);
-            pstmt.setString(3, entity.link);
-            pstmt.setTimestamp(4, new Timestamp(entity.date));
-            pstmt.setTimestamp(5, new Timestamp(entity.date));
+            pstmt.setString(1, entity.getName());
+            pstmt.setString(2, entity.getDesc());
+            pstmt.setString(3, entity.getLink());
+            pstmt.setTimestamp(4, new Timestamp(entity.getDate()));
+            pstmt.setTimestamp(5, new Timestamp(entity.getDate()));
     }
 
 

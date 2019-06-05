@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Utils, some classes for work with date, load property
+ * Provides some methods for work with date, property
  *
  * @author Kosolapov Ilya (d_dexter@mail.ru)
  * @version $ID$

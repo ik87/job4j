@@ -18,6 +18,15 @@ import java.util.List;
 import java.util.Properties;
 import java.util.TimeZone;
 
+/**
+ * Binds together.
+ * Where messages passed by scheme: Parser -> List -> Storage
+ * and repeats them time-to-time
+ *
+ * @author Kosolapov Ilya (d_dexter@mail.ru)
+ * @version $ID$
+ * @since 0.1
+ */
 public class ExecuterSqlRu implements Job {
     private static final Logger LOG = LogManager.getLogger(ExecuterSqlRu.class.getName());
 

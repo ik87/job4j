@@ -30,13 +30,13 @@ public class ParserSqlRu extends Parser<EntitySqlRu> {
         EntitySqlRu vacancy = new EntitySqlRu();
         var td = element.getElementsByTag("td");
         var title = td.get(1).children();
-        vacancy.date = utilsRu.dateToMillisRus(
+        vacancy.setDate(utilsRu.dateToMillisRus(
                 td.get(5).text(),
                 timeZone,
                 "dd MMM yy, HH:mm"
-        );
-        vacancy.name = title.get(0).text();
-        vacancy.link = title.get(0).attr("href");
+        ));
+        vacancy.setName(title.get(0).text());
+        vacancy.setLink(title.get(0).attr("href"));
         return vacancy;
     }
 
@@ -55,9 +55,9 @@ public class ParserSqlRu extends Parser<EntitySqlRu> {
 
     @Override
     protected void page(EntitySqlRu entitySqlRu) throws IOException {
-        Document doc = connectToPage(entitySqlRu.link);
+        Document doc = connectToPage(entitySqlRu.getLink());
         Elements elements = doc.getElementsByClass("msgBody");
-        entitySqlRu.desc = elements.get(1).text();
+        entitySqlRu.setDesc(elements.get(1).text());
 
     }
 

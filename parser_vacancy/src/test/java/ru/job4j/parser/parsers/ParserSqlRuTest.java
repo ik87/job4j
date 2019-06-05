@@ -50,10 +50,10 @@ public class ParserSqlRuTest {
 
         List<EntitySqlRu> result = parserSqlRu.getEntity();
 
-        assertThat(result.get(0).name, is("Требуется java разработчик"));
-        assertThat(result.get(0).date, is(1557057660000L));
-        assertThat(result.get(0).link, is("page.html"));
-        assertThat(result.get(0).desc, is("Требуется java разработчик junior"));
+        assertThat(result.get(0).getName(), is("Требуется java разработчик"));
+        assertThat(result.get(0).getDate(), is(1557057660000L));
+        assertThat(result.get(0).getLink(), is("page.html"));
+        assertThat(result.get(0).getDesc(), is("Требуется java разработчик junior"));
 
     }
 
