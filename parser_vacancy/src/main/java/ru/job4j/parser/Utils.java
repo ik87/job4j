@@ -76,7 +76,7 @@ public class Utils {
      * @param timeZone timezone
      * @return date in Long format
      */
-    protected Long datePeriod(String d, int amount, TimeZone timeZone) {
+    private Long datePeriod(String d, int amount, TimeZone timeZone) {
         Calendar cal = new GregorianCalendar(timeZone);
         cal.add(Calendar.DATE, amount);
         cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(d.subSequence(d.length() - 5, d.length() - 3).toString()));
