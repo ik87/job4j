@@ -14,9 +14,10 @@ public class RectangleMove implements Runnable {
     public RectangleMove(Rectangle rect) {
         this.rect = rect;
     }
+
     @Override
     public void run() {
-        while (true) {
+        while (!Thread.currentThread().isInterrupted()) {
 
             if (PingPong.LIMIT_X >= (this.rect.getX() + this.rect.getWidth())) {
                 deltaX *= -1;
@@ -29,7 +30,7 @@ public class RectangleMove implements Runnable {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
         }
     }
