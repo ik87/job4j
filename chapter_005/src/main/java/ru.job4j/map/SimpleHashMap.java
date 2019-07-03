@@ -157,8 +157,8 @@ public class SimpleHashMap<K, V> implements SimpleMap<K, V> {
      * @param key      key
      * @param value    value
      * @return size of occupied cells from table 1 or 0. For example [][1][][3][][5][] size equals 3
-     * \         \
-     * [1]-[1]    [5]   linked list
+     *                                                                  \         \
+     *                                                                  [1]-[1]    [5]   linked list
      */
     private int put(Node<K, V>[] table, int capacity, K key, V value) {
         int hash = hash(key);                        //optimization hashCode()
