@@ -24,60 +24,59 @@ class Downloader implements Runnable {
         try {
             HttpURLConnection conn = (HttpURLConnection) param.getUrl().openConnection();
             int responseCode = conn.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                String fileName = "";
-                String disposition = conn.getHeaderField("Content-Disposition");
+            if (responseCode != HttpURLConnection.HTTP_OK) {
+                System.out.println("No file to download. Server replied HTTP code:" + responseCode);
+                return;
+            }
+            String fileName = "";
+            String disposition = conn.getHeaderField("Content-Disposition");
 
-                if (disposition != null) {
-                    // extracts file name from header field
-                    int index = disposition.indexOf("filename=");
-                    if (index > 0) {
-                        fileName = disposition.substring((index - 1) + 10);
-                    }
-                } else {
-                    // extracts file name from URL
-                    fileName = param.getUrl().getFile();
-                }
-                try (InputStream inputStream = conn.getInputStream();
-                     FileOutputStream outputStream = new FileOutputStream(fileName)) {
-                    int bytesRead = -1;
-                    byte[] buffer = new byte[BUFFER_SIZE];
-                    long sum = 0L;
-                    long time = System.currentTimeMillis();
-                    long maxSpeed = param.getMaxSpeed();
-                    while (!Thread.currentThread().isInterrupted()) {
-                        if ((bytesRead = inputStream.read(buffer)) != -1) {
-                            sum += bytesRead;
-                            if(param.getMaxSpeed() != 0) { //if speed didn't set then max speed
-                                if ((maxSpeed -= bytesRead) <= 0) { //the speed limited gate
-                                    try {
-                                        Thread.sleep(1000);
-                                    } catch (InterruptedException e) {
-                                        Thread.currentThread().interrupt();
-                                    }
-                                    maxSpeed = param.getMaxSpeed();
-                                }
-                            }
-                            //prints downloaded data every 1s
-                            if((System.currentTimeMillis() - time) > 1000L) {
-                                System.out.printf("%s %d kb \r", fileName, sum / 1000);
-                                time = System.currentTimeMillis();
-                            }
-                            outputStream.write(buffer, 0, bytesRead);
-                        } else {
-                            Thread.currentThread().interrupt();
-                        }
-
-
-                    }
-                    System.out.printf("%s %d kb \r", fileName, sum / 1000);
-                } catch (IOException e) {
-                    conn.disconnect();
-                    throw e;
+            if (disposition != null) {
+                // extracts file name from header field
+                int index = disposition.indexOf("filename=");
+                if (index > 0) {
+                    fileName = disposition.substring(index + 9);
                 }
             } else {
-                System.out.println("No file to download. Server replied HTTP code:" + responseCode);
+                // extracts file name from URL
+                fileName = param.getUrl().getFile();
             }
+            try (InputStream inputStream = conn.getInputStream();
+                 FileOutputStream outputStream = new FileOutputStream(fileName)) {
+                int bytesRead;
+                int sum = 0;
+                int readed = 0;
+                long time = System.currentTimeMillis();
+                byte[] buffer = new byte[BUFFER_SIZE];
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    if (Thread.currentThread().isInterrupted()) {
+                        break;
+                    }
+                    sum += bytesRead;
+                    readed += bytesRead;
+                    outputStream.write(buffer, 0, bytesRead);
+                    if (sum >= param.getMaxSpeed()) {
+                        if ((System.currentTimeMillis() - time) < 1000L) {
+                            try {
+                                Thread.sleep(1000L - (System.currentTimeMillis() - time));
+                            } catch (InterruptedException e) {
+                                Thread.currentThread().interrupt();
+                            }
+
+                        }
+                        System.out.printf("%s %d kb \r", fileName, readed / 1000);
+                        sum = 0;
+                        time = System.currentTimeMillis();
+
+
+                    }
+                }
+                System.out.printf("%s %d kb finish", fileName, readed / 1000);
+            } catch (IOException e) {
+                conn.disconnect();
+                throw e;
+            }
+
             conn.disconnect();
 
         } catch (IOException e) {

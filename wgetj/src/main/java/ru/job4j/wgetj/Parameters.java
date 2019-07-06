@@ -3,8 +3,8 @@ package ru.job4j.wgetj;
 import java.net.URL;
 
 class Parameters {
-   private URL url;
-   private int maxSpeed;
+    private URL url;
+    private int maxSpeed;
 
     public URL getUrl() {
         return url;

@@ -18,7 +18,7 @@ public class Main {
         Parameters param = new Parameters();
         if (DEBUG) {
             param.setUrl(new URL("https://github.com/ik87/TheatreSquare/archive/master.zip"));
-            param.setMaxSpeed(200);
+            param.setMaxSpeed(1000);
         } else {
             param = getParameters(args);
         }
@@ -35,9 +35,9 @@ public class Main {
                 throw new IllegalArgumentException();
             }
 
-            if (args.length > 0) {
-                param.setUrl(new URL(args[0]));
-            }
+            param.setUrl(new URL(args[0]));
+            param.setMaxSpeed(10_000); //default limited speed is 10 mb/s
+
 
             if (args.length == 2) {
                 param.setMaxSpeed(Integer.parseInt(args[1]));
