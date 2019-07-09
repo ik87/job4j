@@ -10,7 +10,7 @@ public interface UserAction {
     String key();
 
     /**
-     * Main method
+     * StreamAPI method
      */
     void execute(Input input, Tracker tracker);
 
