@@ -22,7 +22,7 @@ class Downloader implements Runnable {
     @Override
     public void run() {
         try {
-            HttpURLConnection conn = (HttpURLConnection) param.getUrl().openConnection();
+            HttpURLConnection conn = (HttpURLConnection) param.url.openConnection();
             int responseCode = conn.getResponseCode();
             if (responseCode != HttpURLConnection.HTTP_OK) {
                 System.out.println("No file to download. Server replied HTTP code:" + responseCode);
@@ -39,7 +39,7 @@ class Downloader implements Runnable {
                 }
             } else {
                 // extracts file name from URL
-                fileName = param.getUrl().getFile();
+                fileName = param.url.getFile();
             }
             try (InputStream inputStream = conn.getInputStream();
                  FileOutputStream outputStream = new FileOutputStream(fileName)) {
@@ -55,7 +55,7 @@ class Downloader implements Runnable {
                     sum += bytesRead;
                     readed += bytesRead;
                     outputStream.write(buffer, 0, bytesRead);
-                    if (sum >= param.getMaxSpeed()) {
+                    if (sum >= param.maxSpeed) {
                         if ((System.currentTimeMillis() - time) < 1000L) {
                             try {
                                 Thread.sleep(1000L - (System.currentTimeMillis() - time));
@@ -73,12 +73,10 @@ class Downloader implements Runnable {
                 }
                 System.out.printf("%s %d kb finish", fileName, readed / 1000);
             } catch (IOException e) {
-                conn.disconnect();
                 throw e;
+            } finally {
+                conn.disconnect();
             }
-
-            conn.disconnect();
-
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
