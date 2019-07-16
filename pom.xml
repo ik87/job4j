@@ -29,6 +29,7 @@
         <module>chapter_006</module>
         <module>parser_vacancy</module>
         <module>chapter_007</module>
+        <module>wgetj</module>
 
     </modules>
     <dependencies>
@@ -154,6 +155,7 @@
                 <configuration>
                     <excludes>
                         <exclude>**/pingpong/*</exclude>
+                        <exclude>**/wgetj/*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
