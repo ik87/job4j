@@ -47,20 +47,20 @@ public class RaceCondition {
         }
         /*
         Проблемма связанна с тем, что каждый поток пытается произвести инкриментацию общего рессурса.
-        Так как операция инкреминтации сама по себе не атомарна,  возникают перезатирания
+        Так как, операция инкреминтации сама по себе не атомарна,  возникают перезатирания между потоками
         что выдает не ожидаемый резултат.
         Решение:
         Если раскоментировать блок synchronized, то проблемма Race Condition будет решена, т.к  потоки не будут
-        портить атомарность инкриминтации у друг друга.
+        портить атомарность инкриминтации у друг друга. Т.е в кричитеской зоне может быть только один поток.
          */
 
         @Override
         public void run() {
             while (atomicInteger.get() < HUNDRED) {
-              //  synchronized (this) {
-                    atomicInteger.incrementAndGet();
-                    someClass.inc();
-               // }
+                //  synchronized (this) {
+                atomicInteger.incrementAndGet();
+                someClass.inc();
+                // }
             }
         }
 
@@ -70,10 +70,11 @@ public class RaceCondition {
     }
 }
 
+
 class SharedState {
     private int count = 0;
 
-    public synchronized void inc() {
+    public void inc() {
         count++;
     }
 
