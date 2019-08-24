@@ -10,5 +10,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>chapter_007</artifactId>
-
+    <dependencies>
+        <dependency>
+            <groupId>ru.job4j</groupId>
+            <artifactId>chapter_005</artifactId>
+            <version>2.0</version>
+        </dependency>
+    </dependencies>
 </project>
