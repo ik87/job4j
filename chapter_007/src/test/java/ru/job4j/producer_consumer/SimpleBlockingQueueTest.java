@@ -1,9 +1,10 @@
 package ru.job4j.producer_consumer;
 
+
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.core.Is.is;
 
 
 public class SimpleBlockingQueueTest {
@@ -11,8 +12,7 @@ public class SimpleBlockingQueueTest {
 
     @Test
     public void whenPutFiveElementsThenGetThem() throws InterruptedException {
-        SimpleBlockingQueue<Integer> blockingQueue = new SimpleBlockingQueue<>(3);
-        List<Integer> result = new ArrayList<>();
+        SimpleBlockingQueue<Integer> blockingQueue = new SimpleBlockingQueue<>(2);
         final int count = 5;
 
         Thread[] producerThread = new Thread[count];
@@ -20,38 +20,32 @@ public class SimpleBlockingQueueTest {
 
         for (int i = 0; i < count; i++) {
             (producerThread[i] = new Thread(new ProducerThread(blockingQueue))).start();
-            (consumerThread[i] = new Thread(new ConsumerThread(blockingQueue, result))).start();
+            (consumerThread[i] = new Thread(new ConsumerThread(blockingQueue))).start();
         }
 
         for (int i = 0; i < count; i++) {
             producerThread[i].join();
             consumerThread[i].join();
         }
-        
-        
+
+        assertThat(blockingQueue.size(), is(0));
 
     }
 
 
     class ConsumerThread implements Runnable {
         private SimpleBlockingQueue<Integer> simpleBlockingQueue;
-        private List<Integer> elements;
 
-        public ConsumerThread(SimpleBlockingQueue<Integer> simpleBlockingQueue, List<Integer> elements) {
+        ConsumerThread(SimpleBlockingQueue<Integer> simpleBlockingQueue) {
             this.simpleBlockingQueue = simpleBlockingQueue;
-            this.elements = elements;
-        }
-
-        public List<Integer> getElements() {
-            return elements;
         }
 
         @Override
         public void run() {
             try {
-                elements.add(simpleBlockingQueue.pool());
+                simpleBlockingQueue.pool();
             } catch (InterruptedException e) {
-                System.out.print(e.getStackTrace());
+                e.printStackTrace();
             }
         }
 
@@ -60,7 +54,7 @@ public class SimpleBlockingQueueTest {
     class ProducerThread implements Runnable {
         private SimpleBlockingQueue<Integer> simpleBlockingQueue;
 
-        public ProducerThread(SimpleBlockingQueue<Integer> simpleBlockingQueue) {
+        ProducerThread(SimpleBlockingQueue<Integer> simpleBlockingQueue) {
             this.simpleBlockingQueue = simpleBlockingQueue;
         }
 
@@ -69,7 +63,7 @@ public class SimpleBlockingQueueTest {
             try {
                 simpleBlockingQueue.offer(1);
             } catch (InterruptedException e) {
-                System.out.print(e.getStackTrace());
+                e.printStackTrace();
             }
         }
     }
