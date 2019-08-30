@@ -20,9 +20,8 @@ import java.util.Queue;
 @ThreadSafe
 public class SimpleBlockingQueue<T> {
     private static final Logger LOG = LogManager.getLogger(SimpleBlockingQueue.class.getName());
-    @GuardedBy("lock")
+    @GuardedBy("queue")
     private Queue<T> queue = new LinkedList<>();
-    private final Object lock = new Object();
 
     private int capacity;
 
@@ -34,19 +33,19 @@ public class SimpleBlockingQueue<T> {
      * Accept some elements type T,
      * if size queue more capacity then thread become waiting
      *
-     * @param value any type T
+     * @param value some element type T
      * @throws InterruptedException If happen interrupt thread
      */
     public void offer(T value) throws InterruptedException {
-        synchronized (lock) {
-            LOG.debug(Thread.currentThread().getName() + " offer");
+        synchronized (queue) {
+            LOG.debug("{} offer", Thread.currentThread().getName());
             while (queue.size() > capacity) {
-                LOG.debug(Thread.currentThread().getName() + " offer wait");
-                lock.wait();
+                LOG.debug("{} offer wait", Thread.currentThread().getName());
+                queue.wait();
             }
             queue.offer(value);
-            LOG.debug(Thread.currentThread().getName() + " offer notify");
-            lock.notify();
+            LOG.debug("{} offer notify", Thread.currentThread().getName());
+            queue.notify();
         }
     }
 
@@ -54,19 +53,19 @@ public class SimpleBlockingQueue<T> {
      * Pool some elements type T,
      * if queue empty then thread become waiting
      *
-     * @return some elements type T
+     * @return some element type T
      * @throws InterruptedException If happen interrupt thread
      */
-    public T pool() throws InterruptedException {
-        synchronized (lock) {
-            LOG.debug(Thread.currentThread().getName() + " pool");
+    public synchronized T pool() throws InterruptedException {
+        synchronized (queue) {
+            LOG.debug("{} pool", Thread.currentThread().getName());
             while (queue.size() == 0) {
-                LOG.debug(Thread.currentThread().getName() + " pool wait");
-                lock.wait();
+                LOG.debug("{} pool wait", Thread.currentThread().getName());
+                queue.wait();
             }
             T element = queue.poll();
-            LOG.debug(Thread.currentThread().getName() + " pool notify");
-            lock.notify();
+            LOG.debug("{} pool notify", Thread.currentThread().getName());
+            queue.notify();
             return element;
         }
     }
@@ -75,6 +74,8 @@ public class SimpleBlockingQueue<T> {
      * @return size of queue
      */
     public int size() {
-        return queue.size();
+        synchronized (queue) {
+            return queue.size();
+        }
     }
 }
