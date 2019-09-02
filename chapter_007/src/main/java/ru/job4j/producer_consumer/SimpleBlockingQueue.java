@@ -13,7 +13,6 @@ import java.util.Queue;
  *
  * @param <T>
  * @author Kosolapov Ilya (d_dexter@mail.ru)
- * @author Kosolapov Ilya (d_dexter@mail.ru)
  * @version $Id$
  * @since 0.1
  */
@@ -21,7 +20,7 @@ import java.util.Queue;
 public class SimpleBlockingQueue<T> {
     private static final Logger LOG = LogManager.getLogger(SimpleBlockingQueue.class.getName());
     @GuardedBy("queue")
-    private Queue<T> queue = new LinkedList<>();
+    private final Queue<T> queue = new LinkedList<>();
 
     private int capacity;
 
