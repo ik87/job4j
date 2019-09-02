@@ -55,15 +55,15 @@ public class SimpleBlockingQueue<T> {
      * @return some element type T
      * @throws InterruptedException If happen interrupt thread
      */
-    public synchronized T pool() throws InterruptedException {
+    public synchronized T poll() throws InterruptedException {
         synchronized (queue) {
-            LOG.debug("{} pool", Thread.currentThread().getName());
+            LOG.debug("{} poll", Thread.currentThread().getName());
             while (queue.size() == 0) {
-                LOG.debug("{} pool wait", Thread.currentThread().getName());
+                LOG.debug("{} poll wait", Thread.currentThread().getName());
                 queue.wait();
             }
             T element = queue.poll();
-            LOG.debug("{} pool notify", Thread.currentThread().getName());
+            LOG.debug("{} poll notify", Thread.currentThread().getName());
             queue.notify();
             return element;
         }

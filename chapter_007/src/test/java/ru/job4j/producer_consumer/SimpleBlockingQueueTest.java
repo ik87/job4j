@@ -43,7 +43,7 @@ public class SimpleBlockingQueueTest {
         @Override
         public void run() {
             try {
-                simpleBlockingQueue.pool();
+                simpleBlockingQueue.poll();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
