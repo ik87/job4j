@@ -49,6 +49,11 @@ public class ConcurrencyArrayList<E> implements SimpleList<E> {
         return copy(this.simpleList).iterator();
     }
 
+    @Override
+    public synchronized String toString() {
+        return simpleList.toString();
+    }
+
     private SimpleList<E> copy(SimpleList<E> list) {
         SimpleList<E> simpleList = new SimpleArray<>();
         for (var element : list) {
@@ -56,4 +61,5 @@ public class ConcurrencyArrayList<E> implements SimpleList<E> {
         }
         return simpleList;
     }
+
 }
