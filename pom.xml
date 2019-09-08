@@ -133,7 +133,7 @@
                             <encoding>UTF-8</encoding>
                             <consoleOutput>true</consoleOutput>
                             <failsOnError>true</failsOnError>
-                            <excludes>**/module-info.java,**/concurrency_problem/*</excludes>
+                            <excludes>**/module-info.java,**/concurrency_problem/*,**/thread_safe_singleton/*</excludes>
                             <includeTestSourceDirectory>true</includeTestSourceDirectory>
                         </configuration>
                         <goals>
@@ -164,6 +164,7 @@
                     <excludes>
                         <exclude>**/pingpong/*</exclude>
                         <exclude>**/wgetj/*</exclude>
+                        <exclude>**/thread_safe_singleton/*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
