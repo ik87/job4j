@@ -24,7 +24,7 @@ public class SimpleBlockingQueue<T> {
 
     private int capacity;
 
-    SimpleBlockingQueue(int capacity) {
+    public SimpleBlockingQueue(int capacity) {
         this.capacity = capacity;
     }
 

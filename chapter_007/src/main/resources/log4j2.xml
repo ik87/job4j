@@ -2,11 +2,14 @@
 <Configuration status="WARN">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} %msg%n"/>
+            <PatternLayout pattern="d{HH:mm:ss.SSS} %logger{36} - %msg%n"/>
         </Console>
     </Appenders>
     <Loggers>
         <Logger name="ru.job4j.producer_consumer.SimpleBlockingQueue" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="ru.job4j.pool.ThreadPool" level="debug" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
         <Root level="error">
