@@ -4,6 +4,15 @@ public class Hero implements Figure {
         this.position = cell;
     }
 
+
+
+    @Override
+    public Cell[] calcWay(Cell source, Cell dest) {
+       int vecX = Integer.compare(dest.x, source.x);
+       int vecY = Integer.compare(dest.y, source.y);
+       return null;
+    }
+
     @Override
     public Cell getPosition() {
         return position;

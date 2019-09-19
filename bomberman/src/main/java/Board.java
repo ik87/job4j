@@ -3,18 +3,15 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Board {
     private final Lock[][] board;
-    private final Hero hero;
-    //private final Monsters[];
+    private final Figure hero = new Hero(new Cell(0, 0));
 
-    public Board(int x, int y, Hero hero) {
+    public Board(int x, int y) {
         this.board = new ReentrantLock[x][y];
-        this.hero = hero;
         init();
     }
 
-    public boolean move(Cell source, Cell dist) {
-        int vecX = source.x > dist.x ? -1 : 1;
-        int vecY = source.y > dist.y ? -1 : 1;
+    public boolean move(Cell source, Cell dest) {
+
         return true;
     }
 
