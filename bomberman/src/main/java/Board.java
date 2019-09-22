@@ -3,7 +3,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Board {
     private final Lock[][] board;
-    private final Figure hero = new Hero(new Cell(0, 0));
+    //private final Figure hero = new Hero(new Cell(0, 0));
 
     public Board(int x, int y) {
         this.board = new ReentrantLock[x][y];

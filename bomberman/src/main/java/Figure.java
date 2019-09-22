@@ -1,5 +1,11 @@
 public interface Figure {
-    Cell getPosition();
-    void setPosition(Cell cell);
-    Cell[] calcWay(Cell source, Cell dest);
+
+    void leftTurn();
+
+    void rightTurn();
+
+    void mirrorTurn();
+
+    Condition move() throws InterruptedException;
+
 }
