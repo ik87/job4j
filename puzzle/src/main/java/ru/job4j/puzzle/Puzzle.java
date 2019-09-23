@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+
 import ru.job4j.puzzle.firuges.Block;
 import ru.job4j.puzzle.firuges.Cell;
 import ru.job4j.puzzle.firuges.Checker;

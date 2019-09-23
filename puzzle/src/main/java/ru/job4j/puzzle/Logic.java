@@ -71,7 +71,7 @@ public class Logic {
         for (int i = 0; i < table.length; i++) {
             if (table[i][i] == 1) {
                 boolean flag = table[i][0] == 1;
-                for (int j = 1; j < table.length; j++) {
+                for (int j = 0; j < table.length; j++) {
                     if (flag) {
                         if (table[i][j] != 1) {
                             break;
