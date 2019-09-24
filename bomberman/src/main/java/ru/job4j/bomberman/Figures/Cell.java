@@ -1,10 +1,8 @@
-package Figures;
-
-import java.util.Objects;
+package ru.job4j.bomberman.Figures;
 
 public class Cell {
-    final int x;
-    final int y;
+    int x;
+    int y;
 
     public Cell(int x, int y) {
         this.x = x;
