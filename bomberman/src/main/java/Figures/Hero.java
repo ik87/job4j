@@ -1,5 +1,8 @@
 package Figures;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Hero implements Figure {
     private final Cell position;
 
@@ -14,15 +17,20 @@ public class Hero implements Figure {
 
     @Override
     public Cell[] way(Cell source, Cell dest) {
-        Cell[] steps = new Cell[0];
-        if ((Math.abs(source.x - dest.x) + Math.abs(source.y - dest.y)) == 1) {
-            steps = new Cell[]{dest};
+        List<Cell> steps = new ArrayList<>();
+
+        int vecX = position.x < dest.x ? 1 : -1;
+        int vecY = position.y < dest.y ? 1 : -1;
+
+        for (int y = position.y; y <= dest.y;  y += vecY) {
+            steps.add(new Cell(position.x, y));
         }
-        return steps;
+
+        for (int x = position.x; x <= dest.x; x += vecX) {
+            steps.add(new Cell(x, dest.y));
+        }
+
+        return (Cell[]) steps.toArray();
     }
 
-    @Override
-    public Figure copy(Cell dest) {
-        return new Hero(dest);
-    }
 }
