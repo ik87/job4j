@@ -22,13 +22,13 @@ public class BoardTest {
         Board board = new Board(sizeBoard, hero, pool);
         board.move(null, dest);
         pool.shutdown();
-        while (!pool.isTerminated()) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+     //   while (!pool.isTerminated()) {
+     //       try {
+     ////           Thread.sleep(100);
+     //       } catch (InterruptedException e) {
+     ////           e.printStackTrace();
+      //      }
+     //   }
         assertThat(dest.getX(), is(hero.position().getX()));
         assertThat(dest.getY(), is(hero.position().getY()));
 

@@ -38,27 +38,17 @@ public class Hero implements Figure {
             yWay(steps, dest, vecY);
         }
 
-        return (Cell[]) steps.toArray();
+        return  steps.toArray(Cell[]::new);
     }
 
     private void xWay(List<Cell> steps,Cell dest, int vecX) {
-        boolean firstStep = true;
         for (int x = position.x; x <= dest.x; x += vecX) {
-            if(firstStep) {
-                firstStep = false;
-                continue;
-            }
-            steps.add(new Cell(x, dest.y));
+            steps.add(new Cell(x, position.y));
         }
     }
 
     private void yWay(List<Cell> steps,Cell dest, int vecY) {
-        boolean firstStep = true;
         for (int y = position.y; y <= dest.y;  y += vecY) {
-            if(firstStep) {
-                firstStep = false;
-                continue;
-            }
             steps.add(new Cell(position.x, y));
         }
     }

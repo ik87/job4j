@@ -42,11 +42,11 @@ public class Board {
     }
 
     public void move(Cell source, Cell dest) {
-        pool.submit(() -> {
+       // pool.submit(() -> {
             /**
              *  Get hero's way with random curve. See Example {@link Figure#way}
              */
-            Cell[] way = hero.way(dest, new Random().nextBoolean());
+            Cell[] way = hero.way(dest, false);
 
             for (int i = 1; i < way.length; i++) {
                 Cell currentStep = way[i - 1];
@@ -85,7 +85,7 @@ public class Board {
                     break;
                 }
             }
-        });
+        //});
     }
 
 }

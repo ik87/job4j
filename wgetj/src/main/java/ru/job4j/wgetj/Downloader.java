@@ -1,8 +1,11 @@
 package ru.job4j.wgetj;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import org.apache.tika.Tika;
+import org.apache.tika.mime.MimeType;
+import org.apache.tika.mime.MimeTypeException;
+import org.apache.tika.mime.MimeTypes;
+
+import java.io.*;
 import java.net.HttpURLConnection;
 
 /**
@@ -38,8 +41,22 @@ class Downloader implements Runnable {
                     fileName = disposition.substring(index + 9);
                 }
             } else {
-                // extracts file name from URL
                 fileName = param.url.getFile();
+                String type = new Tika().detect(param.url);
+                MimeTypes allType = MimeTypes.getDefaultMimeTypes();
+                MimeType extension = null;
+                try {
+                    extension = allType.forName(type);
+                } catch (MimeTypeException e) {
+
+                }
+                if (fileName.contains("/")) {
+                    String substr[] = fileName.split("/");
+                    fileName = substr[substr.length - 1] + extension.getExtension();
+
+
+                }
+
             }
             try (InputStream inputStream = conn.getInputStream();
                  FileOutputStream outputStream = new FileOutputStream(fileName)) {
@@ -71,7 +88,9 @@ class Downloader implements Runnable {
 
                     }
                 }
+
                 System.out.printf("%s %d kb finish", fileName, readed / 1000);
+
             } catch (IOException e) {
                 throw e;
             } finally {
