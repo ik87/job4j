@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 
 public class BoardTest {
     @Test
-    public void whenHeroGoThenHeCome() {
+    public void whenHeroGoThenHeCome() throws InterruptedException {
         final int sizeBoard = 4; //4x4
         Cell source = new Cell(1,0);
         Cell dest = new Cell(3,2);
@@ -21,14 +21,15 @@ public class BoardTest {
         Figure hero = new Hero(source);
         Board board = new Board(sizeBoard, hero, pool);
         board.move(null, dest);
+
         pool.shutdown();
-     //   while (!pool.isTerminated()) {
-     //       try {
-     ////           Thread.sleep(100);
-     //       } catch (InterruptedException e) {
-     ////           e.printStackTrace();
-      //      }
-     //   }
+        while (!pool.isTerminated()) {
+           try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+               e.printStackTrace();
+            }
+        }
         assertThat(dest.getX(), is(hero.position().getX()));
         assertThat(dest.getY(), is(hero.position().getY()));
 
