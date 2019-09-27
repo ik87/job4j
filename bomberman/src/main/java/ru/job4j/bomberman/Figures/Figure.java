@@ -31,5 +31,5 @@ public interface Figure {
      *
      * @return
      */
-    Cell[] way(Cell dest, boolean vertical);
+    Cell[] way(Cell source, Cell dest, boolean vertical);
 }

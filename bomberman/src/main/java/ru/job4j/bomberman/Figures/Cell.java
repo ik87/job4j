@@ -19,6 +19,6 @@ public class Cell {
 
     @Override
     public String toString() {
-        return String.format("x: %d   y: %d", x, y);
+        return String.format("[x:%d y:%d] ", x, y);
     }
 }
