@@ -19,8 +19,8 @@ public class Main {
         try {
             if (DEBUG) {
                 param = new Parameters(
-                        //new URL("https://github.com/ik87/TheatreSquare/archive/master.zip"),
-                        new URL("https://avatars.mds.yandex.net/get-pdb/231404/7723056e-1a65-4325-b324-71a46289ef78/s1200"),
+                        new URL("https://github.com/ik87/TheatreSquare/archive/master.zip"),
+                        //new URL("https://avatars.mds.yandex.net/get-pdb/231404/7723056e-1a65-4325-b324-71a46289ef78/s1200"),
                         1000
                 );
             } else {

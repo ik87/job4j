@@ -1,4 +1,4 @@
-package ru.job4j.bomberman.Figures;
+package ru.job4j.bomberman.figures;
 
 public class Cell {
     int x;

@@ -51,7 +51,7 @@ class Downloader implements Runnable {
 
                 }
                 if (fileName.contains("/")) {
-                    String substr[] = fileName.split("/");
+                    String[] substr = fileName.split("/");
                     fileName = substr[substr.length - 1] + extension.getExtension();
 
 

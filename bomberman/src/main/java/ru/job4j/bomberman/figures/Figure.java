@@ -1,4 +1,4 @@
-package ru.job4j.bomberman.Figures;
+package ru.job4j.bomberman.figures;
 
 /**
  * @author Kosolapov Ilya (d_dexter@mail.ru)
@@ -12,7 +12,7 @@ public interface Figure {
     void setPosition(Cell cell);
 
     /**
-     * Calculate way from current to dest position.
+     * Calculate way from source to dest position.
      *
      * Example:
      *

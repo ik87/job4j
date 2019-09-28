@@ -1,4 +1,4 @@
-package ru.job4j.bomberman.Figures;
+package ru.job4j.bomberman.figures;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,33 +30,32 @@ public class Hero implements Figure {
         //set motion vector
         int vecX = source.x <= dest.x ? 1 : -1;
         int vecY = source.y <= dest.y ? 1 : -1;
-        //int pos_x = position.x;
-        //int pos_y = position.y;
-        //Cell pos = new Cell(position.x, position.y);
-
 
         if (vertical) {
-
             //vertical
             way(source.y, dest.y, vecY, (y) -> steps.add(new Cell(source.x, y)));
-            //horizon
-            int pos_y = steps.remove(steps.size() - 1).y;
-            way(source.x, dest.x, vecX, (x) -> steps.add(new Cell(x, pos_y)));
+            int posY = steps.remove(steps.size() - 1).y;
+            //horizontal
+            way(source.x, dest.x, vecX, (x) -> steps.add(new Cell(x, posY)));
         } else {
-            //horizon
+            //horizontal
             way(source.x, dest.x, vecX, (x) -> steps.add(new Cell(x, source.y)));
+            int posX = steps.remove(steps.size() - 1).x;
             //vertical
-            int pos_x = steps.remove(steps.size() - 1).x;
-            way(source.y, dest.y, vecY, (y) -> steps.add(new Cell(pos_x, y)));
+            way(source.y, dest.y, vecY, (y) -> steps.add(new Cell(posX, y)));
         }
 
         return steps.toArray(Cell[]::new);
     }
 
+    /**
+     * Calc steps
+     */
     private void way(int source, int dest, int vec, Consumer<Integer> consumer) {
-        for (; source <= dest; source += vec) {
+        for (; source != dest; source += vec) {
             consumer.accept(source);
         }
+        consumer.accept(dest);
     }
 
     @Override
