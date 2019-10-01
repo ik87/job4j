@@ -3,7 +3,6 @@ package ru.job4j.bomberman;
 import org.junit.Ignore;
 import org.junit.Test;
 import ru.job4j.bomberman.figures.Cell;
-import ru.job4j.bomberman.figures.Figure;
 import ru.job4j.bomberman.figures.Hero;
 
 import java.util.concurrent.ExecutorService;
@@ -55,7 +54,7 @@ public class BoardTest {
         Cell source = new Cell(3, 3);
         Cell dest = new Cell(1, 0);
         ExecutorService pool = Executors.newFixedThreadPool(1);
-        Figure hero = new Hero(source);
+        Hero hero = new Hero(source);
         Board board = new Board(lockBoard, hero, pool);
         board.move(null, dest);
 
@@ -67,8 +66,8 @@ public class BoardTest {
                 e.printStackTrace();
             }
         }
-        assertThat(dest.getX(), is(hero.position().getX()));
-        assertThat(dest.getY(), is(hero.position().getY()));
+        assertThat(dest.getX(), is(hero.getPosition().getX()));
+        assertThat(dest.getY(), is(hero.getPosition().getY()));
     }
 
 
@@ -92,7 +91,7 @@ public class BoardTest {
         Cell source = new Cell(0, 0);
         Cell dest = new Cell(3, 2);
         ExecutorService pool = Executors.newFixedThreadPool(1);
-        Figure hero = new Hero(source);
+        Hero hero = new Hero(source);
         Board board = new Board(lockBoard, hero, pool);
         board.move(null, dest);
 
@@ -104,8 +103,8 @@ public class BoardTest {
                e.printStackTrace();
             }
         }
-        assertThat(dest.getX(), is(hero.position().getX()));
-        assertThat(dest.getY(), is(hero.position().getY()));
+        assertThat(dest.getX(), is(hero.getPosition().getX()));
+        assertThat(dest.getY(), is(hero.getPosition().getY()));
     }
     @Ignore
     @Test
@@ -127,7 +126,7 @@ public class BoardTest {
         Cell source = new Cell(0, 2);
         Cell dest = new Cell(3, 0);
         ExecutorService pool = Executors.newFixedThreadPool(1);
-        Figure hero = new Hero(source);
+        Hero hero = new Hero(source);
         Board board = new Board(lockBoard, hero, pool);
         board.move(null, dest);
 
@@ -139,8 +138,8 @@ public class BoardTest {
                 e.printStackTrace();
             }
         }
-        assertThat(dest.getX(), is(hero.position().getX()));
-        assertThat(dest.getY(), is(hero.position().getY()));
+        assertThat(dest.getX(), is(hero.getPosition().getX()));
+        assertThat(dest.getY(), is(hero.getPosition().getY()));
     }
     @Ignore
     @Test
@@ -162,7 +161,7 @@ public class BoardTest {
         Cell source = new Cell(3, 3);
         Cell dest = new Cell(1, 0);
         ExecutorService pool = Executors.newFixedThreadPool(1);
-        Figure hero = new Hero(source);
+        Hero hero = new Hero(source);
         Board board = new Board(lockBoard, hero, pool);
         board.move(null, dest);
 
@@ -174,8 +173,8 @@ public class BoardTest {
                 e.printStackTrace();
             }
         }
-        assertThat(dest.getX(), is(hero.position().getX()));
-        assertThat(dest.getY(), is(hero.position().getY()));
+        assertThat(dest.getX(), is(hero.getPosition().getX()));
+        assertThat(dest.getY(), is(hero.getPosition().getY()));
     }
     @Ignore
     @Test
@@ -197,7 +196,7 @@ public class BoardTest {
         Cell source = new Cell(3, 3);
         Cell dest = new Cell(1, 0);
         ExecutorService pool = Executors.newFixedThreadPool(1);
-        Figure hero = new Hero(source);
+        Hero hero = new Hero(source);
         Board board = new Board(lockBoard, hero, pool);
         board.move(null, dest);
 
@@ -209,8 +208,8 @@ public class BoardTest {
                 e.printStackTrace();
             }
         }
-        assertThat(dest.getX(), is(hero.position().getX()));
-        assertThat(dest.getY(), is(hero.position().getY()));
+        assertThat(dest.getX(), is(hero.getPosition().getX()));
+        assertThat(dest.getY(), is(hero.getPosition().getY()));
     }
 
 }
