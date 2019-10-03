@@ -9,7 +9,7 @@ import java.util.function.Consumer;
  * @version $Id$
  * @since 0.1
  */
-public class Hero {
+public class Hero implements Figure {
 
 
     private final Cell position;
@@ -18,59 +18,13 @@ public class Hero {
         return position;
     }
 
-    public void setPosition(int x, int y) {
-        this.position.x = x;
-        this.position.y = y;
+    public void setPosition(Cell position) {
+        this.position.x = position.x;
+        this.position.y = position.y;
     }
 
     public Hero(final Cell position) {
         this.position = position;
-    }
-
-
-    /**
-     * Go at one step UP or Down from current position
-     *
-     * @param currentStep current position of Hero
-     * @param length matrix's width
-     * @param direction where is he go? If true then UP if false then DOWN
-     * @return new position
-     */
-    public Cell goUpOrDown(Cell currentStep, int length, boolean direction) {
-        Cell newSource;
-        if (currentStep.getY() + 1 < length && currentStep.getY() - 1 >= 0) {
-            newSource = direction
-                    ? new Cell(currentStep.getX(), currentStep.getY() + 1)
-                    : new Cell(currentStep.getX(), currentStep.getY() - 1);
-            //If it was horizontal collision then move hero on 1 step up or down
-        } else if (currentStep.getY() + 1 < length) {
-            newSource = new Cell(currentStep.getX(), currentStep.getY() + 1);
-        } else {
-            newSource = new Cell(currentStep.getX(), currentStep.getY() - 1);
-        }
-        return newSource;
-    }
-
-    /**
-     * Go at one step Left or Right from current position
-     *
-     * @param currentStep current position of Hero
-     * @param length matrix's height
-     * @param direction where is he go? If true then LEFT if false then RIGHT
-     * @return new position
-     */
-    public Cell goLeftOrRight(Cell currentStep, int length, boolean direction) {
-        Cell newSource;
-        if (currentStep.getX() + 1 < length && currentStep.getX() - 1 >= 0) {
-            newSource = direction
-                    ? new Cell(currentStep.getX() + 1, currentStep.getY())
-                    : new Cell(currentStep.getX() - 1, currentStep.getY());
-        } else if (currentStep.getX() + 1 < length) {
-            newSource = new Cell(currentStep.getX() + 1, currentStep.getY());
-        } else {
-            newSource = new Cell(currentStep.getX() - 1, currentStep.getY());
-        }
-        return newSource;
     }
 
 
@@ -91,6 +45,7 @@ public class Hero {
      *
      * @return array calculated way
      */
+    @Override
     public Cell[] way(Cell source, Cell dest, boolean vertical) {
         List<Cell> steps = new ArrayList<>();
         //set motion vector
@@ -123,5 +78,11 @@ public class Hero {
         }
         consumer.accept(dest);
     }
+
+    @Override
+    public String toString() {
+        return "Hero";
+    }
+
 
 }

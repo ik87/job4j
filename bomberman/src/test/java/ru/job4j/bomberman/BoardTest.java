@@ -1,12 +1,9 @@
 package ru.job4j.bomberman;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import ru.job4j.bomberman.figures.Cell;
 import ru.job4j.bomberman.figures.Hero;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -53,161 +50,15 @@ public class BoardTest {
 
         Cell source = new Cell(3, 3);
         Cell dest = new Cell(1, 0);
-        ExecutorService pool = Executors.newFixedThreadPool(1);
+
         Hero hero = new Hero(source);
-        Board board = new Board(lockBoard, hero, pool);
-        board.move(null, dest);
+        Board board = new Board(lockBoard, hero);
 
-        pool.shutdown();
-        while (!pool.isTerminated()) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        assertThat(dest.getX(), is(hero.getPosition().getX()));
-        assertThat(dest.getY(), is(hero.getPosition().getY()));
-    }
+        Thread moveHero = new Thread(() -> board.move(null, dest));
 
+        moveHero.start();
+        moveHero.join();
 
-    @Ignore
-    @Test
-    public void whenHeroRightDown() throws InterruptedException {
-        /**
-         *  S - start
-         *  F - finish
-         *  * - steps
-         *
-         * [S * * *]
-         * [* . . *]
-         * [* * * F]
-         * [. . . .]
-         */
-        final Lock[][] lockBoard = new Lock[4][4];
-
-        init2DArrayLock(lockBoard);
-
-        Cell source = new Cell(0, 0);
-        Cell dest = new Cell(3, 2);
-        ExecutorService pool = Executors.newFixedThreadPool(1);
-        Hero hero = new Hero(source);
-        Board board = new Board(lockBoard, hero, pool);
-        board.move(null, dest);
-
-        pool.shutdown();
-        while (!pool.isTerminated()) {
-           try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-               e.printStackTrace();
-            }
-        }
-        assertThat(dest.getX(), is(hero.getPosition().getX()));
-        assertThat(dest.getY(), is(hero.getPosition().getY()));
-    }
-    @Ignore
-    @Test
-    public void whenHeroRightUp() throws InterruptedException {
-        /**
-         *  S - start
-         *  F - finish
-         *  * - steps
-         *
-         * [* * * F]
-         * [* . . *]
-         * [S * * *]
-         * [. . . .]
-         */
-        final Lock[][] lockBoard = new Lock[4][4];
-
-        init2DArrayLock(lockBoard);
-
-        Cell source = new Cell(0, 2);
-        Cell dest = new Cell(3, 0);
-        ExecutorService pool = Executors.newFixedThreadPool(1);
-        Hero hero = new Hero(source);
-        Board board = new Board(lockBoard, hero, pool);
-        board.move(null, dest);
-
-        pool.shutdown();
-        while (!pool.isTerminated()) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        assertThat(dest.getX(), is(hero.getPosition().getX()));
-        assertThat(dest.getY(), is(hero.getPosition().getY()));
-    }
-    @Ignore
-    @Test
-    public void whenHeroUpLeft() throws InterruptedException {
-        /**
-         *  S - start
-         *  F - finish
-         *  * - steps
-         *
-         * [. F * *]
-         * [. * . *]
-         * [. * . *]
-         * [. * * S]
-         */
-        final Lock[][] lockBoard = new Lock[4][4];
-
-        init2DArrayLock(lockBoard);
-
-        Cell source = new Cell(3, 3);
-        Cell dest = new Cell(1, 0);
-        ExecutorService pool = Executors.newFixedThreadPool(1);
-        Hero hero = new Hero(source);
-        Board board = new Board(lockBoard, hero, pool);
-        board.move(null, dest);
-
-        pool.shutdown();
-        while (!pool.isTerminated()) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        assertThat(dest.getX(), is(hero.getPosition().getX()));
-        assertThat(dest.getY(), is(hero.getPosition().getY()));
-    }
-    @Ignore
-    @Test
-    public void whenHeroUPAndRight() throws InterruptedException {
-        /**
-         *  S - start
-         *  F - finish
-         *  * - steps
-         *
-         * [. F * *]
-         * [. * . *]
-         * [. * . *]
-         * [. * * S]
-         */
-        final Lock[][] lockBoard = new Lock[4][4];
-
-        init2DArrayLock(lockBoard);
-
-        Cell source = new Cell(3, 3);
-        Cell dest = new Cell(1, 0);
-        ExecutorService pool = Executors.newFixedThreadPool(1);
-        Hero hero = new Hero(source);
-        Board board = new Board(lockBoard, hero, pool);
-        board.move(null, dest);
-
-        pool.shutdown();
-        while (!pool.isTerminated()) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
         assertThat(dest.getX(), is(hero.getPosition().getX()));
         assertThat(dest.getY(), is(hero.getPosition().getY()));
     }
