@@ -11,7 +11,7 @@ import java.net.URL;
  */
 
 public class Main {
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     public static void main(String[] args) {
         Parameters param;
@@ -20,6 +20,7 @@ public class Main {
             if (DEBUG) {
                 param = new Parameters(
                         new URL("https://github.com/ik87/TheatreSquare/archive/master.zip"),
+                        //new URL("https://avatars.mds.yandex.net/get-pdb/231404/7723056e-1a65-4325-b324-71a46289ef78/s1200"),
                         1000
                 );
             } else {

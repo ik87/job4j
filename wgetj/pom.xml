@@ -10,7 +10,22 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>wgetj</artifactId>
+    <dependencies>
 
+    <!-- https://mvnrepository.com/artifact/org.apache.tika/tika-core -->
+    <dependency>
+        <groupId>org.apache.tika</groupId>
+        <artifactId>tika-core</artifactId>
+        <version>1.22</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.tika/tika-parsers -->
+    <dependency>
+        <groupId>org.apache.tika</groupId>
+        <artifactId>tika-parsers</artifactId>
+        <version>1.22</version>
+    </dependency>
+
+    </dependencies>
     <build>
         <plugins>
             <plugin>
