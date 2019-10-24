@@ -30,6 +30,7 @@
         <module>parser_vacancy</module>
         <module>chapter_007</module>
         <module>wgetj</module>
+        <module>mail</module>
 
     </modules>
     <dependencies>
