@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class UserConvert {
     /**
-     * Create HashMap base on the list users and them id
+     * Create HashMap model on the list users and them id
      *
      * @param list users list
      * @return hashMap

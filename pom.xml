@@ -31,6 +31,7 @@
         <module>wgetj</module>
         <module>bomberman</module>
         <module>mail</module>
+        <module>chapter_008</module>
 
     </modules>
     <dependencies>
