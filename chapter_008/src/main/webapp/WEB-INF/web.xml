@@ -14,13 +14,33 @@
     <servlet-class>ru.job4j.web_app_arhitecture.presentation.UserServlet</servlet-class>
     <load-on-startup>2</load-on-startup>
   </servlet>
+
+  <servlet>
+    <servlet-name>UserCreateServlet</servlet-name>
+    <servlet-class>ru.job4j.web_app_arhitecture.presentation.UserCreateServlet</servlet-class>
+    <load-on-startup>3</load-on-startup>
+  </servlet>
+  <servlet>
+    <servlet-name>UserUpdateServlet</servlet-name>
+    <servlet-class>ru.job4j.web_app_arhitecture.presentation.UserServlet</servlet-class>
+    <load-on-startup>4</load-on-startup>
+  </servlet>
+
   <servlet-mapping>
     <servlet-name>EchoServlet</servlet-name>
     <url-pattern>/echo</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>UserServlet</servlet-name>
-    <url-pattern>/users</url-pattern>
+    <url-pattern>/list</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserCreateServlet</servlet-name>
+    <url-pattern>/create</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserUpdateServlet</servlet-name>
+    <url-pattern>/update</url-pattern>
   </servlet-mapping>
 </web-app>
 

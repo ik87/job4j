@@ -4,6 +4,7 @@ import ru.job4j.web_app_arhitecture.logic.Validate;
 import ru.job4j.web_app_arhitecture.logic.ValidateService;
 import ru.job4j.web_app_arhitecture.model.User;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,17 +29,31 @@ public class UserServlet extends HttpServlet {
 
     private final Map<String, Consumer<User>> sent = new ConcurrentHashMap<>();
 
-    public UserServlet() {
+    @Override
+    public void init() throws ServletException {
         sent.put("add", logic::add);
         sent.put("update", logic::update);
         sent.put("delete", logic::delete);
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws  IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/html");
         PrintWriter writer = resp.getWriter();
         List<User> result = logic.findAll();
+        writer.append("" +
+                "<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\">\n" +
+                "    <title>Title</title>\n" +
+                "</head>\n " +
+                "<body>" +
+                "<table>\n");
+
+        //toDo
+        writer.append("</body>\n" +
+                "</html>");
         writer.append(result.toString());
         writer.flush();
     }
