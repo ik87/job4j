@@ -19,8 +19,8 @@ public class UserUpdateServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
         PrintWriter writer = resp.getWriter();
-        String id = req.getParameter("id");
-        User user = logic.findById(new User(id, null, null, null, null));
+        User id = RequestToUser.getUserParameters(req);
+        User user = logic.findById(id);
 
         writer.append("<!DOCTYPE html>\n" +
                 "<html lang='en'>\n" +
@@ -46,17 +46,12 @@ public class UserUpdateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        String name = req.getParameter("name");
-        String id = req.getParameter("id");
-        String login = req.getParameter("login");
-        String email = req.getParameter("email");
-
-        User user = logic.findById(new User(id, name , null, null , null));
-        user.setName(name);
-        user.setEmail(email);
-        user.setLogin(login);
-
+        User modifiedUser = RequestToUser.getUserParameters(req);
+        User user = logic.findById(modifiedUser);
+        user.setName(modifiedUser.getName());
+        user.setEmail(modifiedUser.getEmail());
+        user.setLogin(modifiedUser.getLogin());
         logic.update(user);
+        req.getRequestDispatcher("/list").forward(req, resp);
     }
 }

@@ -33,8 +33,7 @@ public class UserServlet extends HttpServlet {
 
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
+    public void init() throws ServletException {
         sent.put("add", logic::add);
         sent.put("update", logic::update);
         sent.put("delete", logic::delete);
@@ -100,16 +99,8 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         String action = req.getParameter("action");
-
-        String name = req.getParameter("name");
-        String id = req.getParameter("id");
-        String login = req.getParameter("login");
-        String email = req.getParameter("email");
-        String createDate = req.getParameter("created");
-
-        User user = new User(id, name, login, email, createDate);
+        User user = RequestToUser.getUserParameters(req);
         sent.get(action).accept(user);
         this.doGet(req, resp);
     }

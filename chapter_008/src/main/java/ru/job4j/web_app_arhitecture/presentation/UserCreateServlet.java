@@ -42,12 +42,8 @@ public class UserCreateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String id = req.getParameter("id");
-        String name = req.getParameter("name");
-        String login = req.getParameter("login");
-        String email = req.getParameter("email");
-        String created = req.getParameter("created");
-
-        logic.add(new User(id, name , login, email , created));
+        User user = RequestToUser.getUserParameters(req);
+        logic.add(user);
+        doGet(req, resp);
     }
 }
