@@ -4,8 +4,6 @@ import ru.job4j.web_app_arhitecture.logic.Validate;
 import ru.job4j.web_app_arhitecture.logic.ValidateService;
 import ru.job4j.web_app_arhitecture.model.User;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +48,7 @@ public class UserServlet extends HttpServlet {
             sb.append(
                     String.format("<tr align='center'><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>\n" +
                                     "        <td>\n" +
-                                    "            <form action='update' method='get'>\n" +
+                                    "            <form action='edit' method='get'>\n" +
                                     "                <input type='hidden' name='id' value='" + user.getId() + "'/>\n" +
                                     "                <input  type='submit' value='edit'/>\n" +
                                     "            </form>\n" +
@@ -98,7 +96,7 @@ public class UserServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String action = req.getParameter("action");
         User user = RequestToUser.getUserParameters(req);
         sent.get(action).accept(user);
