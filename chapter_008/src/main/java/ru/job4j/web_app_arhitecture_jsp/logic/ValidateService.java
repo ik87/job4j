@@ -1,6 +1,7 @@
 package ru.job4j.web_app_arhitecture_jsp.logic;
 
 import ru.job4j.web_app_arhitecture_jsp.model.User;
+import ru.job4j.web_app_arhitecture_jsp.persistent.DbStore;
 import ru.job4j.web_app_arhitecture_jsp.persistent.MemoryStore;
 import ru.job4j.web_app_arhitecture_jsp.persistent.Store;
 
@@ -12,7 +13,8 @@ import java.util.List;
  * @since 0.1
  */
 public class ValidateService implements Validate {
-    private final Store store = MemoryStore.getInstance();
+    //private final Store store = MemoryStore.getInstance();
+    private final Store store = DbStore.getInstance();
 
     private static final ValidateService INSTANCE = new ValidateService();
 
