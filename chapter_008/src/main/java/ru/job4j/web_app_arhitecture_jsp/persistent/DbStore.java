@@ -11,8 +11,8 @@ import java.util.List;
 
 
 public class DbStore implements Store {
-    private final static DbStore INSTANCE = new DbStore();
     private static final BasicDataSource SOURCE = new BasicDataSource();
+    private final static DbStore INSTANCE = new DbStore();
     private DbStore() {
             SOURCE.setDriverClassName("org.postgresql.Driver");
             SOURCE.setUrl("jdbc:postgresql://127.0.0.1:5432/user_jsp");
@@ -29,7 +29,7 @@ public class DbStore implements Store {
 
     @Override
     public void add(User user) {
-        String sql = "INSERT INTO user( id, name, email, login, created) VALUE (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users( id, name, email, login, created) VALUES (?, ?, ?, ?, ?)";
         try(Connection connection = SOURCE.getConnection();
             PreparedStatement pstm = connection.prepareStatement(sql)) {
             pstm.setString(1, user.getId());
@@ -45,8 +45,9 @@ public class DbStore implements Store {
 
     @Override
     public void update(User user) {
-        String sql = "UPDATE user SET name = ?, login = ?, email = ? WHERE id = ?";
-        try (PreparedStatement pstmt = SOURCE.getConnection().prepareStatement(sql)) {
+        String sql = "UPDATE users SET name = ?, login = ?, email = ? WHERE id = ?";
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, user.getName());
             pstmt.setString(2, user.getLogin());
             pstmt.setString(3, user.getEmail());
@@ -59,8 +60,9 @@ public class DbStore implements Store {
 
     @Override
     public void delete(User user) {
-        String sql = "DELETE FROM user WHERE id = ?";
-        try (PreparedStatement pstmt = SOURCE.getConnection().prepareStatement(sql)) {
+        String sql = "DELETE FROM users WHERE id = ?";
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, user.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -70,14 +72,15 @@ public class DbStore implements Store {
 
     @Override
     public List<User> findAll() {
-        String sql = "SELECT id, name, login, email, created FROM user";
+        String sql = "SELECT id, name, login, email, created FROM users";
         return findBy(sql, null);
     }
 
     @Override
     public User findById(User user) {
-        String sql = "SELECT id, name, login, email, created FROM user WHERE id = ?";
-        return findBy(sql, x->x.setString(1, user.getId())).get(0);
+        String sql = "SELECT id, name, login, email, created FROM users WHERE id = ?";
+        List<User> result = findBy(sql, x->x.setString(1, user.getId()));
+        return result.isEmpty() ? null : result.get(0);
     }
 
     /**
@@ -89,7 +92,8 @@ public class DbStore implements Store {
      */
     private List<User> findBy(String sql, ConsumerX<PreparedStatement> ps) {
         List<User> users = new ArrayList<>();
-        try (PreparedStatement pstmt = SOURCE.getConnection().prepareStatement(sql)) {
+        try (Connection connection = SOURCE.getConnection();
+                PreparedStatement pstmt = connection.prepareStatement(sql)) {
             if (ps != null) {
                 ps.accept(pstmt);
             }
