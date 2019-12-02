@@ -15,7 +15,7 @@
     StringBuilder sb = new StringBuilder();
     for (User user : result) {
         sb.append(
-                String.format("<tr align='center'><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>\n" +
+                String.format("<tr align='center'><td>%s</td><td>%s</td><td>%s</td><td>%s</td>\n" +
                                 "        <td>\n" +
                                 "            <form action='edit' method='get'>\n" +
                                 "                <input type='hidden' name='id' value='" + user.getId() + "'/>\n" +
@@ -30,7 +30,6 @@
                                 "            </form>\n" +
                                 "        </td>\n" +
                                 "    </tr>",
-                        user.getId(),
                         user.getName(),
                         user.getLogin(),
                         user.getEmail(),
@@ -42,7 +41,6 @@
 <table border='1' cellpadding='3'>
     <caption>Users table</caption>
     <tr align='center'>
-        <th>Id</th>
         <th>Name</th>
         <th>Login</th>
         <th>Email</th>

@@ -11,6 +11,6 @@ class RequestToUser {
         String login = req.getParameter("login");
         String email = req.getParameter("email");
         String created = req.getParameter("created");
-        return new User(id, name, login, email, created);
+        return new User(Integer.valueOf(id), name, login, email, created);
     }
 }

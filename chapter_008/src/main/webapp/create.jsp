@@ -7,8 +7,6 @@
 </head>
 <body>
 <form method='post' action='list'>
-    <b>id:</b><br>
-    <input type='text' name='id' size='40'/><br>
     <b>Name:</b><br>
     <input type='text' name='name' size='40'/><br>
     <b>Login:</b><br>
@@ -19,6 +17,7 @@
     <input type='date' name='created' size='40'/><br><br>
     <input type='submit' value='OK'/>
     <input type='hidden' name='action' value='add'/><br>
+    <input type='hidden' name='id' value='0'/><br>
 </form>
 </body>
 </html>
