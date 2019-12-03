@@ -2,10 +2,8 @@ package ru.job4j.web_app_arhitecture_jsp.persistent;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import ru.job4j.web_app_arhitecture_jsp.model.User;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,14 +11,21 @@ import java.util.List;
 public class DbStore implements Store {
     private static final BasicDataSource SOURCE = new BasicDataSource();
     private final static DbStore INSTANCE = new DbStore();
+
+    @Override
+    public boolean ifExist(User user) {
+        String sql = "SELECT id, name, login, email, created FROM users WHERE id = ?";
+        return !findBy(sql, x -> x.setInt(1, user.getId())).isEmpty();
+    }
+
     private DbStore() {
-            SOURCE.setDriverClassName("org.postgresql.Driver");
-            SOURCE.setUrl("jdbc:postgresql://127.0.0.1:5432/user_jsp");
-            SOURCE.setUsername("postgres");
-            SOURCE.setPassword("password");
-            SOURCE.setMinIdle(5);
-            SOURCE.setMaxIdle(10);
-            SOURCE.setMaxOpenPreparedStatements(100);
+        SOURCE.setDriverClassName("org.postgresql.Driver");
+        SOURCE.setUrl("jdbc:postgresql://127.0.0.1:5432/user_jsp");
+        SOURCE.setUsername("postgres");
+        SOURCE.setPassword("password");
+        SOURCE.setMinIdle(5);
+        SOURCE.setMaxIdle(10);
+        SOURCE.setMaxOpenPreparedStatements(100);
     }
 
     public static DbStore getInstance() {
@@ -29,14 +34,13 @@ public class DbStore implements Store {
 
     @Override
     public void add(User user) {
-        String sql = "INSERT INTO users( id, name, email, login, created) VALUES (?, ?, ?, ?, ?)";
-        try(Connection connection = SOURCE.getConnection();
-            PreparedStatement pstm = connection.prepareStatement(sql)) {
-            pstm.setString(1, user.getId());
-            pstm.setString(2, user.getName());
-            pstm.setString(3, user.getEmail());
-            pstm.setString(4, user.getLogin());
-            pstm.setString(5, user.getCreateDate());
+        String sql = "INSERT INTO users( name, email, login, created) VALUES (?, ?, ?, ?)";
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement pstm = connection.prepareStatement(sql)) {
+            pstm.setString(1, user.getName());
+            pstm.setString(2, user.getEmail());
+            pstm.setString(3, user.getLogin());
+            pstm.setString(4, user.getCreateDate());
             pstm.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,7 +55,7 @@ public class DbStore implements Store {
             pstmt.setString(1, user.getName());
             pstmt.setString(2, user.getLogin());
             pstmt.setString(3, user.getEmail());
-            pstmt.setString(4, user.getId());
+            pstmt.setInt(4, user.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -63,7 +67,7 @@ public class DbStore implements Store {
         String sql = "DELETE FROM users WHERE id = ?";
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, user.getId());
+            pstmt.setInt(1, user.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -79,7 +83,7 @@ public class DbStore implements Store {
     @Override
     public User findById(User user) {
         String sql = "SELECT id, name, login, email, created FROM users WHERE id = ?";
-        List<User> result = findBy(sql, x->x.setString(1, user.getId()));
+        List<User> result = findBy(sql, x -> x.setInt(1, user.getId()));
         return result.isEmpty() ? null : result.get(0);
     }
 
@@ -93,14 +97,14 @@ public class DbStore implements Store {
     private List<User> findBy(String sql, ConsumerX<PreparedStatement> ps) {
         List<User> users = new ArrayList<>();
         try (Connection connection = SOURCE.getConnection();
-                PreparedStatement pstmt = connection.prepareStatement(sql)) {
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
             if (ps != null) {
                 ps.accept(pstmt);
             }
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 User user = new User(
-                        rs.getString("id"),
+                        rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("login"),
                         rs.getString("email"),
