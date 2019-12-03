@@ -18,7 +18,7 @@ public class MemoryStore implements Store {
     private final static MemoryStore INSTANCE = new MemoryStore();
 
     private final Map<Integer, User> storage = new ConcurrentHashMap<>();
-    private final AtomicInteger id = new AtomicInteger(1);
+    private int id = 0;
 
     private MemoryStore() {
 
@@ -30,11 +30,9 @@ public class MemoryStore implements Store {
 
     @Override
     public void add(User user) {
-        //storage.put( id.get(), user);
-        storage.compute(id.get(), (k, v)-> {
-            user.setId(id.getAndIncrement());
-            return user;
-        });
+        id++;
+        user.setId(id);
+        storage.put(id, user);
     }
 
     @Override
