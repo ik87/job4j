@@ -22,4 +22,6 @@ public interface Store {
     List<User> findAll();
 
     User findById(User user);
+
+    boolean ifExist(User user);
 }

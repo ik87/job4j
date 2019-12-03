@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Kosolapov Ilya (d_dexter@mail.ru)
@@ -16,7 +17,8 @@ public class MemoryStore implements Store {
 
     private final static MemoryStore INSTANCE = new MemoryStore();
 
-    private final Map<String, User> storage = new ConcurrentHashMap<>();
+    private final Map<Integer, User> storage = new ConcurrentHashMap<>();
+    private int id = 0;
 
     private MemoryStore() {
 
@@ -28,7 +30,9 @@ public class MemoryStore implements Store {
 
     @Override
     public void add(User user) {
-        storage.put(user.getId(), user);
+        id++;
+        user.setId(id);
+        storage.put(id, user);
     }
 
     @Override
@@ -49,5 +53,10 @@ public class MemoryStore implements Store {
     @Override
     public User findById(User user) {
         return storage.get(user.getId());
+    }
+
+    @Override
+    public boolean ifExist(User user) {
+        return storage.containsKey(user.getId());
     }
 }
