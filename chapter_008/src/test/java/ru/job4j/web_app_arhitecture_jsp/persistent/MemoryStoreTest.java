@@ -1,36 +1,53 @@
 package ru.job4j.web_app_arhitecture_jsp.persistent;
 
+import org.junit.Assert;
 import org.junit.Test;
 import ru.job4j.web_app_arhitecture_jsp.model.User;
 
-import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
+
+import static org.hamcrest.core.Is.is;
 
 
 public class MemoryStoreTest {
     @Test
-    public void whenAddTwoUsersInTheSameTimeThenOK() throws InterruptedException {
+    public void whenAddTwoUsersInTheSameTimeThenOK() throws Exception {
         Store store = MemoryStore.getInstance();
-        CountDownLatch cd = new CountDownLatch(1);
-        for (int i = 1; i < 5; i++) {
-            new Run(store, cd, new User(0, String.valueOf(i), String.valueOf(i), String.valueOf(i), String.valueOf(i)));
+        int parties = 10000;
+        CyclicBarrier cbStart = new CyclicBarrier(parties);
+        CyclicBarrier cbEnd = new CyclicBarrier(parties + 1);
+
+        for (int i = 1; i < parties + 1; i++) {
+            new Run(store, cbStart, cbEnd, new User(0, String.valueOf(i), String.valueOf(i), String.valueOf(i), String.valueOf(i)));
         }
-        cd.countDown();
-        Thread.sleep(100);
+
+        cbEnd.await();
+
+        int expect = 0;
+        int result = 0;
+
         for (User user : store.findAll()) {
-            System.out.println(user);
+            expect += user.getId();
+            result += Integer.valueOf(user.getName());
         }
+
+        Assert.assertThat(expect, is(result));
+        Assert.assertNotEquals(expect, is(0));
+        Assert.assertNotEquals(result, is(0));
     }
 
 }
 
 class Run extends Thread {
-    private CountDownLatch cd;
+    private CyclicBarrier cdStart;
+    private CyclicBarrier cdEnd;
     private Store store;
     private User user;
 
-    Run(Store store, CountDownLatch cd, User user) {
+    Run(Store store, CyclicBarrier cdStart, CyclicBarrier cdEnd, User user) {
         this.store = store;
-        this.cd = cd;
+        this.cdStart = cdStart;
+        this.cdEnd = cdEnd;
         this.user = user;
         this.start();
     }
@@ -38,9 +55,10 @@ class Run extends Thread {
     @Override
     public void run() {
         try {
-            cd.await();
+            cdStart.await();
             store.add(user);
-        } catch (InterruptedException e) {
+            cdEnd.await();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
