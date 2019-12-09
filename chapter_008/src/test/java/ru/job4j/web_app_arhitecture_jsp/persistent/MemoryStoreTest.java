@@ -9,6 +9,7 @@ import java.util.concurrent.CyclicBarrier;
 import static org.hamcrest.core.Is.is;
 
 
+
 public class MemoryStoreTest {
     @Test
     public void whenAddTwoUsersInTheSameTimeThenOK() throws Exception {
