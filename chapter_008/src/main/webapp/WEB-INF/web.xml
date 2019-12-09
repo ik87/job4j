@@ -12,20 +12,20 @@
 
   <servlet>
     <servlet-name>UserServlet</servlet-name>
-    <servlet-class>ru.job4j.web_app_arhitecture.presentation.UserServlet</servlet-class>
+    <servlet-class>ru.job4j.web_app_arhitecture_jsp.presentation.UserServlet</servlet-class>
     <load-on-startup>2</load-on-startup>
   </servlet>
 
   <servlet>
     <servlet-name>UserCreateServlet</servlet-name>
-    <servlet-class>ru.job4j.web_app_arhitecture.presentation.UserCreateServlet</servlet-class>
+    <servlet-class>ru.job4j.web_app_arhitecture_jsp.presentation.UserCreateServlet</servlet-class>
     <load-on-startup>3</load-on-startup>
   </servlet>
 
 
   <servlet>
     <servlet-name>UserUpdateServlet</servlet-name>
-    <servlet-class>ru.job4j.web_app_arhitecture.presentation.UserUpdateServlet</servlet-class>
+    <servlet-class>ru.job4j.web_app_arhitecture_jsp.presentation.UserUpdateServlet</servlet-class>
     <load-on-startup>4</load-on-startup>
   </servlet>
 
