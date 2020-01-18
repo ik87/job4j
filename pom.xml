@@ -168,6 +168,7 @@
                         <exclude>**/pingpong/*</exclude>
                         <exclude>**/wgetj/*</exclude>
                         <exclude>**/thread_safe_singleton/*</exclude>
+                        <exclude>**/strong_mvc/*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
