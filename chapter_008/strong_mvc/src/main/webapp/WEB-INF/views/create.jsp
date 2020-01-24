@@ -7,7 +7,7 @@
     <title>Add user</title>
 </head>
 <body>
-<form method='post' action='list'>
+<form method='post' action='list' enctype="multipart/form-data">
     <b>Name:</b><br>
     <input type='text' name='name' size='40'/><br>
     <b>Login:</b><br>
@@ -15,7 +15,10 @@
     <b>Email:</b><br>
     <input type='email' name='email' size='40'/><br>
     <b>Date created:</b><br>
-    <input type='date' name='created' size='40'/><br><br>
+    <input type='date' name='created' size='40'/><br>
+    <b>Photo img:</b><br>
+    <input type="file" name="file">
+    <br>
     <input type='submit' value='OK'/>
     <input type='hidden' name='action' value='add'/><br>
     <input type='hidden' name='id' value='0'/><br>

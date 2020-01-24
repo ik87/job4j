@@ -10,11 +10,21 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
 
+  <servlet-mapping>
+    <servlet-name>UserServlet</servlet-name>
+    <url-pattern>/list</url-pattern>
+  </servlet-mapping>
+
   <servlet>
     <servlet-name>UserCreateServlet</servlet-name>
     <servlet-class>ru.job4j.strong_mvc.controller.UserCreateServlet</servlet-class>
     <load-on-startup>2</load-on-startup>
   </servlet>
+
+  <servlet-mapping>
+    <servlet-name>UserCreateServlet</servlet-name>
+    <url-pattern>/create</url-pattern>
+  </servlet-mapping>
 
   <servlet>
     <servlet-name>UserUpdateServlet</servlet-name>
@@ -23,17 +33,30 @@
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>UserServlet</servlet-name>
-    <url-pattern>/list</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>UserCreateServlet</servlet-name>
-    <url-pattern>/create</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
     <servlet-name>UserUpdateServlet</servlet-name>
     <url-pattern>/edit</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DownloadServlet</servlet-name>
+    <servlet-class>ru.job4j.strong_mvc.controller.DownloadServlet</servlet-class>
+    <load-on-startup>4</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>DownloadServlet</servlet-name>
+    <url-pattern>/download</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>UploadServlet</servlet-name>
+    <servlet-class>ru.job4j.strong_mvc.controller.UploadServlet</servlet-class>
+    <load-on-startup>5</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>UploadServlet</servlet-name>
+    <url-pattern>/upload</url-pattern>
+  </servlet-mapping>
+
 </web-app>
