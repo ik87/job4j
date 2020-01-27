@@ -1,13 +1,20 @@
 package ru.job4j.strong_mvc.controller;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import ru.job4j.strong_mvc.logic.Validate;
 import ru.job4j.strong_mvc.logic.ValidateService;
 import ru.job4j.strong_mvc.model.User;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +58,7 @@ public class UserServlet extends HttpServlet {
         sent.get(action).accept(user);
         this.doGet(req, resp);
     }
+
 
 
 }

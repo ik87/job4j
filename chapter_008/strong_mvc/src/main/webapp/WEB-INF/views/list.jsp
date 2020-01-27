@@ -13,6 +13,7 @@
 <table border="1" cellpadding="3">
     <caption>Users table</caption>
     <tr align="center">
+        <th width="100px">Photo</th>
         <th>Name</th>
         <th>Login</th>
         <th>Email</th>
@@ -22,7 +23,7 @@
 
     <c:forEach var="user" items="${users}">
         <tr align="center">
-            <td>${user.name}</td>
+            <td><img src="get_image?name=${user.photoId}" height="100px"/></td>
             <td>${user.login}</td>
             <td>${user.email}</td>
             <td>${user.createDate}</td>

@@ -38,25 +38,36 @@
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>DownloadServlet</servlet-name>
-    <servlet-class>ru.job4j.strong_mvc.controller.DownloadServlet</servlet-class>
+    <servlet-name>UploadImage</servlet-name>
+    <servlet-class>ru.job4j.strong_mvc.controller.UploadImageServlet</servlet-class>
     <load-on-startup>4</load-on-startup>
   </servlet>
-
   <servlet-mapping>
-    <servlet-name>DownloadServlet</servlet-name>
-    <url-pattern>/download</url-pattern>
+    <servlet-name>UploadImage</servlet-name>
+    <url-pattern>/sent_image</url-pattern>
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>UploadServlet</servlet-name>
-    <servlet-class>ru.job4j.strong_mvc.controller.UploadServlet</servlet-class>
+    <servlet-name>DownloadImage</servlet-name>
+    <servlet-class>ru.job4j.strong_mvc.controller.DownloadImageServlet</servlet-class>
     <load-on-startup>5</load-on-startup>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>UploadServlet</servlet-name>
-    <url-pattern>/upload</url-pattern>
+    <servlet-name>DownloadImage</servlet-name>
+    <url-pattern>/get_image</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DeleteImage</servlet-name>
+    <servlet-class>ru.job4j.strong_mvc.controller.DeleteImageServlet</servlet-class>
+    <load-on-startup>6</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>DeleteImage</servlet-name>
+    <url-pattern>/delete_image</url-pattern>
+  </servlet-mapping>
+
 
 </web-app>

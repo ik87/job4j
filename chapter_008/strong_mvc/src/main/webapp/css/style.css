@@ -1,0 +1,10 @@
+.image {
+    height: 100px;
+    width: 100px;
+    border: solid 1px black;
+    margin-bottom: 5px;
+}
+
+.browser {
+    color: rgba(0, 0, 0, 0);
+}
