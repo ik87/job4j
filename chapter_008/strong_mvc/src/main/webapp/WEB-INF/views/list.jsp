@@ -1,12 +1,19 @@
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+
+    <meta charset='UTF-8'>
+    <link href="css/style.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript"  src="js/script.js"/>
+
+    <title>List</title>
+    <script>
+
+    </script>
+
 </head>
 <body>
 
@@ -34,10 +41,10 @@
                 </form>
             </td>
             <td>
-                <form action="" method="post">
+                <form onsubmit="del('${user.photoId}')" action="" method="post">
                     <input type="hidden" name="action" value="delete"/>
                     <input type="hidden" name="id" value="${user.id}"/>
-                    <input type="submit" value="del"/>
+                    <input type="submit"  value="del"/>
                 </form>
             </td>
         </tr>

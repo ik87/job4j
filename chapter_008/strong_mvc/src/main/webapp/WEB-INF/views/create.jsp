@@ -36,7 +36,7 @@
 
     <input type='submit' value='OK'/>
     <input type='hidden' name='action' value='add'/><br>
-    <input id='fileName' type='hidden' name='photoId' value=''/><br>
+    <input id='filename' type='hidden' name='photoId' value=''/><br>
     <input type='hidden' name='id' value='0'/><br>
 </form>
 </body>

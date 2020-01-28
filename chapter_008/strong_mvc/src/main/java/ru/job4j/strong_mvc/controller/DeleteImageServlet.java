@@ -14,7 +14,7 @@ public class DeleteImageServlet extends HttpServlet {
         Boolean result = false;
         PrintWriter writer = new PrintWriter(resp.getOutputStream());
         String fileName = req.getParameter("name");
-        String path = getServletContext().getRealPath("") + File.separator + UploadImageServlet.UPLOAD_DIRECTORY;
+        String path = getServletContext().getRealPath("") + UploadImageServlet.UPLOAD_DIRECTORY;
         File file = new File(path + File.separator + fileName);
         result = file.delete();
         resp.setContentType("text/plain");

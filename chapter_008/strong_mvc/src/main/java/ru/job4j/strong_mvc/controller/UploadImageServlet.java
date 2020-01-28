@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class UploadImageServlet extends HttpServlet {
 
     static final String UPLOAD_DIRECTORY = "bin" + File.separator + "images";
-    static final AtomicLong prefix = new AtomicLong(1);
+    static final AtomicLong PREFIX = new AtomicLong(1);
 
 
     @Override
@@ -26,7 +26,7 @@ public class UploadImageServlet extends HttpServlet {
         resp.setContentType("text/plain");
         PrintWriter writer = new PrintWriter(resp.getOutputStream());
         String fileName = "";
-        // Create a factory for disk-based file items
+        // Create a factory for disk-based filename items
         DiskFileItemFactory factory = new DiskFileItemFactory();
 
         // Configure a repository (to ensure a secure temp location is used)
@@ -34,11 +34,11 @@ public class UploadImageServlet extends HttpServlet {
         File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
         factory.setRepository(repository);
 
-        // Create a new file upload handler
+        // Create a new filename upload handler
         ServletFileUpload upload = new ServletFileUpload(factory);
 
 
-        String path = getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY;
+        String path = getServletContext().getRealPath("") + UPLOAD_DIRECTORY;
 
         File folder = new File(path);
         if (!folder.exists()) {
@@ -49,7 +49,7 @@ public class UploadImageServlet extends HttpServlet {
             List<FileItem> items = upload.parseRequest(req);
             FileItem item = items.get(0);
             if (!item.isFormField()) {
-                fileName = prefix.getAndIncrement() + "_" + item.getName();
+                fileName = PREFIX.getAndIncrement() + "_" + item.getName();
                 File file = new File(folder + File.separator + fileName);
                 try (FileOutputStream out = new FileOutputStream(file)) {
                     out.write(item.getInputStream().readAllBytes());

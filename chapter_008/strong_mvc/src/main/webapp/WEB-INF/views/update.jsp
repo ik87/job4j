@@ -14,7 +14,7 @@
     </script>
 
 </head>
-<body onload="loadFile('${user.photoId}')">
+<body onload="load('${user.photoId}')">
 
 
 <form action="sent_image" onchange="send(this)" enctype="multipart/form-data">
