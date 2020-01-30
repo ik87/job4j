@@ -1,5 +1,7 @@
 package ru.job4j.strong_mvc.controller;
 
+import ru.job4j.strong_mvc.logic.FileHandler;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +11,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ * This servlet is responsible for download image
+ *
+ * @author Kosolapov Ilya (d_dexter@mail.ru)
+ * @version 1.0
+ * @since 30.01.2020
+ */
 public class DownloadImageServlet extends HttpServlet {
 
     @Override
@@ -16,7 +25,8 @@ public class DownloadImageServlet extends HttpServlet {
         String name = req.getParameter("name");
         resp.setContentType("image");
         resp.setHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
-        String path = getServletContext().getRealPath("") + UploadImageServlet.UPLOAD_DIRECTORY;
+        FileHandler fileHandler = (FileHandler) getServletContext().getAttribute("fileHandler");
+        String path = fileHandler.getPath();
         File file = new File(path + File.separator + name);
         OutputStream out = resp.getOutputStream();
         FileInputStream in = new FileInputStream(file);

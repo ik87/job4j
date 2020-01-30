@@ -4,6 +4,15 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
          http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
          version="2.4">
+  
+  <listener>
+    <listener-class>ru.job4j.strong_mvc.listener.UserServletContextListener</listener-class>
+  </listener>
+  <context-param>
+    <param-name>path</param-name>
+    <param-value>bin\images</param-value>
+  </context-param>
+
   <servlet>
     <servlet-name>UserServlet</servlet-name>
     <servlet-class>ru.job4j.strong_mvc.controller.UserServlet</servlet-class>
@@ -37,20 +46,11 @@
     <url-pattern>/edit</url-pattern>
   </servlet-mapping>
 
-  <servlet>
-    <servlet-name>UploadImage</servlet-name>
-    <servlet-class>ru.job4j.strong_mvc.controller.UploadImageServlet</servlet-class>
-    <load-on-startup>4</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>UploadImage</servlet-name>
-    <url-pattern>/sent_image</url-pattern>
-  </servlet-mapping>
 
   <servlet>
     <servlet-name>DownloadImage</servlet-name>
     <servlet-class>ru.job4j.strong_mvc.controller.DownloadImageServlet</servlet-class>
-    <load-on-startup>5</load-on-startup>
+    <load-on-startup>4</load-on-startup>
   </servlet>
 
   <servlet-mapping>
@@ -59,15 +59,27 @@
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>DeleteImage</servlet-name>
-    <servlet-class>ru.job4j.strong_mvc.controller.DeleteImageServlet</servlet-class>
+    <servlet-name>UploadImage</servlet-name>
+    <servlet-class>ru.job4j.strong_mvc.controller.UploadImageServlet</servlet-class>
+    <load-on-startup>5</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>UploadImage</servlet-name>
+    <url-pattern>/send_image</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>UpdateImage</servlet-name>
+    <servlet-class>ru.job4j.strong_mvc.controller.UpdateImageServlet</servlet-class>
     <load-on-startup>6</load-on-startup>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>DeleteImage</servlet-name>
-    <url-pattern>/delete_image</url-pattern>
+    <servlet-name>UpdateImage</servlet-name>
+    <url-pattern>/update_image</url-pattern>
   </servlet-mapping>
+
 
 
 </web-app>

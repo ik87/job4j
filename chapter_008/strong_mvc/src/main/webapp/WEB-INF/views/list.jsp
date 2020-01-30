@@ -6,16 +6,12 @@
 <head>
 
     <meta charset='UTF-8'>
-    <link href="css/style.css" type="text/css" rel="stylesheet" />
-    <script type="text/javascript"  src="js/script.js"/>
 
     <title>List</title>
-    <script>
-
-    </script>
 
 </head>
 <body>
+
 
 <table border="1" cellpadding="3">
     <caption>Users table</caption>
@@ -41,9 +37,10 @@
                 </form>
             </td>
             <td>
-                <form onsubmit="del('${user.photoId}')" action="" method="post">
+                <form action="" method="post">
                     <input type="hidden" name="action" value="delete"/>
                     <input type="hidden" name="id" value="${user.id}"/>
+                    <input type="hidden" name="photoId" value="${user.photoId}"/>
                     <input type="submit"  value="del"/>
                 </form>
             </td>

@@ -31,12 +31,13 @@ public class User {
                 && name.equals(user.name)
                 && login.equals(user.login)
                 && email.equals(user.email)
-                && createDate.equals(user.createDate);
+                && createDate.equals(user.createDate)
+                && photoId.equals(user.photoId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, login, email, createDate);
+        return Objects.hash(id, name, login, email, createDate, photoId);
     }
 
     public Integer getId() {

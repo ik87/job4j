@@ -3,27 +3,20 @@
 <!DOCTYPE html>
 <html lang='en'>
 <head>
-
     <meta charset='UTF-8'>
-    <link href="css/style.css" type="text/css" rel="stylesheet" />
-    <script type="text/javascript"  src="js/script.js"/>
-
     <title>Update user</title>
-    <script>
-
-    </script>
-
 </head>
-<body onload="load('${user.photoId}')">
+<body>
 
-
-<form action="sent_image" onchange="send(this)" enctype="multipart/form-data">
+<form method='post' action='update_image' enctype="multipart/form-data">
     <b>Photo:</b><br>
-    <div class="image" id="image">
+    <div>
+        <img src="get_image?name=${user.photoId}" height="100px"/>
     </div>
-    <input class="browser" type="file" name="file">
+    <input type='hidden' name='photoId' value='${user.photoId}'>
+    <input type='file' name='file'><br>
+    <input type="submit" value="Загузить"/><br>
 </form>
-<button onclick='clean()'>clean</button>
 
 <form method='post' action='list'>
     <b>Name:</b><br>
@@ -32,10 +25,11 @@
     <input type='text' size='40' name='login' value='${user.login}'/><br>
     <b>Email:</b><br>
     <input type='email' size='40' name='email' value='${user.email}'/><br><br>
-    <input type='hidden' name='action' value='update'/><br>
-    <input type='hidden' name='id' value='${user.id}'/><br>
-    <input id='fileName' type='hidden' name='photoId' value=''/><br>
-    <input type='hidden' name='created' value='${user.createDate}'/><br>
+    <input type='hidden' name='action' value='update'/>
+    <input type='hidden' name='id' value='${user.id}'/>
+    <input type="hidden" name='photoId' value='${user.photoId}'>
+    <input type='hidden' name='created' value='${user.createDate}'/>
+    <input type="submit" value="OK"/>
 </form>
 </body>
 </html>
