@@ -103,12 +103,12 @@ public class DbStore implements Store {
             }
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                User user = new User(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getString("login"),
-                        rs.getString("email"),
-                        rs.getString("created"));
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setName(rs.getString("name"));
+                user.setLogin(rs.getString("login"));
+                user.setEmail(rs.getString("email"));
+                user.setCreateDate(rs.getString("created"));
                 users.add(user);
             }
         } catch (SQLException e) {

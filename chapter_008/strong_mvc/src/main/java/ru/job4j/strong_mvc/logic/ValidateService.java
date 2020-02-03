@@ -38,7 +38,7 @@ public class ValidateService implements Validate {
     @Override
     public boolean update(User user) {
         boolean result = false;
-        if (store.ifExist(user)  && hasEmptyString(user)) {
+        if (store.ifExist(user) && hasEmptyString(user)) {
             store.update(user);
             result = true;
         }
@@ -66,7 +66,7 @@ public class ValidateService implements Validate {
     }
 
     private boolean hasEmptyString(User user) {
-        return  !user.getName().isEmpty()
+        return !user.getName().isEmpty()
                 && !user.getEmail().isEmpty()
                 && !user.getCreateDate().isEmpty()
                 && !user.getLogin().isEmpty();

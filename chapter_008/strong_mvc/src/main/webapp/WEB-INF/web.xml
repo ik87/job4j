@@ -4,17 +4,36 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
          http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
          version="2.4">
+  
+  <listener>
+    <listener-class>ru.job4j.strong_mvc.listener.UserServletContextListener</listener-class>
+  </listener>
+  <context-param>
+    <param-name>path</param-name>
+    <param-value>bin\images</param-value>
+  </context-param>
+
   <servlet>
     <servlet-name>UserServlet</servlet-name>
     <servlet-class>ru.job4j.strong_mvc.controller.UserServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
 
+  <servlet-mapping>
+    <servlet-name>UserServlet</servlet-name>
+    <url-pattern>/list</url-pattern>
+  </servlet-mapping>
+
   <servlet>
     <servlet-name>UserCreateServlet</servlet-name>
     <servlet-class>ru.job4j.strong_mvc.controller.UserCreateServlet</servlet-class>
     <load-on-startup>2</load-on-startup>
   </servlet>
+
+  <servlet-mapping>
+    <servlet-name>UserCreateServlet</servlet-name>
+    <url-pattern>/create</url-pattern>
+  </servlet-mapping>
 
   <servlet>
     <servlet-name>UserUpdateServlet</servlet-name>
@@ -23,17 +42,44 @@
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>UserServlet</servlet-name>
-    <url-pattern>/list</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>UserCreateServlet</servlet-name>
-    <url-pattern>/create</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
     <servlet-name>UserUpdateServlet</servlet-name>
     <url-pattern>/edit</url-pattern>
   </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>DownloadImage</servlet-name>
+    <servlet-class>ru.job4j.strong_mvc.controller.DownloadImageServlet</servlet-class>
+    <load-on-startup>4</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>DownloadImage</servlet-name>
+    <url-pattern>/get_image</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>UploadImage</servlet-name>
+    <servlet-class>ru.job4j.strong_mvc.controller.UploadImageServlet</servlet-class>
+    <load-on-startup>5</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>UploadImage</servlet-name>
+    <url-pattern>/send_image</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>UpdateImage</servlet-name>
+    <servlet-class>ru.job4j.strong_mvc.controller.UpdateImageServlet</servlet-class>
+    <load-on-startup>6</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>UpdateImage</servlet-name>
+    <url-pattern>/update_image</url-pattern>
+  </servlet-mapping>
+
+
+
 </web-app>

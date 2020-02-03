@@ -3,14 +3,22 @@ package ru.job4j.strong_mvc.controller;
 import ru.job4j.strong_mvc.model.User;
 
 import javax.servlet.http.HttpServletRequest;
-
+/**
+ * This is helper class
+ *
+ * @author Kosolapov Ilya (d_dexter@mail.ru)
+ * @version 1.0
+ * @since 30.01.2020
+ */
 class RequestToUser {
     static User getUserParameters(HttpServletRequest req) {
-        String id = req.getParameter("id");
-        String name = req.getParameter("name");
-        String login = req.getParameter("login");
-        String email = req.getParameter("email");
-        String created = req.getParameter("created");
-        return new User(Integer.valueOf(id), name, login, email, created);
+        User user = new User();
+        user.setId(Integer.valueOf(req.getParameter("id")));
+        user.setName(req.getParameter("name"));
+        user.setLogin(req.getParameter("login"));
+        user.setEmail(req.getParameter("email"));
+        user.setCreateDate(req.getParameter("created"));
+        user.setPhotoId(req.getParameter("photoId"));
+        return user;
     }
 }

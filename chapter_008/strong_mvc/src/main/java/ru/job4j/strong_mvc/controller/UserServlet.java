@@ -1,5 +1,8 @@
 package ru.job4j.strong_mvc.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import ru.job4j.strong_mvc.logic.FileHandler;
 import ru.job4j.strong_mvc.logic.Validate;
 import ru.job4j.strong_mvc.logic.ValidateService;
 import ru.job4j.strong_mvc.model.User;
@@ -24,22 +27,28 @@ import java.util.function.Consumer;
  */
 public class UserServlet extends HttpServlet {
 
-    private final Validate logic = ValidateService.getInstance();
+    private final Validate validate = ValidateService.getInstance();
 
-    private final Map<String, Consumer<User>> sent = new ConcurrentHashMap<>();
+    private final Map<String, Consumer<User>> send = new ConcurrentHashMap<>();
 
 
     @Override
-    public void init() throws ServletException {
-        sent.put("add", logic::add);
-        sent.put("update", logic::update);
-        sent.put("delete", logic::delete);
+    public void init() {
+
+        send.put("add", validate::add);
+        send.put("update", validate::update);
+        send.put("delete", (user) -> {
+            FileHandler fileHandler = (FileHandler) getServletContext().
+                    getAttribute("fileHandler");
+            fileHandler.delete(user.getPhotoId());
+            validate.delete(user);
+        });
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        List<User> users = logic.findAll();
+        List<User> users = validate.findAll();
         req.setAttribute("users", users);
         req.getRequestDispatcher("/WEB-INF/views/list.jsp").forward(req, resp);
     }
@@ -48,8 +57,8 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         User user = RequestToUser.getUserParameters(req);
-        sent.get(action).accept(user);
-        this.doGet(req, resp);
+        send.get(action).accept(user);
+        resp.sendRedirect("list");
     }
 
 

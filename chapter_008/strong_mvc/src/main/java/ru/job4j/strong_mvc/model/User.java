@@ -10,19 +10,13 @@ import java.util.Objects;
  * @since 0.1
  */
 public class User {
+    private String photoId;
     private Integer id;
     private String name;
     private String login;
     private String email;
     private String createDate;
 
-    public User(Integer id, String name, String login, String email, String createDate) {
-        this.id = id;
-        this.name = name;
-        this.login = login;
-        this.email = email;
-        this.createDate = createDate;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -37,12 +31,13 @@ public class User {
                 && name.equals(user.name)
                 && login.equals(user.login)
                 && email.equals(user.email)
-                && createDate.equals(user.createDate);
+                && createDate.equals(user.createDate)
+                && photoId.equals(user.photoId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, login, email, createDate);
+        return Objects.hash(id, name, login, email, createDate, photoId);
     }
 
     public Integer getId() {
@@ -67,6 +62,14 @@ public class User {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public String getPhotoId() {
+        return photoId;
+    }
+
+    public void setPhotoId(String photoId) {
+        this.photoId = photoId;
     }
 
     public String getEmail() {

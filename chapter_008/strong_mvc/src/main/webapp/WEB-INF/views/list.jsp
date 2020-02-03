@@ -1,18 +1,22 @@
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+
+    <meta charset='UTF-8'>
+
+    <title>List</title>
+
 </head>
 <body>
+
 
 <table border="1" cellpadding="3">
     <caption>Users table</caption>
     <tr align="center">
+        <th width="100px">Photo</th>
         <th>Name</th>
         <th>Login</th>
         <th>Email</th>
@@ -22,7 +26,7 @@
 
     <c:forEach var="user" items="${users}">
         <tr align="center">
-            <td>${user.name}</td>
+            <td><img src="get_image?name=${user.photoId}" height="100px"/></td>
             <td>${user.login}</td>
             <td>${user.email}</td>
             <td>${user.createDate}</td>
@@ -36,7 +40,8 @@
                 <form action="" method="post">
                     <input type="hidden" name="action" value="delete"/>
                     <input type="hidden" name="id" value="${user.id}"/>
-                    <input type="submit" value="del"/>
+                    <input type="hidden" name="photoId" value="${user.photoId}"/>
+                    <input type="submit"  value="del"/>
                 </form>
             </td>
         </tr>
