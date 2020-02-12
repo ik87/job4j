@@ -14,7 +14,7 @@ public class DbStore implements Store {
 
     @Override
     public boolean ifExist(User user) {
-        String sql = "SELECT id, name, login, email, created FROM users WHERE id = ?";
+        String sql = "SELECT id, name, login, email, created, photoId FROM users WHERE id = ?";
         return !findBy(sql, x -> x.setInt(1, user.getId())).isEmpty();
     }
 
@@ -34,13 +34,14 @@ public class DbStore implements Store {
 
     @Override
     public void add(User user) {
-        String sql = "INSERT INTO users( name, email, login, created) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO users( name, email, login, created, photoid) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement pstm = connection.prepareStatement(sql)) {
             pstm.setString(1, user.getName());
             pstm.setString(2, user.getEmail());
             pstm.setString(3, user.getLogin());
             pstm.setString(4, user.getCreateDate());
+            pstm.setString(5, user.getPhotoid());
             pstm.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -49,13 +50,14 @@ public class DbStore implements Store {
 
     @Override
     public void update(User user) {
-        String sql = "UPDATE users SET name = ?, login = ?, email = ? WHERE id = ?";
+        String sql = "UPDATE users SET name = ?, login = ?, email = ?, photoid = ? WHERE id = ?";
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, user.getName());
             pstmt.setString(2, user.getLogin());
             pstmt.setString(3, user.getEmail());
-            pstmt.setInt(4, user.getId());
+            pstmt.setString(4, user.getPhotoid());
+            pstmt.setInt(5, user.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -76,13 +78,13 @@ public class DbStore implements Store {
 
     @Override
     public List<User> findAll() {
-        String sql = "SELECT id, name, login, email, created FROM users";
+        String sql = "SELECT id, name, login, email, created, photoId FROM users";
         return findBy(sql, null);
     }
 
     @Override
     public User findById(User user) {
-        String sql = "SELECT id, name, login, email, created FROM users WHERE id = ?";
+        String sql = "SELECT id, name, login, email, created, photoId FROM users WHERE id = ?";
         List<User> result = findBy(sql, x -> x.setInt(1, user.getId()));
         return result.isEmpty() ? null : result.get(0);
     }
@@ -109,6 +111,7 @@ public class DbStore implements Store {
                 user.setLogin(rs.getString("login"));
                 user.setEmail(rs.getString("email"));
                 user.setCreateDate(rs.getString("created"));
+                user.setPhotoid(rs.getString("photoid"));
                 users.add(user);
             }
         } catch (SQLException e) {

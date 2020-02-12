@@ -25,7 +25,7 @@ public class UpdateImageServlet extends HttpServlet {
         HttpSession session = req.getSession();
         synchronized (session) {
             User user = (User) session.getAttribute("user");
-            user.setPhotoId(photoId);
+            user.setPhotoid(photoId);
             session.setAttribute("user", user);
         }
         req.getRequestDispatcher("/WEB-INF/views/update.jsp").forward(req, resp);

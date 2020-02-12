@@ -19,8 +19,8 @@ public class UploadImageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         FileHandler fileHandler = (FileHandler) getServletContext().getAttribute("fileHandler");
-        String photoId = fileHandler.upload(req);
-        req.setAttribute("photoId", photoId);
+        String photoid = fileHandler.upload(req);
+        req.setAttribute("photoid", photoid);
         req.getRequestDispatcher("/WEB-INF/views/create.jsp").forward(req, resp);
     }
 }

@@ -11,9 +11,9 @@
 <form method='post' action='update_image' enctype="multipart/form-data">
     <b>Photo:</b><br>
     <div>
-        <img src="get_image?name=${user.photoId}" height="100px"/>
+        <img src="get_image?name=${user.photoid}" height="100px"/>
     </div>
-    <input type='hidden' name='photoId' value='${user.photoId}'>
+    <input type='hidden' name='photoid' value='${user.photoid}'>
     <input type='file' name='file'><br>
     <input type="submit" value="Загузить"/><br>
 </form>
@@ -27,7 +27,7 @@
     <input type='email' size='40' name='email' value='${user.email}'/><br><br>
     <input type='hidden' name='action' value='update'/>
     <input type='hidden' name='id' value='${user.id}'/>
-    <input type="hidden" name='photoId' value='${user.photoId}'>
+    <input type="hidden" name='photoid' value='${user.photoid}'>
     <input type='hidden' name='created' value='${user.createDate}'/>
     <input type="submit" value="OK"/>
 </form>

@@ -18,7 +18,7 @@ class RequestToUser {
         user.setLogin(req.getParameter("login"));
         user.setEmail(req.getParameter("email"));
         user.setCreateDate(req.getParameter("created"));
-        user.setPhotoId(req.getParameter("photoId"));
+        user.setPhotoid(req.getParameter("photoid"));
         return user;
     }
 }

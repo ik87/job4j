@@ -11,9 +11,9 @@
 <form method='post' action='send_image' enctype="multipart/form-data">
     <b>Photo:</b><br>
     <div>
-        <img src="get_image?name=${requestScope.photoId}" height="100px"/>
+        <img src="get_image?name=${requestScope.photoid}" height="100px"/>
     </div>
-    <input type='hidden' name='photoId' value='${requestScope.photoId}'>
+    <input type='hidden' name='photoid' value='${requestScope.photoid}'>
     <input type='file' name='file'><br>
     <input type="submit" value="Загузить"/><br>
 </form>
@@ -29,7 +29,7 @@
     <input type='date' name='created' size='40'/><br>
     <input type='submit' value='OK'/>
     <input type='hidden' name='action' value='add'/><br>
-    <input type="hidden" name='photoId' value='${requestScope.photoId}'>
+    <input type="hidden" name='photoid' value='${requestScope.photoid}'>
     <input type='hidden' name='id' value='0'/><br>
 </form>
 </body>

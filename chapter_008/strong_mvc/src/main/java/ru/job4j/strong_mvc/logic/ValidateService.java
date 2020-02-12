@@ -13,8 +13,8 @@ import java.util.List;
  * @since 0.1
  */
 public class ValidateService implements Validate {
-    private final Store store = MemoryStore.getInstance();
-    //private final Store store = DbStore.getInstance();
+    //private final Store store = MemoryStore.getInstance();
+    private final Store store = DbStore.getInstance();
 
     private static final ValidateService INSTANCE = new ValidateService();
 

@@ -1,7 +1,5 @@
 package ru.job4j.strong_mvc.controller;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import ru.job4j.strong_mvc.logic.FileHandler;
 import ru.job4j.strong_mvc.logic.Validate;
 import ru.job4j.strong_mvc.logic.ValidateService;
@@ -40,7 +38,7 @@ public class UserServlet extends HttpServlet {
         send.put("delete", (user) -> {
             FileHandler fileHandler = (FileHandler) getServletContext().
                     getAttribute("fileHandler");
-            fileHandler.delete(user.getPhotoId());
+            fileHandler.delete(validate.findById(user).getPhotoid());
             validate.delete(user);
         });
     }

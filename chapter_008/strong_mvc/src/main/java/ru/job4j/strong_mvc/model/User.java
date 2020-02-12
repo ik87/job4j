@@ -10,7 +10,7 @@ import java.util.Objects;
  * @since 0.1
  */
 public class User {
-    private String photoId;
+    private String photoid;
     private Integer id;
     private String name;
     private String login;
@@ -32,12 +32,12 @@ public class User {
                 && login.equals(user.login)
                 && email.equals(user.email)
                 && createDate.equals(user.createDate)
-                && photoId.equals(user.photoId);
+                && photoid.equals(user.photoid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, login, email, createDate, photoId);
+        return Objects.hash(id, name, login, email, createDate, photoid);
     }
 
     public Integer getId() {
@@ -64,12 +64,12 @@ public class User {
         this.login = login;
     }
 
-    public String getPhotoId() {
-        return photoId;
+    public String getPhotoid() {
+        return photoid;
     }
 
-    public void setPhotoId(String photoId) {
-        this.photoId = photoId;
+    public void setPhotoid(String photoid) {
+        this.photoid = photoid;
     }
 
     public String getEmail() {

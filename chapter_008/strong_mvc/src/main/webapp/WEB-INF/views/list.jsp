@@ -26,7 +26,8 @@
 
     <c:forEach var="user" items="${users}">
         <tr align="center">
-            <td><img src="get_image?name=${user.photoId}" height="100px"/></td>
+            <td><img src="get_image?name=${user.photoid}" height="100px"/></td>
+            <td>${user.name}</td>
             <td>${user.login}</td>
             <td>${user.email}</td>
             <td>${user.createDate}</td>
@@ -40,7 +41,6 @@
                 <form action="" method="post">
                     <input type="hidden" name="action" value="delete"/>
                     <input type="hidden" name="id" value="${user.id}"/>
-                    <input type="hidden" name="photoId" value="${user.photoId}"/>
                     <input type="submit"  value="del"/>
                 </form>
             </td>
