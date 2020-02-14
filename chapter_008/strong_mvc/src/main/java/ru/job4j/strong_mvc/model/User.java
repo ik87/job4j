@@ -12,12 +12,12 @@ import java.util.Objects;
 public class User {
     private String photoid;
     private Integer id;
-    private Integer roleid;
     private String name;
     private String email;
     private String createDate;
     private String login;
-
+    private String password;
+    private String role;
 
 
     @Override
@@ -90,12 +90,20 @@ public class User {
         this.createDate = createDate;
     }
 
-    public Integer getRoleid() {
-        return roleid;
+    public String getRole() {
+        return role;
     }
 
-    public void setRoleid(Integer roleid) {
-        this.roleid = roleid;
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
