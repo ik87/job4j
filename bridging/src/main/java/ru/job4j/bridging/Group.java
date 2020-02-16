@@ -5,49 +5,40 @@ import java.util.LinkedList;
 
 public class Group implements Comparable<Group> {
     int gnum;
-    Deque<String[]> rows;
+    Deque<Line> lines;
 
-    public Group(int gnum, String[] row) {
+    Group(int gnum, Line line) {
         this.gnum = gnum;
-        this.rows = new LinkedList<>() {
+        this.lines = new LinkedList<>() {
             {
-                add(row);
+                add(line);
             }
         };
     }
 
     @Override
     public int compareTo(Group o) {
-        return  Integer.compare(o.rows.size(), rows.size());
+        return  Integer.compare(o.size(), this.size());
     }
 
-    public boolean putRow(String[] row) {
+    boolean putLine(Line line) {
         boolean added = false;
-        for (int i = 0; i < 3; i++) {
-            String[] peek = rows.peekLast();
-            if (peek[i] != null && row[i] != null && row[i].equals(peek[i])) {
-                rows.addLast(row);
-                added = true;
-                break;
-            }
+        if(lines.peekLast().isContains(line)) {
+            lines.addLast(line);
+            added = true;
         }
         return added;
     }
 
-    public int size() {
-        return rows.size();
+    int size() {
+        return lines.size();
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (var row : rows) {
-            stringBuilder.append(row[0]);
-            stringBuilder.append(";");
-            stringBuilder.append(row[1]);
-            stringBuilder.append(";");
-            stringBuilder.append(row[2]);
-            stringBuilder.append("\n");
+        for (var line : lines) {
+            stringBuilder.append(line);
         }
         return String.format("\nGroup %s\n\r%s", gnum, stringBuilder);
     }
