@@ -5,6 +5,11 @@
     <title>login</title>
 </head>
 <body>
+<c:if test="${error != ''}">
+    <div style="background-color: red">
+        <c:out value="${error}"/>
+    </div>
+</c:if>
 <form action="signin" method="post">
     Login: <input type="text" name="login"><br/>
     Password <input type="password" name="password"><br/>

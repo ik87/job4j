@@ -20,7 +20,7 @@ public class AuthFilter implements Filter {
         } else {
             HttpSession session = request.getSession();
             synchronized (session) {
-                if (session.getAttribute("login") == null) {
+                if (session.getAttribute("role") == null) {
                     ((HttpServletResponse) resp).sendRedirect("signin");
                     return;
                 }

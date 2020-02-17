@@ -1,6 +1,7 @@
 package ru.job4j.strong_mvc.persistent;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import ru.job4j.strong_mvc.model.Role;
 import ru.job4j.strong_mvc.model.User;
 
 import java.sql.*;
@@ -14,7 +15,8 @@ public class DbStore implements Store {
 
     @Override
     public boolean ifExist(User user) {
-        String sql = "SELECT id, name, login, email, created, photoId FROM users WHERE id = ?";
+        String sql = "SELECT id, role_id, name, login, " +
+                "email, created, photoId, password FROM users WHERE id = ?";
         return !findBy(sql, x -> x.setInt(1, user.getId())).isEmpty();
     }
 
@@ -34,14 +36,16 @@ public class DbStore implements Store {
 
     @Override
     public void add(User user) {
-        String sql = "INSERT INTO users( name, email, login, created, photoid) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users( name, email, role_id, login, created, photoid, password)" +
+                " VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement pstm = connection.prepareStatement(sql)) {
             pstm.setString(1, user.getName());
-            pstm.setString(2, user.getEmail());
-            pstm.setString(3, user.getLogin());
-            pstm.setString(4, user.getCreateDate());
-            pstm.setString(5, user.getPhotoid());
+            pstm.setInt(2, user.getRole().getId());
+            pstm.setString(3, user.getEmail());
+            pstm.setString(4, user.getLogin());
+            pstm.setString(5, user.getCreateDate());
+            pstm.setString(6, user.getPhotoid());
             pstm.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -50,14 +54,17 @@ public class DbStore implements Store {
 
     @Override
     public void update(User user) {
-        String sql = "UPDATE users SET name = ?, login = ?, email = ?, photoid = ? WHERE id = ?";
+        String sql = "UPDATE users " +
+                "SET name = ?, role_id = ?, login = ?, email = ?, photoid = ?, password = ? WHERE id = ?";
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, user.getName());
-            pstmt.setString(2, user.getLogin());
-            pstmt.setString(3, user.getEmail());
-            pstmt.setString(4, user.getPhotoid());
-            pstmt.setInt(5, user.getId());
+            pstmt.setInt(2, user.getRole().getId());
+            pstmt.setString(3, user.getLogin());
+            pstmt.setString(4, user.getEmail());
+            pstmt.setString(5, user.getPhotoid());
+            pstmt.setString(6, user.getPassword());
+            pstmt.setInt(7, user.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -78,15 +85,39 @@ public class DbStore implements Store {
 
     @Override
     public List<User> findAll() {
-        String sql = "SELECT id, name, login, email, created, photoId FROM users";
+        String sql = "SELECT u.id, u.name, u.role_id , r.name as role, u.login, u.email, " +
+                "u.created, u.photoId, u.password" +
+                "FROM users u JOIN roles r ON r.id = u.role_id";
         return findBy(sql, null);
     }
 
     @Override
     public User findById(User user) {
-        String sql = "SELECT id, name, login, email, created, photoId FROM users WHERE id = ?";
+        String sql = "SELECT u.id, u.name, role_id , r.name as role, u.login, " +
+                "u.email, u.created, u.photoId, u.password FROM users u" +
+                "JOIN roles r ON r.id = u.role_id WHERE u.id = ?";
         List<User> result = findBy(sql, x -> x.setInt(1, user.getId()));
         return result.isEmpty() ? null : result.get(0);
+    }
+
+    @Override
+    public List<Role> getRoles() {
+        String sql = "SELECT id, name FROM Roles";
+        List<Role> roles = new ArrayList<>();
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Role role = new Role();
+                role.setId(rs.getInt("id"));
+                role.setRole(rs.getString("name"));
+                roles.add(role);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return roles;
     }
 
     /**
@@ -106,11 +137,15 @@ public class DbStore implements Store {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 User user = new User();
+                user.setRole(new Role());
                 user.setId(rs.getInt("id"));
                 user.setName(rs.getString("name"));
+                user.getRole().setId(rs.getInt("role_id"));
+                user.getRole().setRole(rs.getString("role"));
                 user.setLogin(rs.getString("login"));
                 user.setEmail(rs.getString("email"));
                 user.setCreateDate(rs.getString("created"));
+                user.setPassword(rs.getString("password"));
                 user.setPhotoid(rs.getString("photoid"));
                 users.add(user);
             }

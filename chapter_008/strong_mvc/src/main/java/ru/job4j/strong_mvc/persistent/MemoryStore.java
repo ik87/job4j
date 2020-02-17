@@ -1,5 +1,6 @@
 package ru.job4j.strong_mvc.persistent;
 
+import ru.job4j.strong_mvc.model.Role;
 import ru.job4j.strong_mvc.model.User;
 
 import java.util.ArrayList;
@@ -17,7 +18,9 @@ public class MemoryStore implements Store {
 
     private final static MemoryStore INSTANCE = new MemoryStore();
 
-    private final Map<Integer, User> storage = new ConcurrentHashMap<>();
+    private final Map<Integer, User> users = new ConcurrentHashMap<>();
+    private final Map<Integer, Role> roles = new ConcurrentHashMap<>();
+
     private final AtomicInteger id = new AtomicInteger(1);
 
     private MemoryStore() {
@@ -30,7 +33,7 @@ public class MemoryStore implements Store {
 
     @Override
     public void add(User user) {
-        storage.computeIfAbsent(id.getAndIncrement(), k -> {
+        users.computeIfAbsent(id.getAndIncrement(), k -> {
             user.setId(k);
             return user;
         });
@@ -38,26 +41,31 @@ public class MemoryStore implements Store {
 
     @Override
     public void update(User user) {
-        storage.put(user.getId(), user);
+        users.put(user.getId(), user);
     }
 
     @Override
     public void delete(User user) {
-        storage.remove(user.getId());
+        users.remove(user.getId());
     }
 
     @Override
     public List<User> findAll() {
-        return new ArrayList<>(storage.values());
+        return new ArrayList<>(users.values());
     }
 
     @Override
     public User findById(User user) {
-        return storage.get(user.getId());
+        return users.get(user.getId());
+    }
+
+    @Override
+    public List<Role> getRoles() {
+        return new ArrayList<>(roles.values());
     }
 
     @Override
     public boolean ifExist(User user) {
-        return storage.containsKey(user.getId());
+        return users.containsKey(user.getId());
     }
 }

@@ -1,5 +1,8 @@
 package ru.job4j.strong_mvc.controller;
 
+import ru.job4j.strong_mvc.logic.Credential;
+import ru.job4j.strong_mvc.model.User;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -8,9 +11,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class SigninController extends HttpServlet {
+
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
     }
 
     @Override
@@ -19,7 +24,15 @@ public class SigninController extends HttpServlet {
         String password = req.getParameter("password");
         HttpSession session = req.getSession();
         synchronized (session) {
-         //   if(session.)
+            Credential credential = new Credential();
+            if (credential.isCredential(login, password)) {
+                User user = credential.getUser();
+                session.setAttribute("role", user.getRole());
+                resp.sendRedirect("/list");
+            } else {
+                req.setAttribute("error", "Credential invalid");
+                doGet(req, resp);
+            }
         }
     }
 }

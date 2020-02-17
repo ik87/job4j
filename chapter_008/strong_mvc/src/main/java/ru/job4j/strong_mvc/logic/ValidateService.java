@@ -1,5 +1,6 @@
 package ru.job4j.strong_mvc.logic;
 
+import ru.job4j.strong_mvc.model.Role;
 import ru.job4j.strong_mvc.model.User;
 import ru.job4j.strong_mvc.persistent.DbStore;
 import ru.job4j.strong_mvc.persistent.MemoryStore;
@@ -70,5 +71,10 @@ public class ValidateService implements Validate {
                 && !user.getEmail().isEmpty()
                 && !user.getCreateDate().isEmpty()
                 && !user.getLogin().isEmpty();
+    }
+
+    @Override
+    public List<Role> getRoles() {
+        return null;
     }
 }

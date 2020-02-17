@@ -1,5 +1,6 @@
 package ru.job4j.strong_mvc.persistent;
 
+import ru.job4j.strong_mvc.model.Role;
 import ru.job4j.strong_mvc.model.User;
 
 import java.util.List;
@@ -24,4 +25,6 @@ public interface Store {
     User findById(User user);
 
     boolean ifExist(User user);
+
+    List<Role> getRoles();
 }

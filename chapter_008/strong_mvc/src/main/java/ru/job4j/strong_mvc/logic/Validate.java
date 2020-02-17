@@ -1,5 +1,6 @@
 package ru.job4j.strong_mvc.logic;
 
+import ru.job4j.strong_mvc.model.Role;
 import ru.job4j.strong_mvc.model.User;
 
 import java.util.List;
@@ -18,6 +19,8 @@ public interface Validate {
     boolean update(User user);
 
     boolean delete(User user);
+
+    List<Role> getRoles();
 
     List<User> findAll();
 
