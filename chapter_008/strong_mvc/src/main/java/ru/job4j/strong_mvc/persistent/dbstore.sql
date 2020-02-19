@@ -23,4 +23,4 @@ INSERT INTO Roles(name) VALUES ('Admin'), ('User');
 
 -- add admin
 INSERT INTO Users(name, role_id, login, email, password)
-VALUES ('IK', 1, 'admin', 'd_dexter@mail.ru', 'root')
+VALUES ('IK', 1, 'admin', 'd_dexter@email.ru', 'root')

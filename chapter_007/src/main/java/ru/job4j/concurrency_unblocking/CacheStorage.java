@@ -15,17 +15,17 @@ public class CacheStorage {
     /**
      * Add element
      *
-     * @param model model type Base
+     * @param model models type Base
      */
     public void add(Base model) {
         concurrentHashMap.put(model.id, model);
     }
 
     /**
-     * Change existence model from collection.
-     * Here no-blocking model is used
+     * Change existence models from collection.
+     * Here no-blocking models is used
      *
-     * @param model model type Base
+     * @param model models type Base
      */
     public void update(Base model) {
         concurrentHashMap.computeIfPresent(model.id, (k, v) -> {
@@ -38,9 +38,9 @@ public class CacheStorage {
     }
 
     /**
-     * Delete existence model from collection
+     * Delete existence models from collection
      *
-     * @param model model type Base
+     * @param model models type Base
      */
     public void delete(Base model) {
         concurrentHashMap.remove(model.id);

@@ -16,6 +16,7 @@
         <module>web_app</module>
         <module>web_app_jsp</module>
         <module>strong_mvc</module>
+        <module>webservice</module>
     </modules>
 
     <dependencies>

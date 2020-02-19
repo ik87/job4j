@@ -3,7 +3,7 @@ package ru.job4j.web_app;
  * This example web app. It has three layer, every layer can
  * interact only with neighboring layer
  * <p>
- * model - defines shared pojo object
+ * models - defines shared pojo object
  * <p>
  * layers:
  * presentation - Define controllers and view. Layer interact with logic

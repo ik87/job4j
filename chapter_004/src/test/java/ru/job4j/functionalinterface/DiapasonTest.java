@@ -17,10 +17,10 @@ import static org.junit.Assert.assertThat;
  */
 public class DiapasonTest {
     /**
-     * logarithm with chosen model
+     * logarithm with chosen models
      *
      * @param x    logarithm
-     * @param base model
+     * @param base models
      * @return result
      */
     static double log(double x, int base) {

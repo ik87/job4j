@@ -3,7 +3,7 @@ package ru.job4j.web_app_jsp.model;
 import java.util.Objects;
 
 /**
- * Define model data
+ * Define models data
  *
  * @author Kosolapov Ilya (d_dexter@mail.ru)
  * @version $id

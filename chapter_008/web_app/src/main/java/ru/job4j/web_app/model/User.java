@@ -1,7 +1,7 @@
 package ru.job4j.web_app.model;
 /**
  *
- * Define model data
+ * Define models data
  *
  * @author Kosolapov Ilya (d_dexter@mail.ru)
  * @version $id

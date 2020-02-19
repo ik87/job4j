@@ -3,7 +3,7 @@ package ru.job4j.strong_mvc.model;
 import java.util.Objects;
 
 /**
- * Define model data
+ * Define models data
  *
  * @author Kosolapov Ilya (d_dexter@mail.ru)
  * @version $id
