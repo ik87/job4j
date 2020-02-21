@@ -5,11 +5,12 @@ import java.util.Objects;
 
 public class User {
     int id;
+    String photoid;
     Role role;
     String login;
     String email;
     String password;
-    Date created;
+    Long created;
 
 
     @Override
@@ -49,11 +50,11 @@ public class User {
         this.email = email;
     }
 
-    public Date getCreated() {
+    public Long getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(Long created) {
         this.created = created;
     }
 

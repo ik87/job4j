@@ -14,4 +14,6 @@ public interface Validate {
     List<User> findAll();
 
     User findById(User user);
+
+    User findByLogin(User user);
 }

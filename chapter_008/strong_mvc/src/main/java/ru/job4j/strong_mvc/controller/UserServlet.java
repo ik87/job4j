@@ -28,6 +28,8 @@ public class UserServlet extends HttpServlet {
     private final Validate validate = ValidateService.getInstance();
 
     private final Map<String, Consumer<User>> send = new ConcurrentHashMap<>();
+    //key: Role,
+    private final Map<String, Consumer<String>> roleRedirection = new ConcurrentHashMap<>();
 
 
     @Override

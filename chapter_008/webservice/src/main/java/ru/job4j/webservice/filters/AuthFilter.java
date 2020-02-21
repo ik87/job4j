@@ -1,4 +1,4 @@
-package ru.job4j.strong_mvc.filters;
+package ru.job4j.webservice.filters;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class AuthFilter implements Filter {
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -17,7 +18,7 @@ public class AuthFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         if (request.getRequestURI().contains("/login")) {
             chain.doFilter(req, resp);
-        } else if(request.getRequestURI().contains("/signin")) {
+        } else if (request.getRequestURI().contains("/signin")) {
             chain.doFilter(req, resp);
         } else {
             HttpSession session = request.getSession();
@@ -30,7 +31,6 @@ public class AuthFilter implements Filter {
             chain.doFilter(req, resp);
         }
     }
-
 
     @Override
     public void destroy() {

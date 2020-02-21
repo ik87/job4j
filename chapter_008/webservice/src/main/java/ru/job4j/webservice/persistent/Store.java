@@ -19,4 +19,6 @@ public interface Store {
     boolean ifExist(User user);
 
     List<Role> getRoles();
+
+    User findByLogin(User user);
 }

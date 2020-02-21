@@ -1,13 +1,14 @@
 package ru.job4j.webservice.service;
 
 import ru.job4j.webservice.models.User;
+import ru.job4j.webservice.persistent.DbStore;
 import ru.job4j.webservice.persistent.MemoryStore;
 import ru.job4j.webservice.persistent.Store;
 
 import java.util.List;
 
 public class ValidateService implements Validate {
-    private final Store store = MemoryStore.getInstance();
+    private final Store store = DbStore.getInstance();
 
     private static final ValidateService INSTANCE = new ValidateService();
 
@@ -62,6 +63,11 @@ public class ValidateService implements Validate {
         return !user.getLogin().isEmpty()
                 && !user.getEmail().isEmpty()
                 && !user.getPassword().isEmpty();
+    }
+
+    @Override
+    public User findByLogin(User user) {
+        return store.findByLogin(user);
     }
 
 }

@@ -6,6 +6,7 @@ import ru.job4j.webservice.models.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -61,7 +62,21 @@ public class MemoryStore implements Store {
     }
 
     @Override
+    public User findByLogin(User user) {
+        User usr = null;
+        for( User u : users.values()) {
+            if(Objects.equals(user.getLogin(), user.getLogin())) {
+                usr = u;
+                break;
+            }
+        }
+        return usr;
+    }
+
+    @Override
     public boolean ifExist(User user) {
         return users.containsKey(user.getId());
     }
+
+
 }
