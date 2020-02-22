@@ -18,7 +18,7 @@ public class MainServlet  extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<User> users = validate.findAll();
         req.setAttribute("users", users);
-        req.getRequestDispatcher("/WEB-INF/views/admin/list.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/view/list.jsp").forward(req, resp);
     }
 
     @Override

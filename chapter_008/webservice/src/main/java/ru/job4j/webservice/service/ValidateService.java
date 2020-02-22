@@ -2,7 +2,6 @@ package ru.job4j.webservice.service;
 
 import ru.job4j.webservice.models.User;
 import ru.job4j.webservice.persistent.DbStore;
-import ru.job4j.webservice.persistent.MemoryStore;
 import ru.job4j.webservice.persistent.Store;
 
 import java.util.List;

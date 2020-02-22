@@ -1,5 +1,7 @@
 package ru.job4j.webservice.filters;
 
+import ru.job4j.webservice.models.User;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,20 +18,22 @@ public class AuthFilter implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
-        if (request.getRequestURI().contains("/login")) {
+        if (request.getRequestURI().contains("/signin")) {
             chain.doFilter(req, resp);
-        } else if (request.getRequestURI().contains("/signin")) {
+        } else if (request.getRequestURI().contains("/signup")) {
             chain.doFilter(req, resp);
         } else {
             HttpSession session = request.getSession();
             synchronized (session) {
                 if (session.getAttribute("login") == null) {
-                    ((HttpServletResponse) resp).sendRedirect("login");
+                    ((HttpServletResponse) resp).sendRedirect("signin");
                     return;
+                } else {
+                    chain.doFilter(req, resp);
                 }
             }
-            chain.doFilter(req, resp);
         }
+
     }
 
     @Override

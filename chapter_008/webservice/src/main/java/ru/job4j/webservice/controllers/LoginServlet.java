@@ -1,6 +1,7 @@
 package ru.job4j.webservice.controllers;
 
 import ru.job4j.webservice.models.User;
+import ru.job4j.webservice.service.Utils;
 import ru.job4j.webservice.service.Validate;
 import ru.job4j.webservice.service.ValidateService;
 
@@ -10,45 +11,33 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Consumer;
 
 public class LoginServlet extends HttpServlet {
 
-    //private final Map<String, Consumer<User>> actions = new ConcurrentHashMap<>();
     private final Validate validate = ValidateService.getInstance();
-
-    //  @Override
-    //  public void init() throws ServletException {
-    //      actions.put("login", x -> {
-    //          User user = validate.findByLogin(x);
-    //          if(Objects.equals(user.getPassword(), x.getPassword()) {
-    //
-    //           }
-    //       });
-    //   }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/view/signin.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        //get login data
+        User user = Utils.propertiesToUser(req);
         HttpSession session = req.getSession();
-        if (req.getParameter("action").equals("login")) {
+        if (req.getParameter("action").equals("signin")) {
             synchronized (session) {
-                User user = new User();
-                user.setLogin("login,");
-                User user = validate.findByLogin(x);
-                if (Objects.equals(user.getPassword(), x.getPassword()) {
-
+                User foundUser = validate.findByLogin(user);
+                if (foundUser != null && foundUser.getPassword().equals(user.getPassword())) {
+                    session.setAttribute("login", foundUser);
+                    resp.sendRedirect(req.getContextPath());
+                } else {
+                    req.setAttribute("error", "Credential invalid");
+                    doGet(req, resp);
                 }
             }
-        }
 
+        }
     }
 }

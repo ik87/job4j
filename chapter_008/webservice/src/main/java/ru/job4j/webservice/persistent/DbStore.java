@@ -14,14 +14,14 @@ public class DbStore implements Store {
 
     @Override
     public boolean ifExist(User user) {
-        String sql = "SELECT user_id, u.role_id, role, login, email, password, created " +
-                "FROM users u JOIN roles r ON r.role_id = u.role_id WHERE user_id = ?";
+        String sql = "SSELECT user_id, role_id, login, " +
+                "email, created, photo_Id, password FROM users WHERE user_id = ?";
         return !findBy(sql, x -> x.setInt(1, user.getId())).isEmpty();
     }
 
     private DbStore() {
         SOURCE.setDriverClassName("org.postgresql.Driver");
-        SOURCE.setUrl("jdbc:postgresql://127.0.0.1:5432/user_jsp");
+        SOURCE.setUrl("jdbc:postgresql://127.0.0.1:5432/webserver");
         SOURCE.setUsername("postgres");
         SOURCE.setPassword("password");
         SOURCE.setMinIdle(5);
@@ -57,7 +57,7 @@ public class DbStore implements Store {
             pstm.setString(1, user.getRole().getRole());
             pstm.setString(2, user.getLogin());
             pstm.setString(3, user.getEmail());
-            pstm.setString(3, user.getPassword());
+            pstm.setString(4, user.getPassword());
             pstm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -95,7 +95,7 @@ public class DbStore implements Store {
     public User findByLogin(User user) {
         String sql = "SELECT user_id, u.role_id, role, login, email, password, created " +
                 "FROM users u JOIN roles r ON r.role_id = u.role_id WHERE login = ?";
-        List<User> result = findBy(sql, x -> x.setInt(1, user.getId()));
+        List<User> result = findBy(sql, x -> x.setString(1, user.getLogin()));
         return result.isEmpty() ? null : result.get(0);
     }
 
@@ -117,11 +117,21 @@ public class DbStore implements Store {
             while (rs.next()) {
                 User user = new User();
                 Role role = new Role();
+/**
+ * "SELECT user_id, u.role_id, role, login, email, password, created " +
+ *                 "FROM users u JOIN roles r ON r.role_id = u.role_id WHERE login = ?";
+ */
+                role.setId(rs.getInt("role_id"));
+                role.setRole(rs.getString("role"));
+
                 user.setId(rs.getInt("user_id"));
                 user.setLogin(rs.getString("login"));
-                user.setEmail(rs.getString("login"));
-                user.setPassword(rs.getString("email"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
                 user.setCreated((rs.getTimestamp("created").getTime()));
+
+                user.setRole(role);
+
                 users.add(user);
             }
         } catch (SQLException e) {
