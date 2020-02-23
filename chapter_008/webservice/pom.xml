@@ -17,6 +17,12 @@
             <artifactId>commons-fileupload</artifactId>
             <version>1.4</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-core</artifactId>
+            <version>3.3.2</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 </project>

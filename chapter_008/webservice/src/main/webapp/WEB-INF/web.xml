@@ -49,6 +49,14 @@
         <url-pattern>/user</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>UserProfileEdit</servlet-name>
+        <servlet-class>ru.job4j.webservice.controllers.user.EditServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserProfileEdit</servlet-name>
+        <url-pattern>/user/edit</url-pattern>
+    </servlet-mapping>
     <!-- Servlets for the admin role - /admin/* -->
     <servlet>
         <servlet-name>AdminEntryPoint</servlet-name>
@@ -57,6 +65,16 @@
     <servlet-mapping>
         <servlet-name>AdminEntryPoint</servlet-name>
         <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+    <!-- share servlets -->
+
+    <servlet>
+        <servlet-name>Signout</servlet-name>
+        <servlet-class>ru.job4j.webservice.controllers.SignoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Signout</servlet-name>
+        <url-pattern>/signout</url-pattern>
     </servlet-mapping>
 
 </web-app>

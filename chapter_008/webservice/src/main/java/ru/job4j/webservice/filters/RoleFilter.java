@@ -18,10 +18,13 @@ public class RoleFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpSession session = request.getSession();
+
         synchronized (session) {
             User user = (User) session.getAttribute("login");
             if (user != null) {
-                if ("admin".equals(user.getRole().getRole())) {
+                if (request.getRequestURI().contains("/signout")) {
+                    chain.doFilter(req, resp);
+                } else if ("admin".equals(user.getRole().getRole())) {
                     if (request.getRequestURI().contains("/admin")) {
                         chain.doFilter(req, resp);
                     } else {
@@ -40,8 +43,8 @@ public class RoleFilter implements Filter {
             } else {
                 chain.doFilter(req, resp);
             }
-
         }
+
     }
 
     @Override
