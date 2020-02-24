@@ -21,4 +21,6 @@ public interface Store {
     List<Role> getRoles();
 
     User findByLogin(User user);
+
+    User findByLoginAndPassword(User user);
 }

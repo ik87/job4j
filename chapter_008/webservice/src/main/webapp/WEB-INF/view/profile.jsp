@@ -28,7 +28,7 @@
         <div class="col-12">
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="user/edit">Edit profile</a>
+                    <a class="nav-link active" href="${pageContext.request.contextPath}/${user.role.role}/edit">Edit profile</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Remove profile</a>
@@ -87,7 +87,7 @@
                         <div class="col">
                             <%=
                             Utils.millisecondToStringDate(
-                                    ((User) request.getAttribute("user")).getCreated())
+                                    ((User) session.getAttribute("user")).getCreated())
                             %>
                         </div>
                     </div>

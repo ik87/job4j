@@ -23,14 +23,13 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //get login data
         User user = Utils.propertiesToUser(req);
         HttpSession session = req.getSession();
         if (req.getParameter("action").equals("signin")) {
             synchronized (session) {
-                User foundUser = validate.findByLogin(user);
-                if (foundUser != null && foundUser.getPassword().equals(user.getPassword())) {
-                    session.setAttribute("login", foundUser);
+                User authUser = user != null ? validate.findByLoginAndPassword(user) : null;
+                if (authUser != null) {
+                    session.setAttribute("user", authUser);
                     resp.sendRedirect(req.getContextPath());
                 } else {
                     req.setAttribute("error", "Credential invalid");

@@ -81,4 +81,17 @@ public class User {
     public void setCreated(Long created) {
         this.created = created;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", photoid='" + photoid + '\'' +
+                ", role=" + role +
+                ", login='" + login + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", created=" + created +
+                '}';
+    }
 }

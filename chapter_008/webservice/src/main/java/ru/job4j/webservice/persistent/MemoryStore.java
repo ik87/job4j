@@ -64,8 +64,8 @@ public class MemoryStore implements Store {
     @Override
     public User findByLogin(User user) {
         User usr = null;
-        for( User u : users.values()) {
-            if(Objects.equals(user.getLogin(), user.getLogin())) {
+        for (User u : users.values()) {
+            if (Objects.equals(user.getLogin(), user.getLogin())) {
                 usr = u;
                 break;
             }
@@ -78,5 +78,9 @@ public class MemoryStore implements Store {
         return users.containsKey(user.getId());
     }
 
-
+    @Override
+    public User findByLoginAndPassword(User user) {
+        User foundUser = findByLogin(user);
+        return foundUser.getPassword().equals(user.getPassword()) ? null : foundUser;
+    }
 }

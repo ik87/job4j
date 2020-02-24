@@ -20,7 +20,7 @@ public class RoleFilter implements Filter {
         HttpSession session = request.getSession();
 
         synchronized (session) {
-            User user = (User) session.getAttribute("login");
+            User user = (User) session.getAttribute("user");
             if (user != null) {
                 if (request.getRequestURI().contains("/signout")) {
                     chain.doFilter(req, resp);

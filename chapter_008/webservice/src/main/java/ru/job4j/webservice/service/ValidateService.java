@@ -39,6 +39,33 @@ public class ValidateService implements Validate {
     }
 
     @Override
+    public boolean update(User oldUser, User newUser) {
+
+        if (!isEmpty(newUser.getPassword())) {
+            oldUser.setPassword(newUser.getPassword());
+        }
+
+        if (!isEmpty(newUser.getLogin())) {
+            oldUser.setLogin(newUser.getLogin());
+        }
+
+        if (!isEmpty(newUser.getEmail())) {
+            oldUser.setEmail(newUser.getEmail());
+        }
+
+        if (!isEmpty(newUser.getPhotoid())) {
+
+            oldUser.setPhotoid(newUser.getPhotoid());
+        }
+
+        if (newUser.getRole() != null) {
+            oldUser.setRole(oldUser.getRole());
+        }
+
+        return update(oldUser);
+    }
+
+    @Override
     public boolean delete(User user) {
         boolean result = false;
         if (store.findById(user) != null) {
@@ -69,4 +96,17 @@ public class ValidateService implements Validate {
         return store.findByLogin(user);
     }
 
+    @Override
+    public User findByLoginAndPassword(User user) {
+        return store.findByLoginAndPassword(user);
+    }
+
+    /**
+     * check string on null and empty
+     * @param str checked string
+     * @return true if empty
+     */
+    private boolean isEmpty(String str) {
+        return str == null || str.isEmpty();
+    }
 }

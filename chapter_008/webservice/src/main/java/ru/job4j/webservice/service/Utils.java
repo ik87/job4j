@@ -1,16 +1,27 @@
 package ru.job4j.webservice.service;
 
+import org.apache.cxf.transport.Session;
 import ru.job4j.webservice.models.Role;
 import ru.job4j.webservice.models.User;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Utils {
 
-private final static String DATA_FORMAT = "dd-MM-yyyy HH:mm";
+    private final static String DATA_FORMAT = "dd-MM-yyyy HH:mm";
+
+    public static <T> T getObjectFromSession(HttpServletRequest req, String name) {
+        HttpSession session = req.getSession();
+        T user;
+        synchronized (session) {
+            user = (T) session.getAttribute(name);
+        }
+        return user;
+    }
 
     public static User propertiesToUser(HttpServletRequest req) {
         User user = new User();
@@ -28,7 +39,7 @@ private final static String DATA_FORMAT = "dd-MM-yyyy HH:mm";
     }
 
     private static Integer stringToInt(String str) {
-        return str != null ?  Integer.valueOf(str) : null;
+        return str != null ? Integer.valueOf(str) : null;
     }
 /**
  *     <input type="text" placeholder="login" name="login"/>
@@ -38,13 +49,14 @@ private final static String DATA_FORMAT = "dd-MM-yyyy HH:mm";
  */
     /**
      * Convert date string to millisecond
+     *
      * @param date string data. Format as DATA_FORMAT
      * @return millisecond
      */
     private static Long dateStringToMillisecond(String date) {
         SimpleDateFormat f = new SimpleDateFormat(DATA_FORMAT);
         Long milliseconds = null;
-        if( date != null) {
+        if (date != null) {
             try {
                 Date d = f.parse(date);
                 milliseconds = d.getTime();
@@ -57,6 +69,7 @@ private final static String DATA_FORMAT = "dd-MM-yyyy HH:mm";
 
     /**
      * Convert millisecond to data string
+     *
      * @param millisecond mls
      * @return string data. Format as DATA_FORMAT
      */

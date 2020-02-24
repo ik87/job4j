@@ -14,8 +14,7 @@ public class DbStore implements Store {
 
     @Override
     public boolean ifExist(User user) {
-        String sql = "SSELECT user_id, role_id, login, " +
-                "email, created, photo_Id, password FROM users WHERE user_id = ?";
+        String sql = "WHERE user_id = ?";
         return !findBy(sql, x -> x.setInt(1, user.getId())).isEmpty();
     }
 
@@ -38,10 +37,10 @@ public class DbStore implements Store {
         String sql = "INSERT INTO Users(role_id, login, email, password, created) VALUES (?, ?, ?, ?, NOW())";
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement pstm = connection.prepareStatement(sql)) {
-            pstm.setString(1, user.getRole().getRole());
+            pstm.setInt(1, user.getRole().getId());
             pstm.setString(2, user.getLogin());
             pstm.setString(3, user.getEmail());
-            pstm.setString(3, user.getPassword());
+            pstm.setString(4, user.getPassword());
             // pstm.setTimestamp(5, new Timestamp(user.getCreated()));
             pstm.executeUpdate();
         } catch (Exception e) {
@@ -51,13 +50,15 @@ public class DbStore implements Store {
 
     @Override
     public void update(User user) {
-        String sql = "UPDATE users SET role_id = ?, login = ?, email = ?, password = ? WHERE user_id = ?";
+        String sql = "UPDATE users SET role_id = ?, " +
+                "login = ?, email = ?, password = ? WHERE user_id = ?";
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement pstm = connection.prepareStatement(sql)) {
-            pstm.setString(1, user.getRole().getRole());
+            pstm.setInt(1, user.getRole().getId());
             pstm.setString(2, user.getLogin());
             pstm.setString(3, user.getEmail());
             pstm.setString(4, user.getPassword());
+            pstm.setInt(5, user.getId());
             pstm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -78,35 +79,43 @@ public class DbStore implements Store {
 
     @Override
     public List<User> findAll() {
-        String sql = "SELECT user_id, u.role_id, role, login, email, password, created " +
-                "FROM users u JOIN roles r ON r.role_id = u.role_id";
-        return findBy(sql, null);
+        return findBy("", null);
     }
 
     @Override
     public User findById(User user) {
-        String sql = "SELECT user_id, u.role_id, role, login, email, password, created " +
-                "FROM users u JOIN roles r ON r.role_id = u.role_id WHERE user_id = ?";
+        String sql = "WHERE user_id = ?";
         List<User> result = findBy(sql, x -> x.setInt(1, user.getId()));
         return result.isEmpty() ? null : result.get(0);
     }
 
     @Override
     public User findByLogin(User user) {
-        String sql = "SELECT user_id, u.role_id, role, login, email, password, created " +
-                "FROM users u JOIN roles r ON r.role_id = u.role_id WHERE login = ?";
+        String sql = "WHERE login = ?";
         List<User> result = findBy(sql, x -> x.setString(1, user.getLogin()));
+        return result.isEmpty() ? null : result.get(0);
+    }
+
+    @Override
+    public User findByLoginAndPassword(User user) {
+        String sql = "WHERE login = ? AND password = ?";
+        List<User> result = findBy(sql, x -> {
+            x.setString(1, user.getLogin());
+            x.setString(2, user.getPassword());
+        });
         return result.isEmpty() ? null : result.get(0);
     }
 
     /**
      * General-purpose query method
      *
-     * @param sql any sql query
-     * @param ps  functionality interface the same Consumer but can throws SQLException or NULL
+     * @param where any sql WHERE query
+     * @param ps    functionality interface the same Consumer but can throws SQLException or NULL
      * @return array items
      */
-    private List<User> findBy(String sql, ConsumerX<PreparedStatement> ps) {
+    private List<User> findBy(String where, ConsumerX<PreparedStatement> ps) {
+        String sql = "SELECT user_id, u.role_id, role, login, email, password, created " +
+                "FROM users u JOIN roles r ON r.role_id = u.role_id " + where;
         List<User> users = new ArrayList<>();
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -117,10 +126,7 @@ public class DbStore implements Store {
             while (rs.next()) {
                 User user = new User();
                 Role role = new Role();
-/**
- * "SELECT user_id, u.role_id, role, login, email, password, created " +
- *                 "FROM users u JOIN roles r ON r.role_id = u.role_id WHERE login = ?";
- */
+
                 role.setId(rs.getInt("role_id"));
                 role.setRole(rs.getString("role"));
 

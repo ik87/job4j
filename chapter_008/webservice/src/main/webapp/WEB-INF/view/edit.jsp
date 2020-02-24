@@ -20,7 +20,7 @@
 </head>
 <body>
 <div class="container-sm">
-    <form method="post" action="${pageContext.request.contextPath}">
+    <form method="post" action="${pageContext.request.contextPath}/${user.role.role}">
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="inputLogin" >Login</label>
