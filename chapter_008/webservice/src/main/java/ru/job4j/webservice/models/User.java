@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class User {
     Integer id;
-    String photoid;
+    byte[] photo;
     Role role;
     String login;
     String email;
@@ -34,12 +34,12 @@ public class User {
         this.id = id;
     }
 
-    public String getPhotoid() {
-        return photoid;
+    public byte[] getPhoto() {
+        return photo;
     }
 
-    public void setPhotoid(String photoid) {
-        this.photoid = photoid;
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 
     public Role getRole() {
@@ -86,7 +86,6 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", photoid='" + photoid + '\'' +
                 ", role=" + role +
                 ", login='" + login + '\'' +
                 ", email='" + email + '\'' +

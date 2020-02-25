@@ -45,12 +45,12 @@
             <!--img-->
 
             <!--upload img-->
-            <form method='post' action='send_image' enctype="multipart/form-data">
+            <form method='post' action='${pageContext.request.contextPath}/upload' enctype="multipart/form-data">
                 <div class="form-group">
                     <div style="height: 200px">
-                        <img src="get_image?name=${user.photoid}" height="200px"/>
+<%--                        <img src="get_image?name=${user.photo}" height="200px"/>--%>
                     </div>
-                    <input type='hidden' name='photoid' value='${user.photoid}'>
+<%--                    <input type='hidden' name='photoid' value='${user.photo}'>--%>
                     <input class="form-control-file mt-1" type='file' name='file'>
                     <input type="submit" value="Upload"/>
                 </div>

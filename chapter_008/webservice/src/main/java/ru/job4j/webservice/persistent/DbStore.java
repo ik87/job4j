@@ -51,7 +51,7 @@ public class DbStore implements Store {
     @Override
     public void update(User user) {
         String sql = "UPDATE users SET role_id = ?, " +
-                "login = ?, email = ?, password = ? WHERE user_id = ?";
+                "login = ?, email = ?, password = ?, photo = ? WHERE user_id = ?";
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement pstm = connection.prepareStatement(sql)) {
             pstm.setInt(1, user.getRole().getId());
@@ -59,6 +59,7 @@ public class DbStore implements Store {
             pstm.setString(3, user.getEmail());
             pstm.setString(4, user.getPassword());
             pstm.setInt(5, user.getId());
+            pstm.setBytes(6, user.getPhoto());
             pstm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

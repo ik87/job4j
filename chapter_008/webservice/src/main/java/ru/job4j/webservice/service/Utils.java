@@ -1,18 +1,63 @@
 package ru.job4j.webservice.service;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.cxf.transport.Session;
 import ru.job4j.webservice.models.Role;
 import ru.job4j.webservice.models.User;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 public class Utils {
 
     private final static String DATA_FORMAT = "dd-MM-yyyy HH:mm";
+
+    public static byte[] getBytesFromRequest(HttpServletRequest req) {
+        // Create a factory for disk-based file items
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+        byte[] bytes = new byte[0];
+
+        // Configure a repository (to ensure a secure temp location is used)
+        ServletContext servletContext = req.getServletContext();
+        File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
+        factory.setRepository(repository);
+
+        // Create a new file upload handler
+        ServletFileUpload upload = new ServletFileUpload(factory);
+
+        // Parse the request
+        try {
+            List<FileItem> items = upload.parseRequest(req);
+
+
+            // Process the uploaded items
+            Iterator<FileItem> iter = items.iterator();
+            while (iter.hasNext()) {
+                FileItem item = iter.next();
+
+                if (item.isFormField()) {
+
+                } else {
+                    bytes = item.get();
+                }
+            }
+
+        } catch (FileUploadException e) {
+            e.printStackTrace();
+        }
+        return bytes;
+    }
 
     public static <T> T getObjectFromSession(HttpServletRequest req, String name) {
         HttpSession session = req.getSession();

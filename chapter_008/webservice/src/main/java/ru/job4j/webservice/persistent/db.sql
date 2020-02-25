@@ -1,13 +1,16 @@
+DROP TABLE Users;
+DROP TABLE Roles;
 --add roles
 CREATE TABLE Roles (
    role_id serial primary key,
    role varchar(10)
 );
+
 -- add users
 CREATE TABLE Users (
    user_id serial primary key,
    role_id int references Roles(role_id),
-   photo_Id varchar(50) ,
+   photo bytea,
    login varchar(50) UNIQUE,
    email varchar(50) UNIQUE,
    password varchar(50),

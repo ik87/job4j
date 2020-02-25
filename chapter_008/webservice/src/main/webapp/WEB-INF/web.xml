@@ -66,7 +66,8 @@
         <servlet-name>AdminEntryPoint</servlet-name>
         <url-pattern>/admin</url-pattern>
     </servlet-mapping>
-    <!-- share servlets -->
+
+    <!-- Common servlets -->
 
     <servlet>
         <servlet-name>Signout</servlet-name>
@@ -75,6 +76,24 @@
     <servlet-mapping>
         <servlet-name>Signout</servlet-name>
         <url-pattern>/signout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Upload</servlet-name>
+        <servlet-class>ru.job4j.webservice.controllers.UploadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Upload</servlet-name>
+        <url-pattern>/upload</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Download</servlet-name>
+        <servlet-class>ru.job4j.webservice.controllers.DownloadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Download</servlet-name>
+        <url-pattern>/download</url-pattern>
     </servlet-mapping>
 
 </web-app>
