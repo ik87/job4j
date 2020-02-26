@@ -1,5 +1,7 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="ru.job4j.webservice.service.Utils" %>
 <%@ page import="ru.job4j.webservice.models.User" %>
+<%@ page import="java.util.Arrays" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +30,8 @@
         <div class="col-12">
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="${pageContext.request.contextPath}/${user.role.role}/edit">Edit profile</a>
+                    <a class="nav-link active" href="${pageContext.request.contextPath}/${user.role.role}/edit">Edit
+                        profile</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Remove profile</a>
@@ -43,14 +46,12 @@
         <div class="col-sm-5  col-md-4">
             <!--row 2-->
             <!--img-->
-
+            <img class="rounded mx-auto d-block" style="width: 100%" src="data:image/jpeg;base64,${photo}"/>
             <!--upload img-->
             <form method='post' action='${pageContext.request.contextPath}/upload' enctype="multipart/form-data">
                 <div class="form-group">
-                    <div style="height: 200px">
-<%--                        <img src="get_image?name=${user.photo}" height="200px"/>--%>
-                    </div>
-<%--                    <input type='hidden' name='photoid' value='${user.photo}'>--%>
+                    <input type='hidden' name='id' value='#'>
+                    <input type='hidden' name='fieldName' value='#'>
                     <input class="form-control-file mt-1" type='file' name='file'>
                     <input type="submit" value="Upload"/>
                 </div>
@@ -84,12 +85,7 @@
                 <li class="list-group-item">
                     <div class="row">
                         <div class="col-sm-12 col-md-2 font-weight-bold">Created:</div>
-                        <div class="col">
-                            <%=
-                            Utils.millisecondToStringDate(
-                                    ((User) session.getAttribute("user")).getCreated())
-                            %>
-                        </div>
+                        <div class="col">${created}</div>
                     </div>
                 </li>
             </ul>

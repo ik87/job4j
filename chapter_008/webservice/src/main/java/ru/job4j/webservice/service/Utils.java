@@ -22,43 +22,6 @@ import java.util.List;
 public class Utils {
 
     private final static String DATA_FORMAT = "dd-MM-yyyy HH:mm";
-
-    public static byte[] getBytesFromRequest(HttpServletRequest req) {
-        // Create a factory for disk-based file items
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-        byte[] bytes = new byte[0];
-
-        // Configure a repository (to ensure a secure temp location is used)
-        ServletContext servletContext = req.getServletContext();
-        File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
-        factory.setRepository(repository);
-
-        // Create a new file upload handler
-        ServletFileUpload upload = new ServletFileUpload(factory);
-
-        // Parse the request
-        try {
-            List<FileItem> items = upload.parseRequest(req);
-
-
-            // Process the uploaded items
-            Iterator<FileItem> iter = items.iterator();
-            while (iter.hasNext()) {
-                FileItem item = iter.next();
-
-                if (item.isFormField()) {
-
-                } else {
-                    bytes = item.get();
-                }
-            }
-
-        } catch (FileUploadException e) {
-            e.printStackTrace();
-        }
-        return bytes;
-    }
-
     public static <T> T getObjectFromSession(HttpServletRequest req, String name) {
         HttpSession session = req.getSession();
         T user;

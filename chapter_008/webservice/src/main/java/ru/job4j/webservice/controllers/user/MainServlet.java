@@ -21,22 +21,24 @@ public class MainServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
 
-        actions.put("update", (req, resp) -> {
-            User changed = Utils.propertiesToUser(req);
-            User authUser = Utils.getObjectFromSession(req, "user");
-            User user = validate.findById(authUser);
-            validate.update(user, changed);
-            try {
-                resp.sendRedirect(req.getContextPath());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        actions.put("update", this::update);
+        actions.put("upload", this::upload);
+
 
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User user = Utils.getObjectFromSession(req, "user");
+
+        String photo = user.getPhoto() != null ?
+                new String(user.getPhoto(), "UTF-8") : null;
+
+        String created = Utils.millisecondToStringDate(user.getCreated());
+
+        req.setAttribute("photo", photo);
+        req.setAttribute("created", created);
+
         req.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(req, resp);
     }
 
@@ -45,6 +47,35 @@ public class MainServlet extends HttpServlet {
 
         String action = req.getParameter("action");
         actions.get(action).accept(req, resp);
+    }
+
+    private void update(HttpServletRequest req, HttpServletResponse resp) {
+        User changed = Utils.propertiesToUser(req);
+        User authUser = Utils.getObjectFromSession(req, "user");
+        User user = validate.findById(authUser);
+
+        validate.update(user, changed);
+        try {
+            resp.sendRedirect(req.getContextPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void upload(HttpServletRequest req, HttpServletResponse resp) {
+        User changed = new User();
+        User authUser = Utils.getObjectFromSession(req, "user");
+        User user = validate.findById(authUser);
+
+        byte[] bytes = (byte[]) req.getAttribute("bytes");
+        changed.setPhoto(bytes);
+
+        validate.update(user, changed);
+        try {
+            resp.sendRedirect(req.getContextPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

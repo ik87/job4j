@@ -6,6 +6,7 @@ import ru.job4j.webservice.models.User;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class DbStore implements Store {
@@ -58,8 +59,9 @@ public class DbStore implements Store {
             pstm.setString(2, user.getLogin());
             pstm.setString(3, user.getEmail());
             pstm.setString(4, user.getPassword());
-            pstm.setInt(5, user.getId());
-            pstm.setBytes(6, user.getPhoto());
+            pstm.setBytes(5,  Base64.getEncoder().encode(user.getPhoto()));
+            pstm.setInt(6, user.getId());
+
             pstm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -115,7 +117,7 @@ public class DbStore implements Store {
      * @return array items
      */
     private List<User> findBy(String where, ConsumerX<PreparedStatement> ps) {
-        String sql = "SELECT user_id, u.role_id, role, login, email, password, created " +
+        String sql = "SELECT user_id, u.role_id, role, login, email, password, created, photo " +
                 "FROM users u JOIN roles r ON r.role_id = u.role_id " + where;
         List<User> users = new ArrayList<>();
         try (Connection connection = SOURCE.getConnection();
@@ -136,6 +138,7 @@ public class DbStore implements Store {
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
                 user.setCreated((rs.getTimestamp("created").getTime()));
+                user.setPhoto(rs.getBytes("photo"));
 
                 user.setRole(role);
 
