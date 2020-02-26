@@ -57,6 +57,7 @@
         <servlet-name>UserProfileEdit</servlet-name>
         <url-pattern>/user/edit</url-pattern>
     </servlet-mapping>
+
     <!-- Servlets for the admin role - /admin/* -->
     <servlet>
         <servlet-name>AdminEntryPoint</servlet-name>
@@ -65,6 +66,22 @@
     <servlet-mapping>
         <servlet-name>AdminEntryPoint</servlet-name>
         <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AdminProfile</servlet-name>
+        <servlet-class>ru.job4j.webservice.controllers.admin.ProfileServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminProfile</servlet-name>
+        <url-pattern>/admin/profile</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AdminProfileEdit</servlet-name>
+        <servlet-class>ru.job4j.webservice.controllers.admin.EditServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminProfileEdit</servlet-name>
+        <url-pattern>/admin/edit</url-pattern>
     </servlet-mapping>
 
     <!-- Common servlets -->
@@ -87,13 +104,13 @@
         <url-pattern>/upload</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>Download</servlet-name>
-        <servlet-class>ru.job4j.webservice.controllers.DownloadServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Download</servlet-name>
-        <url-pattern>/download</url-pattern>
-    </servlet-mapping>
+    <!--    <servlet>
+            <servlet-name>Download</servlet-name>
+            <servlet-class>ru.job4j.webservice.controllers.DownloadServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+            <servlet-name>Download</servlet-name>
+            <url-pattern>/download</url-pattern>
+        </servlet-mapping>-->
 
 </web-app>

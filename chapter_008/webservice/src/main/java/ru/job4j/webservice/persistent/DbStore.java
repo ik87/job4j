@@ -59,7 +59,7 @@ public class DbStore implements Store {
             pstm.setString(2, user.getLogin());
             pstm.setString(3, user.getEmail());
             pstm.setString(4, user.getPassword());
-            pstm.setBytes(5,  Base64.getEncoder().encode(user.getPhoto()));
+            pstm.setBytes(5,  user.getPhoto());
             pstm.setInt(6, user.getId());
 
             pstm.executeUpdate();

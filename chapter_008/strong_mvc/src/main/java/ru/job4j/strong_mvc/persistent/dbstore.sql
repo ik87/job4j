@@ -9,7 +9,7 @@ CREATE TABLE Roles
 CREATE TABLE Users
 (
     id      serial primary key,
-    role_id int references Roles (id),
+    roleId int references Roles (id),
     name    varchar(50),
     login   varchar(50),
     password varchar(50),
@@ -22,5 +22,5 @@ CREATE TABLE Users
 INSERT INTO Roles(name) VALUES ('Admin'), ('User');
 
 -- add admin
-INSERT INTO Users(name, role_id, login, email, password)
+INSERT INTO Users(name, roleId, login, email, password)
 VALUES ('IK', 1, 'admin', 'd_dexter@email.ru', 'root')
