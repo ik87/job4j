@@ -58,6 +58,15 @@
         <url-pattern>/user/edit</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>UploadUser</servlet-name>
+        <servlet-class>ru.job4j.webservice.controllers.user.UploadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UploadUser</servlet-name>
+        <url-pattern>/user/upload</url-pattern>
+    </servlet-mapping>
+
     <!-- Servlets for the admin role - /admin/* -->
     <servlet>
         <servlet-name>AdminEntryPoint</servlet-name>
@@ -84,6 +93,23 @@
         <url-pattern>/admin/edit</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>UploadAdmin</servlet-name>
+        <servlet-class>ru.job4j.webservice.controllers.admin.UploadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UploadAdmin</servlet-name>
+        <url-pattern>/admin/upload</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddUser</servlet-name>
+        <servlet-class>ru.job4j.webservice.controllers.admin.AddServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddUser</servlet-name>
+        <url-pattern>/admin/add</url-pattern>
+    </servlet-mapping>
+
     <!-- Common servlets -->
 
     <servlet>
@@ -96,21 +122,13 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>Upload</servlet-name>
-        <servlet-class>ru.job4j.webservice.controllers.UploadServlet</servlet-class>
+        <servlet-name>Signup</servlet-name>
+        <servlet-class>ru.job4j.webservice.controllers.SignupServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Upload</servlet-name>
-        <url-pattern>/upload</url-pattern>
+        <servlet-name>Signup</servlet-name>
+        <url-pattern>/signup</url-pattern>
     </servlet-mapping>
 
-    <!--    <servlet>
-            <servlet-name>Download</servlet-name>
-            <servlet-class>ru.job4j.webservice.controllers.DownloadServlet</servlet-class>
-        </servlet>
-        <servlet-mapping>
-            <servlet-name>Download</servlet-name>
-            <url-pattern>/download</url-pattern>
-        </servlet-mapping>-->
 
 </web-app>

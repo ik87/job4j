@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class EditServlet extends HttpServlet {
-    public final UserMapper userMapper = new UserMapperImpl();
+    public final UserMapper userMapper = UserMapperImpl.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = Utils.getObjectFromSession(req, "user");

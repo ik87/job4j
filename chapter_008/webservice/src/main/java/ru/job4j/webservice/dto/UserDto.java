@@ -1,7 +1,7 @@
 package ru.job4j.webservice.dto;
 
 public class UserDto {
-    private int userId;
+    private Integer userId;
     private String login;
     private String email;
     private String role;
@@ -42,11 +42,11 @@ public class UserDto {
         this.role = role;
     }
 
-    public int getRoleId() {
+    public Integer getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(int roleId) {
+    public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
 

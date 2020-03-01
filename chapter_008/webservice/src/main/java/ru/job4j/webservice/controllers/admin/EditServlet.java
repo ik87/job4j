@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class EditServlet extends HttpServlet {
-    private final UserMapper userMapper = new UserMapperImpl();
+    private final UserMapper userMapper = UserMapperImpl.getInstance();
     private final Validate validate = ValidateService.getInstance();
 
     @Override

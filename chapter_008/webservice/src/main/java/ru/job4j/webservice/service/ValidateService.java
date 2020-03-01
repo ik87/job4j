@@ -1,5 +1,6 @@
 package ru.job4j.webservice.service;
 
+import ru.job4j.webservice.models.Role;
 import ru.job4j.webservice.models.User;
 import ru.job4j.webservice.persistent.DbStore;
 import ru.job4j.webservice.persistent.Store;
@@ -58,7 +59,7 @@ public class ValidateService implements Validate {
         }
 
         if (newUser.getRole() != null) {
-            oldUser.setRole(oldUser.getRole());
+            oldUser.setRole(newUser.getRole());
         }
 
         return update(oldUser);
@@ -100,8 +101,14 @@ public class ValidateService implements Validate {
         return store.findByLoginAndPassword(user);
     }
 
+    @Override
+    public List<Role> getRoles() {
+        return store.getRoles();
+    }
+
     /**
      * check string on null and empty
+     *
      * @param str checked string
      * @return true if empty
      */

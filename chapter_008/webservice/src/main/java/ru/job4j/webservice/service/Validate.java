@@ -1,5 +1,6 @@
 package ru.job4j.webservice.service;
 
+import ru.job4j.webservice.models.Role;
 import ru.job4j.webservice.models.User;
 
 import java.util.List;
@@ -26,6 +27,8 @@ public interface Validate {
     User findById(User user);
 
     User findByLogin(User user);
+
+    List<Role> getRoles();
 
     /**
      * check password and login

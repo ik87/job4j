@@ -42,12 +42,12 @@ public class DbStore implements Store {
             pstm.setString(2, user.getLogin());
             pstm.setString(3, user.getEmail());
             pstm.setString(4, user.getPassword());
-            // pstm.setTimestamp(5, new Timestamp(user.getCreated()));
             pstm.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     @Override
     public void update(User user) {

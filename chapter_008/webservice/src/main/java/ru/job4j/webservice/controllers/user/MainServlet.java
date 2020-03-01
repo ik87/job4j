@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
 public class MainServlet extends HttpServlet {
-    private final UserMapper userMapper = new UserMapperImpl();
+    private final UserMapper userMapper = UserMapperImpl.getInstance();
     private final Validate validate = ValidateService.getInstance();
     private final Map<String, BiConsumer<HttpServletRequest, HttpServletResponse>>
             actions = new ConcurrentHashMap<>();
@@ -26,7 +26,7 @@ public class MainServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         actions.put("update", this::update);
-        actions.put("upload", this::upload);
+        actions.put("deleteImg", this::deleteImg);
     }
 
     @Override
@@ -57,21 +57,15 @@ public class MainServlet extends HttpServlet {
         }
     }
 
-    private void upload(HttpServletRequest req, HttpServletResponse resp) {
-        User changed = new User();
+    private void deleteImg(HttpServletRequest req, HttpServletResponse resp) {
         User authUser = Utils.getObjectFromSession(req, "user");
-        User user = validate.findById(authUser);
-
-        byte[] bytes = (byte[]) req.getAttribute("bytes");
-        changed.setPhoto(bytes);
-
-        validate.update(user);
+        authUser.setPhoto(null);
+        validate.update(authUser);
         try {
             resp.sendRedirect(req.getContextPath());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
 }

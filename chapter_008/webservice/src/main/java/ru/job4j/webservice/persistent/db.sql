@@ -2,17 +2,17 @@ DROP TABLE Users;
 DROP TABLE Roles;
 --add roles
 CREATE TABLE Roles (
-   roleId serial primary key,
+   role_id serial primary key,
    role varchar(10)
 );
 
 -- add users
 CREATE TABLE Users (
-   userId serial primary key,
-   roleId int references Roles(roleId),
+   user_id serial primary key,
+   role_id int references Roles(role_id) DEFAULT 2,
    photo bytea,
    login varchar(50) UNIQUE,
-   email varchar(50) UNIQUE,
+   email varchar(50),
    password varchar(50),
    created timestamp
 );
@@ -22,7 +22,7 @@ CREATE TABLE Users (
 
 INSERT INTO Roles(role) VALUES ('admin'),('user');
 
-INSERT INTO Users(roleId, login, email, password, created)
+INSERT INTO Users(role_id, login, email, password, created)
 VALUES
 (1, 'Jack', 'jack@gmail.com', 'toor', '2019-10-10 22:50'),
 (2, 'Mark', 'mark@gmail.com', '123', '2019-10-10 22:50'),

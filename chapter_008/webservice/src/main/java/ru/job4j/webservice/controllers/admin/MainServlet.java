@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
 public class MainServlet extends HttpServlet {
-    private final UserMapper userMapper = new UserMapperImpl();
+    private final UserMapper userMapper = UserMapperImpl.getInstance();
     private final Validate validate = ValidateService.getInstance();
     private final Map<String, BiConsumer<HttpServletRequest, HttpServletResponse>>
             actions = new ConcurrentHashMap<>();
@@ -27,16 +27,14 @@ public class MainServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         actions.put("update", this::update);
-        actions.put("upload", this::upload);
+        actions.put("remove", this::remove);
+        actions.put("deleteImg", this::deleteImg);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<User> users = validate.findAll();
         List<UserDto> usersDto = userMapper.toDto(users);
-        User authAdmin = Utils.getObjectFromSession(req, "user");
-        UserDto adminDto = userMapper.toDto(authAdmin);
-        req.setAttribute("adminDto", adminDto);
         req.setAttribute("usersDto", usersDto);
         req.getRequestDispatcher("/WEB-INF/view/list.jsp").forward(req, resp);
     }
@@ -60,16 +58,24 @@ public class MainServlet extends HttpServlet {
         }
     }
 
-    private void upload(HttpServletRequest req, HttpServletResponse resp) {
-        String id = (String) req.getAttribute("id");
-        User user = new User();
-        user.setId(Integer.valueOf(id));
+    private void deleteImg(HttpServletRequest req, HttpServletResponse resp) {
+        User user = Utils.propertiesToUser(req);
         user = validate.findById(user);
-
-        byte[] bytes = (byte[]) req.getAttribute("bytes");
-        user.setPhoto(bytes);
-
+        user.setPhoto(null);
         validate.update(user);
+
+        try {
+            resp.sendRedirect(req.getContextPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void remove(HttpServletRequest req, HttpServletResponse resp) {
+        User user = Utils.propertiesToUser(req);
+        user = validate.findById(user);
+        validate.delete(user);
+
         try {
             resp.sendRedirect(req.getContextPath());
         } catch (IOException e) {

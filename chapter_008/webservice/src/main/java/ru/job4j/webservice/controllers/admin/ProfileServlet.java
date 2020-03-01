@@ -15,15 +15,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class ProfileServlet extends HttpServlet {
-    private final UserMapper userMapper = new UserMapperImpl();
+    private final UserMapper userMapper = UserMapperImpl.getInstance();
     private final Validate validate = ValidateService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
         User user = new User();
-        user.setId(Integer.valueOf(id));
-        user = validate.findById(user);
+        if (id == null) {
+            user = Utils.getObjectFromSession(req, "user");
+        } else {
+            user.setId(Integer.valueOf(id));
+            user = validate.findById(user);
+        }
         UserDto userDto = userMapper.toDto(user);
         req.setAttribute("userDto", userDto);
         req.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(req, resp);

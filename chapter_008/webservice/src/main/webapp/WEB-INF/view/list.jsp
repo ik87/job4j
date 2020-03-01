@@ -12,14 +12,16 @@
 <body>
 <div class="container">
     <div class="row-cols-1">
+
+<%--navigation menu--%>
         <div class="col">
             <ul class="nav">
                 <li class="nav-item">
                     <a class="nav-link active"
-                       href="">Add user</a>
+                       href="admin/add">Add user</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="admin/profile?id=${adminDto.userId}">Profile</a>
+                    <a class="nav-link" href="admin/profile">Profile</a>
                 </li>
                 <li class="nav-item ">
                     <a class="nav-link" href="signout">Sign out</a>
@@ -27,12 +29,14 @@
             </ul>
         </div>
 
+<%--table users--%>
         <div class="col mt-4">
             <table class="table table-hover">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Photo</th>
+                    <th scope="col">Role</th>
                     <th scope="col">Login</th>
                     <th scope="col">Email</th>
 
@@ -43,22 +47,20 @@
                     <tr>
                         <th scope="row">${theCount.index + 1}</th>
                         <td><img style="height: 50px" src="data:image/jpeg;base64,${userDto.photo}"/></td>
+                        <td>${userDto.role}</td>
                         <td>${userDto.login}</td>
                         <td>${userDto.email}</td>
+                        <td>
+                            <a href="admin/profile?id=${userDto.userId}">[profile]</a>
+                            <a href="admin/edit?id=${userDto.userId}">[edit]</a>
+                            <form action="admin" method="post">
+                                <input type="hidden" name="id" value="${userDto.userId}" >
+                                <input type="hidden" name="action" value="remove">
+                                <input type="submit" value="remove">
+                            </form>
+                        </td>
                     </tr>
                 </c:forEach>
-                <%-- <tr>
-                     <th scope="row">2</th>
-                     <td>img</td>
-                     <td>Mark</td>
-                     <td>mark@gmail.com</td>
-                 </tr>
-                 <tr>
-                     <th scope="row">3</th>
-                     <td>img</td>
-                     <td>John</td>
-                     <td>john@gmail.com</td>
-                 </tr>--%>
                 </tbody>
             </table>
         </div>

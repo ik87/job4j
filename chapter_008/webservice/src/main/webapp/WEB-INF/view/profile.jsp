@@ -29,15 +29,21 @@
         <!--navigation-->
         <div class="col-12">
             <ul class="nav">
+                <c:if test="${sessionScope.user.role.role eq 'admin'}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/${sessionScope.user.role.role}">Users list</a>
+                    </li>
+                </c:if>
                 <li class="nav-item">
-                    <a class="nav-link active" href="${pageContext.request.contextPath}/${userDto.role}/edit?id=${userDto.userId}">Edit
+                    <a class="nav-link active"
+                       href="${pageContext.request.contextPath}/${sessionScope.user.role.role}/edit?id=${userDto.userId}">Edit
                         profile</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Remove profile</a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="signout">Sign out</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/signout">Sign out</a>
                 </li>
             </ul>
             <hr>
@@ -48,16 +54,21 @@
             <!--img-->
             <img class="rounded mx-auto d-block" style="width: 100%" src="data:image/jpeg;base64,${userDto.photo}"/>
             <!--upload img-->
-            <form method='post' action='${pageContext.request.contextPath}/upload' enctype="multipart/form-data">
+            <form method='post' action='${pageContext.request.contextPath}/${sessionScope.user.role.role}/upload'
+                  enctype="multipart/form-data">
                 <div class="form-group">
                     <input type='hidden' name='id' value='${userDto.userId}'>
-                    <input type='hidden' name='fieldName' value='#'>
                     <input class="form-control-file mt-1" type='file' name='file'>
                     <input type="submit" value="Upload"/>
                 </div>
             </form>
-            <form>
-
+            <!--delete img-->
+            <form method="post" action="${pageContext.request.contextPath}/${sessionScope.user.role.role}">
+                <div class="form-group">
+                    <input type='hidden' name='id' value='${userDto.userId}'>
+                    <input type='hidden' name='action' value='deleteImg'>
+                    <input type="submit" value="delete image"/>
+                </div>
             </form>
         </div>
 

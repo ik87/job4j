@@ -10,7 +10,14 @@ import java.util.*;
 public class UserMapperImpl implements UserMapper {
 
     private final static String DATA_FORMAT = "dd-MM-yyyy HH:mm";
+    private final static UserMapper INSTANCE = new UserMapperImpl();
 
+    private UserMapperImpl() {
+    }
+
+    public static UserMapper getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public UserDto toDto(User user) throws UnsupportedEncodingException {
@@ -48,7 +55,7 @@ public class UserMapperImpl implements UserMapper {
      * @param millisecond mls
      * @return string data. Format as DATA_FORMAT
      */
-    public static String millisecondToStringDate(Long millisecond) {
+    private static String millisecondToStringDate(Long millisecond) {
         SimpleDateFormat f = new SimpleDateFormat(DATA_FORMAT);
         Date result = new Date(millisecond);
         return f.format(result).toString();

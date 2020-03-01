@@ -4,24 +4,35 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.cxf.transport.Session;
 import ru.job4j.webservice.models.Role;
 import ru.job4j.webservice.models.User;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 public class Utils {
 
     private final static String DATA_FORMAT = "dd-MM-yyyy HH:mm";
+
+    public static List<FileItem> upload(HttpServletRequest req) throws FileUploadException {
+        // Create a factory for disk-based file items
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+        // Configure a repository (to ensure a secure temp location is used)
+        ServletContext servletContext = req.getServletContext();
+        File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
+        factory.setRepository(repository);
+        // Create a new file upload handler
+        ServletFileUpload upload = new ServletFileUpload(factory);
+        // Parse the request
+        return upload.parseRequest(req);
+    }
+
     public static <T> T getObjectFromSession(HttpServletRequest req, String name) {
         HttpSession session = req.getSession();
         T user;
@@ -49,12 +60,7 @@ public class Utils {
     private static Integer stringToInt(String str) {
         return str != null ? Integer.valueOf(str) : null;
     }
-/**
- *     <input type="text" placeholder="login" name="login"/>
- *     <input type="password" placeholder="Password" name="password"/>
- *     <input type="submit" value="login">
- *     <input type="hidden" name="action" value="login">
- */
+
     /**
      * Convert date string to millisecond
      *
@@ -73,17 +79,5 @@ public class Utils {
             }
         }
         return milliseconds;
-    }
-
-    /**
-     * Convert millisecond to data string
-     *
-     * @param millisecond mls
-     * @return string data. Format as DATA_FORMAT
-     */
-    public static String millisecondToStringDate(Long millisecond) {
-        SimpleDateFormat f = new SimpleDateFormat(DATA_FORMAT);
-        Date result = new Date(millisecond);
-        return f.format(result).toString();
     }
 }

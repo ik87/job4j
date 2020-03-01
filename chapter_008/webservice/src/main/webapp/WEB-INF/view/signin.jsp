@@ -36,20 +36,20 @@
 </head>
 <body class="text-center">
 <c:if test="${error != null}">
-    <div class='fixed-top alert alert-danger ' role='alert' >
+    <div class='fixed-top alert alert-danger ' role='alert'>
         <c:out value="${error}"/>
     </div>
 </c:if>
-    <form class="form-signin" action="" method="post">
+<form class="form-signin" action="" method="post">
 
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="inputLogin" class="sr-only">Login</label>
-        <input class="form-control" type="text" id="inputLogin" placeholder="login" name="login" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input class="form-control" type="password" id="inputPassword" placeholder="password" name="password" required>
-        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Sign in">
-        <input type="hidden" name="action" value="signin">
-        <a class="btn btn-lg btn-secondary btn-block" href="signup">Sign up</a>
-    </form>
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <label for="inputLogin" class="sr-only">Login</label>
+    <input class="form-control" type="text" id="inputLogin" placeholder="login" name="login" required autofocus>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input class="form-control" type="password" id="inputPassword" placeholder="password" name="password" required>
+    <input class="btn btn-lg btn-primary btn-block" type="submit" value="Sign in">
+    <input type="hidden" name="action" value="signin">
+    <a class="btn btn-lg btn-secondary btn-block" href="signup">Sign up</a>
+</form>
 </body>
 </html>

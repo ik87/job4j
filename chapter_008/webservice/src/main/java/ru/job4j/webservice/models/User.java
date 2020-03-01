@@ -1,22 +1,25 @@
 package ru.job4j.webservice.models;
 
-import java.util.Date;
 import java.util.Objects;
 
 public class User {
-    Integer id;
-    byte[] photo;
-    Role role;
-    String login;
-    String email;
-    String password;
-    Long created;
+    private Integer id;
+    private byte[] photo;
+    private Role role;
+    private String login;
+    private String email;
+    private String password;
+    private Long created;
 
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         User user = (User) o;
         return Objects.equals(id, user.id);
     }

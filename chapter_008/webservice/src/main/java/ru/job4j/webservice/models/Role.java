@@ -3,8 +3,8 @@ package ru.job4j.webservice.models;
 import java.util.Objects;
 
 public class Role {
-    Integer id;
-    String role;
+   private Integer id;
+   private String role;
 
 
     @Override
