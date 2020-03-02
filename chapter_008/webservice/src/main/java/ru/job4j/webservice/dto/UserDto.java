@@ -1,8 +1,6 @@
 package ru.job4j.webservice.dto;
 
-/**
- * Class
- */
+
 public class UserDto {
     private int userId;
     private String login;

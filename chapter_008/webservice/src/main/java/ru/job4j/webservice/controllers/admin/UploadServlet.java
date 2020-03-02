@@ -38,7 +38,7 @@ public class UploadServlet extends HttpServlet {
                 validate.update(user);
             }
         }
-        resp.sendRedirect(req.getContextPath());
+        resp.sendRedirect(req.getContextPath() + "/");
     }
 
 }

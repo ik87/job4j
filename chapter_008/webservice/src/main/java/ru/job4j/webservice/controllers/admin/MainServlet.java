@@ -52,7 +52,7 @@ public class MainServlet extends HttpServlet {
         validate.update(user, changed);
 
         try {
-            resp.sendRedirect(req.getContextPath());
+            resp.sendRedirect(req.getContextPath() + "/");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,7 +65,7 @@ public class MainServlet extends HttpServlet {
         validate.update(user);
 
         try {
-            resp.sendRedirect(req.getContextPath());
+            resp.sendRedirect(req.getContextPath() + "/");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -77,7 +77,7 @@ public class MainServlet extends HttpServlet {
         validate.delete(user);
 
         try {
-            resp.sendRedirect(req.getContextPath());
+            resp.sendRedirect(req.getContextPath() + "/");
         } catch (IOException e) {
             e.printStackTrace();
         }

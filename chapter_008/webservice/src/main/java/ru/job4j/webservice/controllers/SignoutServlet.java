@@ -14,6 +14,6 @@ public class SignoutServlet extends HttpServlet {
         synchronized (session) {
             session.invalidate();
         }
-        resp.sendRedirect(req.getContextPath());
+        resp.sendRedirect(req.getContextPath() + "/");
     }
 }

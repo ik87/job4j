@@ -53,7 +53,7 @@
         </div>
         <input type="hidden" name="action" value="update">
         <input type="hidden" name="id" value="${userDto.userId}">
-        <a href="${pageContext.request.contextPath}" class="btn btn-secondary">Cancel</a>
+        <a href="${pageContext.request.contextPath}/" class="btn btn-secondary">Cancel</a>
         <button type="submit" class="btn btn-primary">Save</button>
     </form>
 </div>

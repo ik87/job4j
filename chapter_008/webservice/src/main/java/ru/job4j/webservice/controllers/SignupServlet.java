@@ -23,21 +23,17 @@ public class SignupServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = Utils.propertiesToUser(req);
-        try {
-            if (validate.findByLogin(user) == null) {
-                User authUser = Utils.getObjectFromSession(req, "user");
-                if (authUser == null || !"admin".equals(authUser.getRole().getRole())) {
-                    Role role = new Role();
-                    role.setId(2);
-                    user.setRole(role);
-                }
-                validate.add(user);
-                resp.sendRedirect(req.getContextPath());
+        if (validate.findByLogin(user) == null) {
+            User authUser = Utils.getObjectFromSession(req, "user");
+            if (authUser == null || !"admin".equals(authUser.getRole().getRole())) {
+                Role role = new Role();
+                role.setId(2);
+                user.setRole(role);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            validate.add(user);
 
+        }
+        resp.sendRedirect(req.getContextPath() + "/");
     }
 }
 

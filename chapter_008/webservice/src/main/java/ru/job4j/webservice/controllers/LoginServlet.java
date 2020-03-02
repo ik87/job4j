@@ -26,21 +26,16 @@ public class LoginServlet extends HttpServlet {
 
         User user = Utils.propertiesToUser(req);
         HttpSession session = req.getSession();
-        try {
 
-            User authUser = user != null ? validate.findByLoginAndPassword(user) : null;
-            if (authUser != null) {
-                session.setAttribute("user", authUser);
-                resp.sendRedirect(req.getContextPath());
-            } else {
-                req.setAttribute("error", "Credential invalid");
-                doGet(req, resp);
-            }
-        } catch (IOException | ServletException e) {
-            e.printStackTrace();
+        User authUser = user != null ? validate.findByLoginAndPassword(user) : null;
+        if (authUser != null) {
+            session.setAttribute("user", authUser);
+            resp.sendRedirect(req.getContextPath() + "/");
+        } else {
+            req.setAttribute("error", "Credential invalid");
+            doGet(req, resp);
         }
 
     }
-
 
 }

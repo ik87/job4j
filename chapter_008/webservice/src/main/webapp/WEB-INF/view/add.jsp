@@ -40,7 +40,7 @@
                 <input type="password" class="form-control" id="inputPassword4" name="password">
             </div>
         </div>
-        <a href="${pageContext.request.contextPath}" class="btn btn-secondary">Cancel</a>
+        <a href="${pageContext.request.contextPath}/" class="btn btn-secondary">Cancel</a>
         <button type="submit" class="btn btn-primary">OK</button>
     </form>
 </div>
