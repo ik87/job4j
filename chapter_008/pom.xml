@@ -12,10 +12,6 @@
     <artifactId>chapter_008</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>echo</module>
-        <module>web_app</module>
-        <module>web_app_jsp</module>
-        <module>strong_mvc</module>
         <module>webservice</module>
     </modules>
 

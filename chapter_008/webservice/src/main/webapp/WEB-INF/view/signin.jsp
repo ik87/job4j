@@ -48,7 +48,6 @@
     <label for="inputPassword" class="sr-only">Password</label>
     <input class="form-control" type="password" id="inputPassword" placeholder="password" name="password" required>
     <input class="btn btn-lg btn-primary btn-block" type="submit" value="Sign in">
-    <input type="hidden" name="action" value="signin">
     <a class="btn btn-lg btn-secondary btn-block" href="signup">Sign up</a>
 </form>
 </body>

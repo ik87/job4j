@@ -24,7 +24,7 @@ public class RoleFilter implements Filter {
             if (user != null) {
                 if (request.getRequestURI().contains("/signout")) {
                     chain.doFilter(req, resp);
-                }  else if (request.getRequestURI().contains("/signin")) {
+                }  else if (request.getRequestURI().contains("/signup")) {
                     chain.doFilter(req, resp);
                 } else if (request.getRequestURI().contains("/upload")) {
                     chain.doFilter(req, resp);

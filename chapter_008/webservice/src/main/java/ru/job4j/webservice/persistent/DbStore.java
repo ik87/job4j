@@ -51,15 +51,15 @@ public class DbStore implements Store {
 
     @Override
     public void update(User user) {
-        String sql = "UPDATE users SET role_id = ?, " +
-                "login = ?, email = ?, password = ?, photo = ? WHERE user_id = ?";
+        String sql = "UPDATE users SET role_id = ?, "
+                + "login = ?, email = ?, password = ?, photo = ? WHERE user_id = ?";
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement pstm = connection.prepareStatement(sql)) {
             pstm.setInt(1, user.getRole().getId());
             pstm.setString(2, user.getLogin());
             pstm.setString(3, user.getEmail());
             pstm.setString(4, user.getPassword());
-            pstm.setBytes(5,  user.getPhoto());
+            pstm.setBytes(5, user.getPhoto());
             pstm.setInt(6, user.getId());
 
             pstm.executeUpdate();
@@ -117,8 +117,8 @@ public class DbStore implements Store {
      * @return array items
      */
     private List<User> findBy(String where, ConsumerX<PreparedStatement> ps) {
-        String sql = "SELECT user_id, u.role_id, role, login, email, password, created, photo " +
-                "FROM users u JOIN roles r ON r.role_id = u.role_id " + where;
+        String sql = "SELECT user_id, u.role_id, role, login, email, password, created, photo "
+                + "FROM users u JOIN roles r ON r.role_id = u.role_id " + where;
         List<User> users = new ArrayList<>();
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {

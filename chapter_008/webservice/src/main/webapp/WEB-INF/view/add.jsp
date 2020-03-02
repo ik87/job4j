@@ -16,7 +16,7 @@
 </head>
 <body>
 <div class="container-sm">
-    <form method="post" action="${pageContext.request.contextPath}/signin">
+    <form method="post" action="${pageContext.request.contextPath}/signup">
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="inputLogin" >Login</label>
@@ -40,7 +40,6 @@
                 <input type="password" class="form-control" id="inputPassword4" name="password">
             </div>
         </div>
-        <input type="hidden" name="action" value="add">
         <a href="${pageContext.request.contextPath}" class="btn btn-secondary">Cancel</a>
         <button type="submit" class="btn btn-primary">OK</button>
     </form>

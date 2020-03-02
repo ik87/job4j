@@ -101,12 +101,9 @@
         <servlet-name>UploadAdmin</servlet-name>
         <url-pattern>/admin/upload</url-pattern>
     </servlet-mapping>
-    <servlet>
-        <servlet-name>AddUser</servlet-name>
-        <servlet-class>ru.job4j.webservice.controllers.admin.AddServlet</servlet-class>
-    </servlet>
+
     <servlet-mapping>
-        <servlet-name>AddUser</servlet-name>
+        <servlet-name>Signup</servlet-name>
         <url-pattern>/admin/add</url-pattern>
     </servlet-mapping>
 
