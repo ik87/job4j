@@ -1,6 +1,7 @@
 package ru.job4j.pooh_jms;
 
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.Map;
 
 public interface RequestResponseHandler {
